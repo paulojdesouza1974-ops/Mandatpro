@@ -205,6 +205,44 @@ async def get_me(authorization: str = None):
         del user["password"]
     return user
 
+@app.put("/api/auth/me")
+async def update_me(data: dict, authorization: str = None):
+    from fastapi import Header
+    # Get token from header
+    token = None
+    if authorization:
+        token = authorization.replace("Bearer ", "") if authorization.startswith("Bearer ") else authorization
+    
+    user_id = tokens.get(token) if token else None
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    # Remove fields that shouldn't be updated
+    if "_id" in data:
+        del data["_id"]
+    if "id" in data:
+        del data["id"]
+    if "email" in data:
+        del data["email"]  # Email cannot be changed
+    if "password" in data:
+        data["password"] = hash_password(data["password"])
+    
+    data["updated_date"] = datetime.now(timezone.utc).isoformat()
+    
+    result = db.users.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    user = db.users.find_one({"_id": ObjectId(user_id)})
+    user_doc = serialize_doc(user)
+    if "password" in user_doc:
+        del user_doc["password"]
+    return user_doc
+
 @app.post("/api/auth/logout")
 async def logout(authorization: str = None):
     if authorization:
