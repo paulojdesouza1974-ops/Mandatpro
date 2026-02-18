@@ -429,3 +429,208 @@ async def seed_demo():
         db.organizations.insert_one(demo_org)
     
     return {"success": True, "message": "Demo data seeded"}
+
+# ============ AI ENDPOINTS ============
+
+class AIGenerateRequest(BaseModel):
+    prompt: str
+    context: Optional[str] = None
+
+@app.post("/api/ai/generate-protocol")
+async def generate_protocol(request: AIGenerateRequest):
+    """Generate meeting protocol using AI"""
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    try:
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        api_key = os.environ.get("EMERGENT_LLM_KEY")
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        
+        system_message = """Du bist ein erfahrener Protokollführer für politische Gremien in Deutschland. 
+Du erstellst professionelle, formelle Sitzungsprotokolle im deutschen Stil.
+Verwende die korrekte Protokollstruktur mit:
+- Kopfdaten (Datum, Zeit, Ort, Anwesende)
+- Tagesordnungspunkte
+- Beschlüsse und Abstimmungsergebnisse
+- Unterschriftszeilen"""
+
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"protocol-{datetime.now().timestamp()}",
+            system_message=system_message
+        ).with_model("openai", "gpt-4o")
+        
+        user_message = UserMessage(text=request.prompt)
+        response = await chat.send_message(user_message)
+        
+        return {"content": response, "success": True}
+    except ImportError:
+        raise HTTPException(status_code=500, detail="emergentintegrations not installed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/ai/generate-invitation")
+async def generate_invitation(request: AIGenerateRequest):
+    """Generate meeting invitation using AI"""
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    try:
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        api_key = os.environ.get("EMERGENT_LLM_KEY")
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        
+        system_message = """Du bist ein erfahrener Geschäftsführer einer politischen Fraktion in Deutschland.
+Du erstellst professionelle, förmliche Einladungen zu Fraktionssitzungen.
+Die Einladungen sollen:
+- Höflich und professionell sein
+- Alle relevanten Informationen enthalten (Datum, Zeit, Ort, Tagesordnung)
+- Eine klare Struktur haben
+- Mit einer passenden Anrede beginnen und einer Grußformel enden"""
+
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"invitation-{datetime.now().timestamp()}",
+            system_message=system_message
+        ).with_model("openai", "gpt-4o")
+        
+        user_message = UserMessage(text=request.prompt)
+        response = await chat.send_message(user_message)
+        
+        return {"content": response, "success": True}
+    except ImportError:
+        raise HTTPException(status_code=500, detail="emergentintegrations not installed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ============ EMAIL ENDPOINTS ============
+
+class SendEmailRequest(BaseModel):
+    to: List[str]
+    subject: str
+    body: str
+    attachment_base64: Optional[str] = None
+    attachment_filename: Optional[str] = None
+
+@app.post("/api/email/send-invitation")
+async def send_invitation_email(request: SendEmailRequest):
+    """Send invitation email (simulated - in production use SendGrid/SES)"""
+    # In production, integrate with SendGrid, AWS SES, or similar
+    # For now, we'll simulate successful sending and log the email
+    
+    email_log = {
+        "to": request.to,
+        "subject": request.subject,
+        "body_preview": request.body[:200] if request.body else "",
+        "has_attachment": bool(request.attachment_base64),
+        "attachment_filename": request.attachment_filename,
+        "sent_at": datetime.now(timezone.utc).isoformat(),
+        "status": "simulated"  # In production: "sent" or "failed"
+    }
+    
+    # Store email log
+    db.email_logs.insert_one(email_log)
+    
+    return {
+        "success": True, 
+        "message": f"Einladung an {len(request.to)} Empfänger gesendet (Simulation)",
+        "recipients": request.to
+    }
+
+# ============ PDF GENERATION ============
+
+@app.post("/api/pdf/generate-invitation")
+async def generate_invitation_pdf(data: dict):
+    """Generate PDF invitation (returns HTML for client-side PDF generation)"""
+    # Return structured data for client-side PDF generation with jspdf
+    html_content = f"""
+    <div style="font-family: Arial, sans-serif; padding: 40px;">
+        <div style="text-align: right; margin-bottom: 30px;">
+            <p>{data.get('organization_name', 'Organisation')}</p>
+            <p>{data.get('organization_address', '')}</p>
+            <p>{datetime.now().strftime('%d.%m.%Y')}</p>
+        </div>
+        
+        <h1 style="font-size: 18px; margin-bottom: 20px;">
+            Einladung zur {data.get('title', 'Fraktionssitzung')}
+        </h1>
+        
+        <p><strong>Datum:</strong> {data.get('date', '')}</p>
+        <p><strong>Ort:</strong> {data.get('location', '')}</p>
+        
+        <h2 style="font-size: 14px; margin-top: 20px;">Tagesordnung:</h2>
+        <pre style="white-space: pre-wrap;">{data.get('agenda', '')}</pre>
+        
+        <div style="margin-top: 30px;">
+            {data.get('invitation_text', '')}
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <p>Mit freundlichen Grüßen</p>
+            <p>{data.get('sender_name', '')}</p>
+        </div>
+    </div>
+    """
+    
+    return {
+        "html": html_content,
+        "title": data.get('title', 'Einladung'),
+        "filename": f"Einladung_{data.get('title', 'Sitzung').replace(' ', '_')}.pdf"
+    }
+
+@app.post("/api/pdf/generate-protocol")
+async def generate_protocol_pdf(data: dict):
+    """Generate PDF protocol (returns HTML for client-side PDF generation)"""
+    html_content = f"""
+    <div style="font-family: Arial, sans-serif; padding: 40px;">
+        <h1 style="font-size: 20px; text-align: center; margin-bottom: 30px;">
+            PROTOKOLL
+        </h1>
+        
+        <h2 style="font-size: 16px;">{data.get('title', 'Fraktionssitzung')}</h2>
+        
+        <table style="width: 100%; margin: 20px 0; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd; width: 30%;"><strong>Datum:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{data.get('date', '')}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Ort:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{data.get('location', '')}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Anwesend:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{', '.join(data.get('attendees', []))}</td>
+            </tr>
+        </table>
+        
+        <h3 style="font-size: 14px;">Tagesordnung:</h3>
+        <pre style="white-space: pre-wrap; background: #f5f5f5; padding: 15px;">{data.get('agenda', '')}</pre>
+        
+        <h3 style="font-size: 14px; margin-top: 20px;">Protokoll:</h3>
+        <div style="white-space: pre-wrap;">{data.get('protocol', '')}</div>
+        
+        <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+            <div style="width: 45%;">
+                <p>_________________________</p>
+                <p>Protokollführer/in</p>
+            </div>
+            <div style="width: 45%;">
+                <p>_________________________</p>
+                <p>Sitzungsleiter/in</p>
+            </div>
+        </div>
+    </div>
+    """
+    
+    return {
+        "html": html_content,
+        "title": data.get('title', 'Protokoll'),
+        "filename": f"Protokoll_{data.get('title', 'Sitzung').replace(' ', '_')}.pdf"
+    }
+
