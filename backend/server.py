@@ -243,7 +243,8 @@ def create_crud_routes(collection_name: str, entity_name: str):
         data["updated_date"] = datetime.now(timezone.utc).isoformat()
         result = db[collection_name].insert_one(data)
         data["id"] = str(result.inserted_id)
-        del data["_id"] if "_id" in data else None
+        if "_id" in data:
+            del data["_id"]
         return data
     
     @app.put(f"/api/{collection_name}/{{item_id}}")
