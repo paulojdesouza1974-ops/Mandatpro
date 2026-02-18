@@ -63,6 +63,8 @@ export default function ProfilePage() {
     mutationFn: (data) => base44.auth.updateMe(data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["currentUser"] });
+      // Reload the page to update navigation
+      window.location.reload();
     },
   });
 
