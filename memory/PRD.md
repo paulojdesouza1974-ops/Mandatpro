@@ -95,6 +95,20 @@ User requested to improve an existing German municipal CRM application called "K
    - **Validation before Export** with error/warning display
    - **Date Range Filtering** for exports (year, quarter, custom)
 
+6. **Fraktionssitzungen Management (Fraktion Mode)**
+   - **Full Meeting Lifecycle** - Create, edit, delete meetings
+   - **Status Tracking**: Geplant → Einladung versendet → Abgeschlossen/Abgesagt
+   - **Tagesordnung** - Agenda management with preformatted templates
+   - **Teilnehmerverwaltung** - Attendee management via email
+   - **KI-Protokollgenerierung** - GPT-4o powered protocol generation
+     - Takes meeting notes/bullet points as input
+     - Generates formal German meeting protocols
+     - Includes all standard sections (attendees, agenda, votes, signatures)
+   - **KI-Einladungsgenerierung** - AI-powered invitation text creation
+   - **PDF Export** - Download invitations and protocols as PDF
+   - **E-Mail-Versand** - Send invitations to attendees with PDF attachment (SIMULATED - needs SendGrid integration)
+   - **Protokoll-Upload** - Upload previous meeting protocols
+
 ## Prioritized Backlog
 
 ### P0 (Critical)
