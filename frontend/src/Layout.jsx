@@ -221,6 +221,20 @@ export default function Layout({ children, currentPageName }) {
             <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors" />
           </Link>
           
+          {/* Logout Button */}
+          <button
+            onClick={async () => {
+              const { base44 } = await import("@/api/base44Client");
+              await base44.auth.logout();
+              window.location.href = "/login";
+            }}
+            data-testid="logout-btn"
+            className="w-full mt-2 flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200"
+          >
+            <LogOut className="w-4 h-4" />
+            Abmelden
+          </button>
+          
           {/* Footer Links */}
           <div className="flex items-center justify-between px-3 pt-3 mt-2 border-t border-slate-800">
             <Link
