@@ -178,8 +178,9 @@ async def register(user: UserCreate):
     result = db.users.insert_one(user_doc)
     token = create_token(str(result.inserted_id))
     user_doc["id"] = str(result.inserted_id)
+    if "_id" in user_doc:
+        del user_doc["_id"]
     del user_doc["password"]
-    del user_doc["_id"] if "_id" in user_doc else None
     return {"token": token, "user": user_doc}
 
 @app.post("/api/auth/login")
