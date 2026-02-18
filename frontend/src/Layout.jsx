@@ -139,7 +139,7 @@ export default function Layout({ children, currentPageName }) {
 
       {/* Sidebar - Dark Theme */}
       <aside className={`
-        fixed top-0 left-0 z-40 h-full w-64 
+        fixed top-0 left-0 z-[150] h-full w-64 
         bg-slate-900 border-r border-slate-800
         transition-transform duration-300 ease-in-out
         lg:translate-x-0
