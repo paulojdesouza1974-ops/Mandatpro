@@ -194,14 +194,18 @@ export default function Accounting() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setDatevExportOpen(true)}>
+                <Building2 className="w-4 h-4 mr-2 text-blue-600" /> DATEV-Export
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => exportIncomeToExcel(income)}>
-                <TrendingUp className="w-4 h-4 mr-2 text-emerald-600" /> Einnahmen exportieren
+                <TrendingUp className="w-4 h-4 mr-2 text-emerald-600" /> Einnahmen (Excel)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => exportExpensesToExcel(expenses)}>
-                <TrendingDown className="w-4 h-4 mr-2 text-red-600" /> Ausgaben exportieren
+                <TrendingDown className="w-4 h-4 mr-2 text-red-600" /> Ausgaben (Excel)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => exportAllToExcel(income, expenses)}>
-                <FileSpreadsheet className="w-4 h-4 mr-2 text-indigo-600" /> Alles exportieren
+                <FileSpreadsheet className="w-4 h-4 mr-2 text-indigo-600" /> Alles (Excel)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
