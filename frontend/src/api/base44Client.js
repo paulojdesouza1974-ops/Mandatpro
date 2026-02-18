@@ -70,6 +70,16 @@ const auth = {
     return request(`/api/auth/me?authorization=${authToken}`);
   },
 
+  async updateMe(data) {
+    if (!authToken) {
+      throw new Error('Not authenticated');
+    }
+    return request(`/api/auth/me`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
   isLoggedIn() {
     return !!authToken;
   },
