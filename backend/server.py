@@ -302,6 +302,10 @@ entities = [
     ("budgets", "Budget"),
 ]
 
+# Create CRUD routes for all entities
+for collection_name, entity_name in entities:
+    create_crud_routes(collection_name, entity_name)
+
 # Users have special handling
 @app.get("/api/users")
 async def list_users(organization: Optional[str] = None, sort: Optional[str] = "-created_date", limit: Optional[int] = 100):
