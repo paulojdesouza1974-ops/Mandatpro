@@ -33,6 +33,7 @@ const fraktionNavItems = [
   { name: "Aufgaben", icon: CheckSquare, page: "Tasks" },
   { name: "Kontakte", icon: Users, page: "Contacts" },
   { name: "Anträge", icon: FileText, page: "Motions" },
+  { name: "Fraktionssitzungen", icon: CalendarDays, page: "FractionMeetings" },
   { name: "Termine", icon: CalendarDays, page: "Meetings" },
   { name: "Kommunikation", icon: MessageCircle, page: "Communications" },
   { name: "Dokumente", icon: FolderOpen, page: "Documents" },
