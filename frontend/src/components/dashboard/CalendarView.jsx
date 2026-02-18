@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Calendar, Phone, Mail, Users } from "lucide-react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
+import { ChevronLeft, ChevronRight, Calendar, Phone, Mail, Users, Plus } from "lucide-react";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isToday } from "date-fns";
 import { de } from "date-fns/locale";
 
 export default function CalendarView({ meetings = [], communications = [], fractionMeetings = [], onDayClick }) {
@@ -42,7 +41,9 @@ export default function CalendarView({ meetings = [], communications = [], fract
           time: timeText,
           title: meeting.title,
           icon: Calendar,
-          color: "bg-violet-100 text-violet-700",
+          color: "bg-emerald-500",
+          textColor: "text-emerald-700",
+          bgColor: "bg-emerald-50",
         });
       }
     });
@@ -55,7 +56,9 @@ export default function CalendarView({ meetings = [], communications = [], fract
           time: format(new Date(meeting.date), "HH:mm", { locale: de }),
           title: meeting.title,
           icon: Users,
-          color: "bg-blue-100 text-blue-700",
+          color: "bg-sky-500",
+          textColor: "text-sky-700",
+          bgColor: "bg-sky-50",
         });
       }
     });
@@ -68,7 +71,9 @@ export default function CalendarView({ meetings = [], communications = [], fract
           time: "Wiedervorlage",
           title: comm.subject,
           icon: comm.type === "telefonat" ? Phone : Mail,
-          color: "bg-amber-100 text-amber-700",
+          color: "bg-amber-500",
+          textColor: "text-amber-700",
+          bgColor: "bg-amber-50",
         });
       }
     });
@@ -78,34 +83,72 @@ export default function CalendarView({ meetings = [], communications = [], fract
 
   const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
-  const today = () => setCurrentDate(new Date());
+  const goToToday = () => setCurrentDate(new Date());
+
+  const weekDays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Kalender</CardTitle>
+    <Card className="bg-white border border-slate-200 shadow-soft" data-testid="calendar-view">
+      <CardHeader className="pb-4 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <CardTitle className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+            <div className="p-1.5 rounded-md bg-slate-900">
+              <Calendar className="w-3.5 h-3.5 text-white" strokeWidth={2} />
+            </div>
+            Kalender
+          </CardTitle>
+          
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={today}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={goToToday}
+              className="text-xs font-medium h-8 px-3 border-slate-200 hover:bg-slate-50"
+              data-testid="calendar-today-btn"
+            >
               Heute
             </Button>
-            <Button variant="ghost" size="icon" onClick={prevMonth}>
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-            <div className="text-sm font-semibold min-w-32 text-center">
-              {format(currentDate, "MMMM yyyy", { locale: de })}
+            
+            <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={prevMonth}
+                className="h-7 w-7 hover:bg-white rounded-md"
+                data-testid="calendar-prev-btn"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              
+              <div className="text-sm font-semibold min-w-[140px] text-center text-slate-700 px-2">
+                {format(currentDate, "MMMM yyyy", { locale: de })}
+              </div>
+              
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={nextMonth}
+                className="h-7 w-7 hover:bg-white rounded-md"
+                data-testid="calendar-next-btn"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
             </div>
-            <Button variant="ghost" size="icon" onClick={nextMonth}>
-              <ChevronRight className="w-4 h-4" />
-            </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      
+      <CardContent className="p-4">
         {/* Weekday headers */}
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"].map((day) => (
-            <div key={day} className="text-center text-xs font-semibold text-slate-500 py-2">
+          {weekDays.map((day, idx) => (
+            <div 
+              key={day} 
+              className={`
+                text-center text-[11px] font-semibold uppercase tracking-wider py-2
+                ${idx >= 5 ? 'text-slate-400' : 'text-slate-500'}
+              `}
+            >
               {day}
             </div>
           ))}
@@ -115,53 +158,83 @@ export default function CalendarView({ meetings = [], communications = [], fract
         <div className="grid grid-cols-7 gap-1">
           {/* Empty cells for days before month start */}
           {Array.from({ length: (monthStart.getDay() + 6) % 7 }).map((_, idx) => (
-            <div key={`empty-${idx}`} className="min-h-20 bg-slate-50 rounded" />
+            <div key={`empty-${idx}`} className="min-h-24 lg:min-h-28 bg-slate-50/50 rounded-lg" />
           ))}
 
           {/* Days of the month */}
           {daysInMonth.map((day) => {
             const events = getEventsForDay(day);
-            const isToday = isSameDay(day, new Date());
+            const dayIsToday = isToday(day);
+            const dayOfWeek = day.getDay();
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
             return (
               <div
                 key={day.toString()}
                 onClick={() => onDayClick?.(day)}
-                className={`min-h-20 p-1 border rounded hover:bg-slate-50 transition-colors cursor-pointer ${
-                  isToday ? "bg-blue-50 border-blue-300" : "bg-white"
-                }`}
+                className={`
+                  min-h-24 lg:min-h-28 p-1.5 rounded-lg transition-all duration-200 cursor-pointer
+                  border group relative
+                  ${dayIsToday 
+                    ? "bg-sky-50 border-sky-200 ring-1 ring-sky-200" 
+                    : isWeekend 
+                      ? "bg-slate-50/50 border-transparent hover:bg-slate-100 hover:border-slate-200"
+                      : "bg-white border-transparent hover:bg-slate-50 hover:border-slate-200"
+                  }
+                `}
+                data-testid={`calendar-day-${format(day, 'yyyy-MM-dd')}`}
               >
-                <div
-                  className={`text-xs font-semibold mb-1 ${
-                    isToday
-                      ? "text-blue-600"
-                      : isSameMonth(day, currentDate)
-                      ? "text-slate-900"
-                      : "text-slate-400"
-                  }`}
-                >
-                  {format(day, "d")}
+                {/* Day Number */}
+                <div className="flex items-center justify-between mb-1">
+                  <span
+                    className={`
+                      text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full
+                      transition-colors
+                      ${dayIsToday
+                        ? "bg-sky-600 text-white"
+                        : isSameMonth(day, currentDate)
+                          ? "text-slate-700 group-hover:bg-slate-200"
+                          : "text-slate-400"
+                      }
+                    `}
+                  >
+                    {format(day, "d")}
+                  </span>
+                  
+                  {/* Add button on hover */}
+                  <button 
+                    className="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-sky-500 hover:text-white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDayClick?.(day);
+                    }}
+                  >
+                    <Plus className="w-3 h-3" />
+                  </button>
                 </div>
+                
+                {/* Events */}
                 <div className="space-y-1">
-                  {events.slice(0, 3).map((event, idx) => {
+                  {events.slice(0, 2).map((event, idx) => {
                     const Icon = event.icon;
                     return (
                       <div
                         key={idx}
-                        className={`text-[9px] p-1 rounded flex items-start gap-1 ${event.color}`}
+                        className={`
+                          text-[10px] px-1.5 py-1 rounded-md flex items-center gap-1
+                          ${event.bgColor} ${event.textColor}
+                          truncate
+                        `}
                         title={`${event.time} - ${event.title}`}
                       >
-                        <Icon className="w-2.5 h-2.5 flex-shrink-0 mt-0.5" />
-                        <div className="truncate leading-tight">
-                          <div className="font-semibold">{event.time}</div>
-                          <div className="truncate">{event.title}</div>
-                        </div>
+                        <div className={`w-1 h-3 rounded-full ${event.color} flex-shrink-0`} />
+                        <span className="truncate font-medium">{event.title}</span>
                       </div>
                     );
                   })}
-                  {events.length > 3 && (
-                    <div className="text-[9px] text-slate-500 pl-1">
-                      +{events.length - 3} mehr
+                  {events.length > 2 && (
+                    <div className="text-[10px] text-slate-500 font-medium pl-1">
+                      +{events.length - 2} weitere
                     </div>
                   )}
                 </div>
@@ -171,18 +244,18 @@ export default function CalendarView({ meetings = [], communications = [], fract
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t">
-          <div className="flex items-center gap-1.5 text-xs">
-            <div className="w-3 h-3 rounded bg-violet-100 border border-violet-300" />
-            <span className="text-slate-600">Termine</span>
+        <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-slate-100">
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>Termine</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs">
-            <div className="w-3 h-3 rounded bg-blue-100 border border-blue-300" />
-            <span className="text-slate-600">Fraktionssitzungen</span>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="w-2 h-2 rounded-full bg-sky-500" />
+            <span>Fraktionssitzungen</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs">
-            <div className="w-3 h-3 rounded bg-amber-100 border border-amber-300" />
-            <span className="text-slate-600">Wiedervorlagen</span>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="w-2 h-2 rounded-full bg-amber-500" />
+            <span>Wiedervorlagen</span>
           </div>
         </div>
       </CardContent>
