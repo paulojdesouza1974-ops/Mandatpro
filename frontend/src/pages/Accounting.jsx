@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { PlusCircle, Search, MoreVertical, Pencil, Trash2, TrendingUp, TrendingDown, BarChart3, ScanLine, FileSpreadsheet, Download, ChevronDown, Euro } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { PlusCircle, Search, MoreVertical, Pencil, Trash2, TrendingUp, TrendingDown, BarChart3, ScanLine, FileSpreadsheet, Download, ChevronDown, Euro, Building2 } from "lucide-react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import IncomeForm from "@/components/accounting/IncomeForm";
@@ -15,6 +15,7 @@ import ExpenseForm from "@/components/accounting/ExpenseForm";
 import ReceiptScanner from "@/components/accounting/ReceiptScanner";
 import BankStatementImport from "@/components/accounting/BankStatementImport";
 import BudgetReport from "@/components/accounting/BudgetReport";
+import DatevExportDialog from "@/components/accounting/DatevExportDialog";
 import { exportIncomeToExcel, exportExpensesToExcel, exportAllToExcel } from "@/components/accounting/ExcelExport";
 
 const categoryLabels = {
@@ -28,6 +29,7 @@ export default function Accounting() {
   const [incomeFormOpen, setIncomeFormOpen] = useState(false);
   const [expenseFormOpen, setExpenseFormOpen] = useState(false);
   const [editingIncome, setEditingIncome] = useState(null);
+  const [datevExportOpen, setDatevExportOpen] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [bankImportOpen, setBankImportOpen] = useState(false);
