@@ -74,6 +74,11 @@ User requested to improve an existing German municipal CRM application called "K
      - And more...
    - Demo data seeding endpoint
 
+4. **Bug Fix: Fraktion/Verband Switch**
+   - Added `PUT /api/auth/me` endpoint for updating user profile
+   - Added `updateMe()` function in API client
+   - Navigation now updates correctly when org_type changes
+
 ## Prioritized Backlog
 
 ### P0 (Critical)
