@@ -79,6 +79,22 @@ User requested to improve an existing German municipal CRM application called "K
    - Added `updateMe()` function in API client
    - Navigation now updates correctly when org_type changes
 
+5. **Professional DATEV-Compliant Accounting (SAP/DATEV Level)**
+   - **SKR03 Kontenrahmen** - Standard German chart of accounts for associations
+   - **DATEV EXTF Export** - Buchungsstapel format compatible with:
+     - DATEV Unternehmen online
+     - DATEV Mittelstand Faktura
+     - Steuerberater Belegimport
+   - **Tax Codes (Steuerschlüssel)**:
+     - 0 = Keine Steuer, 1 = Steuerfrei
+     - 2/3 = 7%/19% USt, 8/9 = 7%/19% VSt
+   - **Automatic Account Assignment** based on category
+   - **Cost Center Support** (KOST1/KOST2)
+   - **Improved Forms** with Grunddaten/Buchhaltung tabs
+   - **Net/Gross/Tax Calculation** in expense form
+   - **Validation before Export** with error/warning display
+   - **Date Range Filtering** for exports (year, quarter, custom)
+
 ## Prioritized Backlog
 
 ### P0 (Critical)
