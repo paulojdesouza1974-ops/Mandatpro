@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "name": "KommunalCRM",
+    "tone": "Official, Efficient, Trustworthy, Modern Bureaucracy",
+    "aesthetic": "Swiss-Style Administrative, High-Density Data, Clean Lines",
+    "theme_strategy": "Light Mode Default (for clarity) with Dark Sidebar (for anchor). Dark Mode available."
+  },
+  "typography": {
+    "primary_font": "Public Sans",
+    "secondary_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "scale": {
+      "h1": "text-4xl font-bold tracking-tight text-slate-900",
+      "h2": "text-3xl font-semibold tracking-tight text-slate-900",
+      "h3": "text-2xl font-semibold tracking-tight text-slate-900",
+      "body": "text-base font-normal text-slate-600 leading-relaxed",
+      "small": "text-sm font-medium text-slate-500",
+      "label": "text-xs font-bold uppercase tracking-wider text-slate-400"
+    },
+    "import_url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&display=swap"
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "DEFAULT": "#0F172A",
+        "foreground": "#F8FAFC"
+      },
+      "secondary": {
+        "DEFAULT": "#F1F5F9",
+        "foreground": "#0F172A"
+      },
+      "accent": {
+        "DEFAULT": "#0284C7",
+        "foreground": "#FFFFFF"
+      },
+      "background": "#F8FAFC",
+      "surface": "#FFFFFF",
+      "border": "#E2E8F0",
+      "muted": "#64748B",
+      "success": "#10B981",
+      "warning": "#F59E0B",
+      "error": "#EF4444"
+    },
+    "usage_rules": {
+      "sidebar": "bg-slate-900 text-slate-300 border-r border-slate-800",
+      "sidebar_active": "bg-slate-800 text-white",
+      "card": "bg-white border border-slate-200 shadow-sm",
+      "header": "bg-white/80 backdrop-blur-md border-b border-slate-200"
+    }
+  },
+  "layout": {
+    "spacing_system": "Generous padding (p-6, p-8) for containers, tight gaps (gap-4) for data grids.",
+    "container_width": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "radius": "rounded-md",
+    "grid_strategy": "Bento Grid Mode B (High Density) for Dashboard. 12-column grid base.",
+    "sidebar_width": "w-64"
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-slate-900 text-white hover:bg-slate-800 shadow-sm rounded-md px-4 py-2 font-medium transition-all active:scale-95",
+      "secondary": "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm rounded-md px-4 py-2 font-medium",
+      "ghost": "text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded-md px-3 py-2"
+    },
+    "cards": {
+      "default": "bg-white rounded-lg border border-slate-200 shadow-sm p-6 hover:shadow-md transition-shadow duration-200",
+      "interactive": "cursor-pointer hover:border-slate-300 hover:ring-1 hover:ring-slate-200 transition-all"
+    },
+    "inputs": {
+      "default": "flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+    },
+    "badges": {
+      "default": "inline-flex items-center rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 text-slate-900",
+      "status_active": "bg-emerald-50 text-emerald-700 border-emerald-200",
+      "status_pending": "bg-amber-50 text-amber-700 border-amber-200",
+      "status_archived": "bg-slate-100 text-slate-600 border-slate-200"
+    }
+  },
+  "visual_enhancers": {
+    "shadows": "shadow-sm for cards, shadow-lg for dropdowns/modals. Avoid heavy drop shadows.",
+    "glassmorphism": "Use strictly for sticky headers and toast notifications. bg-white/80 backdrop-blur-md.",
+    "gradients": "NO GRADIENTS for backgrounds. Use solid colors. Subtle gradients allowed on 'Premium' buttons only.",
+    "icons": "Lucide React (Stroke width 1.5px for elegance).",
+    "data_visualization": "Use Recharts. Colors: Slate-900 (Primary), Sky-500 (Secondary), Emerald-500 (Tertiary)."
+  },
+  "image_urls": {
+    "login_background": "https://images.unsplash.com/photo-1600329453102-476affa3f755",
+    "user_profile_placeholder": "https://images.unsplash.com/photo-1645106281521-86da01d1031d",
+    "team_placeholder": "https://images.pexels.com/photos/8847004/pexels-photo-8847004.jpeg",
+    "city_hall_generic": "https://images.unsplash.com/photo-1759299153106-391f5abfa40a"
+  },
+  "instructions_to_main_agent": [
+    "1. INSTALL FONTS: Add the Google Fonts import to index.css immediately.",
+    "2. UPDATE TAILWIND: Configure the font families (Public Sans for headings, Inter for body) and colors in tailwind.config.js.",
+    "3. SIDEBAR: Implement a fixed left sidebar with the dark theme (Slate 900). It must be responsive (collapsible on mobile).",
+    "4. DASHBOARD: Rebuild the dashboard using the Bento Grid layout. Use 'Cards' for widgets (Calendar, Recent Motions, Stats).",
+    "5. TABLES: Use Shadcn Table component but add 'dense' styling (py-2) for high data density.",
+    "6. LANGUAGE: Ensure all hardcoded text is in GERMAN (e.g., 'Dashboard', 'Kontakte', 'Anträge', 'Kalender').",
+    "7. DATA-TESTID: Add data-testid to all sidebar links, buttons, and inputs.",
+    "8. DO NOT BREAK BACKEND: Keep all API calls and data structures exactly as they are. Only change the UI layer."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Avoid 'AI Slop': No purple gradients, no centered text layouts for apps.",
+    "Use 'Public Sans' for all Headings (h1-h3). Use 'Inter' for body text.",
+    "Primary Action Color is Slate-900 (Black/Dark Blue), NOT Blue-600. This is a serious tool.",
+    "Use 'sonner' for toasts.",
+    "Ensure contrast ratios are high (WCAG AA).",
+    "All dates must be formatted in German locale (DD.MM.YYYY)."
+  ]
+}
