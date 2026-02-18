@@ -74,7 +74,7 @@ const auth = {
     if (!authToken) {
       throw new Error('Not authenticated');
     }
-    return request(`/api/auth/me`, {
+    return request(`/api/auth/me?authorization=${authToken}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
