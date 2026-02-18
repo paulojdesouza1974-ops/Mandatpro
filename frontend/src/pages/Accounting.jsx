@@ -502,6 +502,14 @@ export default function Accounting() {
           createExpenseMutation.mutate(data);
         }
       }} />
+
+      <DatevExportDialog
+        open={datevExportOpen}
+        onClose={() => setDatevExportOpen(false)}
+        income={income}
+        expenses={expenses}
+        mandateLevies={mandateLevies}
+      />
     </div>
   );
 }
