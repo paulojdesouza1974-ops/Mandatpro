@@ -105,7 +105,7 @@ export default function Layout({ children, currentPageName }) {
     <div className="min-h-screen bg-background">
       {/* Mobile header */}
       <header 
-        className="lg:hidden fixed top-0 left-0 right-0 z-50 glass-header px-4 h-14 flex items-center justify-between" 
+        className="lg:hidden fixed top-0 left-0 right-0 z-[200] glass-header px-4 h-14 flex items-center justify-between" 
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
         <div className="flex items-center gap-3">
