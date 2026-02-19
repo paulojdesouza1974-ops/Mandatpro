@@ -192,7 +192,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label className="text-xs font-medium text-slate-500">Betrag (€)</Label>
-                <Input type="number" step="0.01" value={form.amount} onChange={(e) => update("amount", e.target.value)} />
+                <Input type="number" step="0.01" value={form.amount} onChange={(e) => update("amount", e.target.value)} data-testid="receipt-amount-input" />
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs font-medium text-slate-500">Datum</Label>
