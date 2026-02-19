@@ -154,10 +154,17 @@ export default function ReceiptScanner({ open, onClose, organization }) {
             {previewUrl && (
               <img src={previewUrl} alt="Beleg" className="max-h-36 w-full rounded-lg object-contain border border-slate-100 shadow-sm bg-slate-50" />
             )}
-            <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg">
-              <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-              <p className="text-xs text-blue-700">Beleg wurde erkannt. Bitte prüfen und ggf. korrigieren:</p>
-            </div>
+            {scanned ? (
+              <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg" data-testid="receipt-scan-success">
+                <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                <p className="text-xs text-blue-700">Beleg wurde erkannt. Bitte prüfen und ggf. korrigieren:</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 p-3 bg-amber-50 rounded-lg" data-testid="receipt-scan-disabled">
+                <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                <p className="text-xs text-amber-700">KI-Scan ist derzeit deaktiviert. Bitte die Daten manuell eintragen.</p>
+              </div>
+            )}
 
             {/* Art der Buchung */}
             <div className="space-y-1.5">
