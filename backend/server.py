@@ -205,8 +205,7 @@ async def get_me(authorization: str = Header(None)):
     return user
 
 @app.put("/api/auth/me")
-async def update_me(data: dict, authorization: str = None):
-    from fastapi import Header
+async def update_me(data: dict, authorization: str = Header(None)):
     # Get token from header
     token = None
     if authorization:
