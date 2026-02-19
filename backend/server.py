@@ -12,6 +12,8 @@ from pymongo import MongoClient
 import secrets
 import hashlib
 
+load_dotenv()
+
 # MongoDB setup
 MONGO_URL = os.environ.get("MONGO_URL")
 DB_NAME = os.environ.get("DB_NAME")
