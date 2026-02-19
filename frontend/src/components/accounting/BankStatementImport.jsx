@@ -308,7 +308,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                       <div>
                         <label className="text-xs text-slate-400">Art</label>
                         <Select value={t.transaction_type} onValueChange={(v) => updateTransaction(idx, "transaction_type", v)}>
-                          <SelectTrigger className="h-7 text-xs mt-0.5"><SelectValue /></SelectTrigger>
+                          <SelectTrigger className="h-7 text-xs mt-0.5" data-testid={`bank-statement-type-trigger-${idx}`}><SelectValue /></SelectTrigger>
                           <SelectContent>
                             <SelectItem value="einnahme">Einnahme</SelectItem>
                             <SelectItem value="ausgabe">Ausgabe</SelectItem>
