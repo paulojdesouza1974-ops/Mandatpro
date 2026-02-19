@@ -396,7 +396,7 @@ export default function TemplateEditor() {
                 <div>
                   <Label className="text-xs">Schriftart</Label>
                   <Select value={formData.font_family} onValueChange={(v) => update("font_family", v)}>
-                    <SelectTrigger className="mt-1.5">
+                    <SelectTrigger className="mt-1.5" data-testid="template-font-family-trigger">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
