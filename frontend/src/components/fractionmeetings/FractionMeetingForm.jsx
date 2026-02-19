@@ -190,6 +190,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                 variant="outline"
                 onClick={generateInvitation}
                 disabled={!formData.title || !formData.agenda || generatingInvitation}
+                data-testid="fraction-meeting-generate-invitation-button"
               >
                 <Sparkles className="w-3 h-3 mr-1" />
                 {generatingInvitation ? "Generiere..." : "Mit KI generieren"}
