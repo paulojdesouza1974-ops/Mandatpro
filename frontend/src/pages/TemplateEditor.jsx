@@ -453,6 +453,7 @@ export default function TemplateEditor() {
                     checked={formData.show_creator}
                     onChange={(e) => update("show_creator", e.target.checked)}
                     className="w-4 h-4"
+                    data-testid="template-show-creator-toggle"
                   />
                   <span className="text-sm">Unterschrift/Ersteller anzeigen</span>
                 </label>
