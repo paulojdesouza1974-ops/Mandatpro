@@ -230,6 +230,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
                 onClick={handleSend}
                 disabled={sending || !selectedIds.length || !subject.trim() || !body.trim()}
                 className="bg-indigo-600 hover:bg-indigo-700"
+                data-testid="bulk-mail-send-button"
               >
                 <Send className="w-4 h-4 mr-2" />
                 {sending ? "Wird gesendet..." : `${selectedIds.length} E-Mails senden`}
