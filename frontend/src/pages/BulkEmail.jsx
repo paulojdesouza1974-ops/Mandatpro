@@ -66,27 +66,16 @@ export default function BulkEmail() {
     const topic = selectedTemplate?.id === "sonstiges" ? customTopic : selectedTemplate?.label;
     if (!topic) return;
     setGenerating(true);
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `Du bist ein Assistent für eine deutsche politische Partei (AfD Fraktion im Rat der Stadt Dormagen).
-Erstelle eine professionelle E-Mail für das Thema: "${topic}".
-Die E-Mail soll:
-- Einen passenden Betreff haben
-- Einen freundlichen, professionellen Ton haben
-- Auf Deutsch sein
-- Ca. 150-250 Wörter im Body haben
-- Mit "Mit freundlichen Grüßen, Der Vorstand" enden
-
-Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          subject: { type: "string" },
-          body: { type: "string" },
-        },
-      },
-    });
-    setSubject(result.subject || "");
-    setBody(result.body || "");
+    try {
+      const result = await base44.ai.generateEmail(topic, user?.organization || "Ortsverband");
+      setSubject(result.subject || "");
+      setBody(result.body || "");
+    } catch (error) {
+      console.error("E-Mail generation error:", error);
+      // Set fallback content on error
+      setSubject(`${topic} - Information`);
+      setBody(`Sehr geehrte Mitglieder,\n\nhiermit informieren wir Sie über ${topic}.\n\nWeitere Details folgen in Kürze.\n\nMit freundlichen Grüßen,\nDer Vorstand`);
+    }
     setGenerating(false);
   };
 
