@@ -12,8 +12,10 @@ import secrets
 import hashlib
 
 # MongoDB setup
-MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
-DB_NAME = os.environ.get("DB_NAME", "kommunalcrm")
+MONGO_URL = os.environ.get("MONGO_URL")
+DB_NAME = os.environ.get("DB_NAME")
+if not MONGO_URL or not DB_NAME:
+    raise RuntimeError("MONGO_URL and DB_NAME must be set")
 
 client = MongoClient(MONGO_URL)
 db = client[DB_NAME]
