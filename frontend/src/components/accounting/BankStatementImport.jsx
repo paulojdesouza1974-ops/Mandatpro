@@ -184,6 +184,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
             <div
               className="border-2 border-dashed border-slate-200 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors"
               onClick={() => fileInputRef.current?.click()}
+              data-testid="bank-statement-upload-dropzone"
             >
               <Upload className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-sm font-medium text-slate-600">Kontoauszug auswählen</p>
