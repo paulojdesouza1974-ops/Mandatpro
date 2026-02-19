@@ -328,6 +328,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={extractDecisions}
                     disabled={extracting || !protocol}
+                    data-testid="protocol-extract-decisions-button"
                   >
                     <ListChecks className="w-3 h-3 mr-1" />
                     {extracting ? "Extrahiert..." : "Beschlüsse"}
