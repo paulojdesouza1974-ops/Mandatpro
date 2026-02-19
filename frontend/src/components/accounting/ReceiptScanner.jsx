@@ -131,7 +131,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
               <p className="text-sm font-medium text-slate-600">Bild oder PDF auswählen</p>
               <p className="text-xs text-slate-400 mt-1">JPG, PNG, PDF bis 10 MB</p>
             </div>
-            <input ref={fileInputRef} type="file" accept="image/*,.pdf" className="hidden" onChange={handleFileChange} />
+            <input ref={fileInputRef} type="file" accept="image/*,.pdf" className="hidden" onChange={handleFileChange} data-testid="receipt-upload-input" />
           </div>
         )}
 
