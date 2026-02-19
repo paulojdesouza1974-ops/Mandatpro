@@ -327,6 +327,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                 className="bg-slate-900 hover:bg-slate-800"
                 onClick={() => importMutation.mutate()}
                 disabled={importMutation.isPending || selectedCount === 0}
+                data-testid="bank-statement-import-button"
               >
                 {importMutation.isPending
                   ? <><Loader2 className="w-4 h-4 mr-1 animate-spin" />Importieren...</>
