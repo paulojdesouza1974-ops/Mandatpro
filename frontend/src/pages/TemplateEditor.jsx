@@ -230,6 +230,7 @@ export default function TemplateEditor() {
                 onChange={(e) => update("description", e.target.value)}
                 placeholder="Optionale Beschreibung"
                 className="mt-1.5"
+                data-testid="template-description-input"
               />
             </div>
 
