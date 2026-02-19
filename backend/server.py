@@ -899,6 +899,49 @@ WICHTIG: Gib die Antwort IMMER als valides JSON zurück mit exakt diesen Feldern
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class AITextGenerateRequest(BaseModel):
+    prompt: str
+    system_message: Optional[str] = None
+    task_type: Optional[str] = "general"  # motion, meeting, document, etc.
+
+@app.post("/api/ai/generate-text")
+async def generate_text(request: AITextGenerateRequest):
+    """Generic AI text generation endpoint"""
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    try:
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        api_key = os.environ.get("EMERGENT_LLM_KEY")
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        
+        # Default system messages for different tasks
+        default_systems = {
+            "motion": "Du bist ein erfahrener Kommunalpolitiker einer deutschen Fraktion. Du erstellst professionelle Anträge, Anfragen und Resolutionen für kommunale Gremien. Verwende eine sachliche, professionelle Sprache.",
+            "meeting": "Du bist ein erfahrener Fraktionsgeschäftsführer. Du erstellst professionelle Tagesordnungen und Protokolle für Fraktionssitzungen.",
+            "document": "Du bist ein professioneller Dokumentenanalyst. Du analysierst und fasst Dokumente zusammen.",
+            "general": "Du bist ein hilfreicher Assistent für eine deutsche politische Organisation."
+        }
+        
+        system_msg = request.system_message or default_systems.get(request.task_type, default_systems["general"])
+        
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"text-{datetime.now().timestamp()}",
+            system_message=system_msg
+        ).with_model("openai", "gpt-4o")
+        
+        user_message = UserMessage(text=request.prompt)
+        response = await chat.send_message(user_message)
+        
+        return {"content": response, "success": True}
+    except ImportError:
+        raise HTTPException(status_code=500, detail="emergentintegrations not installed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 class AINoticeGenerateRequest(BaseModel):
     prompt: str
     levy_data: Optional[dict] = None
