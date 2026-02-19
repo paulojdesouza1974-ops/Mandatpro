@@ -200,6 +200,20 @@ const ai = {
       body: JSON.stringify({ prompt, context }),
     });
   },
+
+  async generateText(prompt, taskType = 'general', systemMessage = null) {
+    return request('/api/ai/generate-text', {
+      method: 'POST',
+      body: JSON.stringify({ prompt, task_type: taskType, system_message: systemMessage }),
+    });
+  },
+
+  async generateNotice(prompt, levyData = null, organizationData = null) {
+    return request('/api/ai/generate-notice', {
+      method: 'POST',
+      body: JSON.stringify({ prompt, levy_data: levyData, organization_data: organizationData }),
+    });
+  },
 };
 
 // Email API
