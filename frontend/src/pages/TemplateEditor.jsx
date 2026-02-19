@@ -362,7 +362,7 @@ export default function TemplateEditor() {
                     <div>
                       <Label className="text-xs">Position der Box</Label>
                       <Select value={formData.document_type_box_position || "rechts"} onValueChange={(v) => update("document_type_box_position", v)}>
-                        <SelectTrigger className="mt-1.5">
+                        <SelectTrigger className="mt-1.5" data-testid="template-doc-type-box-position-trigger">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
