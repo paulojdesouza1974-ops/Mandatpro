@@ -88,6 +88,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
           vendor: data.vendor,
           notes: data.notes,
           status: "ausstehend",
+          file_url: fileUrl,
         });
       }
     },
