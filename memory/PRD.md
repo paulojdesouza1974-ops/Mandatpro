@@ -104,6 +104,15 @@ User requested to improve an existing German municipal CRM application called "K
     - CRUD-Funktionen für Einnahmen und Ausgaben
     - Demo-Daten im Fraktion-Demo enthalten
 
+13. **Verbesserte "Meine Organisation" Seite**
+    - Neue Seite `/MyOrganization` ersetzt alte leere Organisations-Seite
+    - **Statistik-Karten:** Typ, Kontakte-Anzahl, Erstelldatum, Status
+    - **Grunddaten:** Name, Beschreibung, Stadt, Bundesland, Adresse, PLZ
+    - **Kontaktdaten:** Telefon, E-Mail, Website
+    - **Bankverbindung:** Bank, IBAN, BIC, Steuernummer
+    - **Bearbeiten-Modus:** Alle Felder inline editierbar
+    - **Registrierung erstellt Organisation:** Bei neuer Registrierung wird automatisch ein Organisations-Eintrag in der Datenbank angelegt
+
 ### Feb 18, 2026
 1. **UI/UX Redesign**
    - Dark sidebar navigation (Slate 900 background)
