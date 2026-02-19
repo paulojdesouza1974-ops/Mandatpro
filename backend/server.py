@@ -195,9 +195,8 @@ async def login(credentials: UserLogin):
     return {"token": token, "user": user_doc}
 
 @app.get("/api/auth/me")
-async def get_me(authorization: str = None):
-    from fastapi import Header
-    # Get token from query or header
+async def get_me(authorization: str = Header(None)):
+    # Get token from header
     user = get_current_user(authorization)
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
