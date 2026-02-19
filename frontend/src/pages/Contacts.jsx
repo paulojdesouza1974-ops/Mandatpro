@@ -16,6 +16,7 @@ import AssignGroupDialog from "@/components/members/AssignGroupDialog";
 import BulkMailDialog from "@/components/members/BulkMailDialog";
 import MemberProfileDialog from "@/components/members/MemberProfileDialog";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 const categoryLabels = {
   parteimitglied: "Parteimitglied",
