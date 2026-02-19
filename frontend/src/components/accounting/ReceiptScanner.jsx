@@ -246,7 +246,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
                 Der Beleg wurde als <Badge className="mx-1 text-xs">{form.transaction_type === "einnahme" ? "Einnahme" : "Ausgabe"}</Badge> gespeichert.
               </p>
             </div>
-            <Button onClick={handleClose} className="bg-slate-900 hover:bg-slate-800">Schließen</Button>
+            <Button onClick={handleClose} className="bg-slate-900 hover:bg-slate-800" data-testid="receipt-done-close-button">Schließen</Button>
           </div>
         )}
       </DialogContent>
