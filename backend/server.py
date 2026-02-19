@@ -12,7 +12,7 @@ from pymongo import MongoClient
 import secrets
 import hashlib
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 # MongoDB setup
 MONGO_URL = os.environ.get("MONGO_URL")
