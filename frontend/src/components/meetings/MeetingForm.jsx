@@ -120,7 +120,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs font-medium text-slate-500">Ort</Label>
-            <Input value={form.location} onChange={(e) => update("location", e.target.value)} placeholder="z.B. Rathaus, Saal 1" />
+            <Input value={form.location} onChange={(e) => update("location", e.target.value)} placeholder="z.B. Rathaus, Saal 1" data-testid="meeting-location-input" />
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs font-medium text-slate-500">Tagesordnung</Label>
