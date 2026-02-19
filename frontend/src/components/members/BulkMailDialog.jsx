@@ -137,7 +137,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
             <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
             <p className="text-lg font-semibold text-slate-800">E-Mails versendet</p>
             <p className="text-sm text-slate-500">{result.success} erfolgreich, {result.failed} fehlgeschlagen</p>
-            <Button onClick={resetAndClose}>Schließen</Button>
+            <Button onClick={resetAndClose} data-testid="bulk-mail-result-close-button">Schließen</Button>
           </div>
         ) : (
           <div className="space-y-4">
