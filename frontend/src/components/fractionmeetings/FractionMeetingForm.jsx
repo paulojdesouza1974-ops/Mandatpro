@@ -91,11 +91,9 @@ ${formData.agenda}
 
 Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge eine passende Anrede und Grußformel hinzu.`;
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt,
-      });
+      const response = await base44.ai.generateInvitation(prompt);
 
-      update('invitation_text', response);
+      update('invitation_text', response.content || "");
     } catch (error) {
       console.error('Fehler beim Generieren:', error);
       alert('Fehler beim Generieren der Einladung');
