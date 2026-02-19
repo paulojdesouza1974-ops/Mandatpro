@@ -288,7 +288,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                     <div className="px-3 pb-3 pt-1 grid grid-cols-2 gap-2 border-t border-slate-100">
                       <div>
                         <label className="text-xs text-slate-400">Beschreibung</label>
-                        <Input className="h-7 text-xs mt-0.5" value={t.description} onChange={(e) => updateTransaction(idx, "description", e.target.value)} />
+                        <Input className="h-7 text-xs mt-0.5" value={t.description} onChange={(e) => updateTransaction(idx, "description", e.target.value)} data-testid={`bank-statement-description-input-${idx}`} />
                       </div>
                       <div>
                         <label className="text-xs text-slate-400">Betrag (€)</label>
