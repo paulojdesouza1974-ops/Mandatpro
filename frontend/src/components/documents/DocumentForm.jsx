@@ -183,7 +183,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
             <div>
               <Label>Sichtbarkeit</Label>
               <Select value={formData.visibility} onValueChange={(v) => update("visibility", v)}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="document-visibility-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
