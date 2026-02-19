@@ -96,6 +96,7 @@ export default function ProfilePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSaving(true);
     updateMutation.mutate(form);
   };
 
