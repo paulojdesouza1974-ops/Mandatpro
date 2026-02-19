@@ -136,6 +136,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
                 onClick={generateProtocol}
                 disabled={generating || !form.agenda}
                 className="text-xs h-7 gap-1"
+                data-testid="meeting-generate-protocol-button"
               >
                 {generating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
                 {generating ? "Generiert..." : "Mit KI generieren"}
