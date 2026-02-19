@@ -338,6 +338,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={exportProtocolWord}
                     disabled={exporting || !protocol}
+                    data-testid="protocol-export-word-button"
                   >
                     <Download className="w-3 h-3 mr-1" />
                     {exporting ? "Exportiert..." : "Word"}
