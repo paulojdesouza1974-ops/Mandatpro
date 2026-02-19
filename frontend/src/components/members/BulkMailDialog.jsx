@@ -110,7 +110,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
         .replace(/\{nachname\}/gi, c.last_name || "")
         .replace(/\{name\}/gi, `${c.first_name || ""} ${c.last_name || ""}`.trim());
       try {
-        await base44.integrations.Core.SendEmail({ to: c.email, subject, body: personalBody });
+        await base44.email.sendBulk([c.email], subject, personalBody);
         success++;
       } catch { failed++; }
     }
