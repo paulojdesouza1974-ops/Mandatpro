@@ -223,6 +223,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
                 onChange={(e) => setTagInput(e.target.value)}
                 placeholder="Schlagwort hinzufügen"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                data-testid="document-tag-input"
               />
               <Button type="button" onClick={addTag}>Hinzufügen</Button>
             </div>
