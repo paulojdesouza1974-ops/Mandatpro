@@ -208,7 +208,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
               <div className="space-y-1.5">
                 <Label className="text-xs font-medium text-slate-500">Kategorie</Label>
                 <Select value={form.category} onValueChange={(v) => update("category", v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger data-testid="receipt-category-trigger"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {(form.transaction_type === "einnahme" ? incomeCategories : expenseCategories).map((c) => (
                       <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
