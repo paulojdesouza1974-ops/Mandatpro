@@ -221,7 +221,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
               <Label className="text-xs font-medium text-slate-500">
                 Nachricht * <span className="font-normal text-slate-400">(Platzhalter: {"{vorname}"}, {"{nachname}"}, {"{name}"})</span>
               </Label>
-              <Textarea value={body} onChange={e => setBody(e.target.value)} rows={6} placeholder="Sehr geehrte/r {name},&#10;&#10;..." />
+              <Textarea value={body} onChange={e => setBody(e.target.value)} rows={6} placeholder="Sehr geehrte/r {name},&#10;&#10;..." data-testid="bulk-mail-body-textarea" />
             </div>
 
             <div className="flex justify-end gap-2">
