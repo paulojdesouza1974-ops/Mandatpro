@@ -22,6 +22,10 @@ db = client[DB_NAME]
 
 app = FastAPI(title="KommunalCRM API", version="1.0.0")
 
+UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "uploads")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/api/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
