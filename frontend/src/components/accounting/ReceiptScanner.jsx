@@ -219,7 +219,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
             </div>
 
             <DialogFooter className="gap-2 pt-2">
-              <Button variant="outline" onClick={handleClose}>
+              <Button variant="outline" onClick={handleClose} data-testid="receipt-cancel-button">
                 <X className="w-4 h-4 mr-1" /> Abbrechen
               </Button>
               <Button
