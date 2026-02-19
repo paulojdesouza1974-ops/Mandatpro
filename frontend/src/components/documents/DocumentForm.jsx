@@ -201,7 +201,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
               value={formData.fraction_meeting_id}
               onValueChange={(v) => update("fraction_meeting_id", v === "none" ? "" : v)}
             >
-              <SelectTrigger>
+              <SelectTrigger data-testid="document-meeting-trigger">
                 <SelectValue placeholder="Keine Verknüpfung" />
               </SelectTrigger>
               <SelectContent>
