@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends, status, Header, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from typing import Optional, List, Any
 from datetime import datetime, timezone
