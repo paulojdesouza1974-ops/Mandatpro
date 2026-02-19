@@ -124,7 +124,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs font-medium text-slate-500">Tagesordnung</Label>
-            <Textarea value={form.agenda} onChange={(e) => update("agenda", e.target.value)} rows={4} placeholder="TOP 1: ..." />
+            <Textarea value={form.agenda} onChange={(e) => update("agenda", e.target.value)} rows={4} placeholder="TOP 1: ..." data-testid="meeting-agenda-textarea" />
           </div>
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
