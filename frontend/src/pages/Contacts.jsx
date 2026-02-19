@@ -114,9 +114,6 @@ export default function Contacts() {
       });
     },
   });
-      setEditing(null);
-    },
-  });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.Contact.delete(id),
