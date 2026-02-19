@@ -196,6 +196,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
                   placeholder="Thema eingeben (z.B. Stammtisch, Wahlkampf, Newsletter...)"
                   className="bg-white text-sm"
                   onKeyDown={e => e.key === "Enter" && generateEmail()}
+                  data-testid="bulk-mail-ai-topic-input"
                 />
                 <Button
                   type="button"
