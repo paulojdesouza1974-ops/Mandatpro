@@ -308,6 +308,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={generateProtocol}
                     disabled={generatingProtocol}
+                    data-testid="protocol-generate-button"
                   >
                     <Sparkles className="w-3 h-3 mr-1" />
                     {generatingProtocol ? "Generiere..." : "Neu generieren"}
