@@ -246,7 +246,7 @@ ${protocol.replace(/\n/g, '<br>')}
               <Button variant="outline" size="sm" onClick={onClose} data-testid="invitation-close-button">
                 <X className="w-4 h-4 mr-1" /> Schließen
               </Button>
-              <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline">
+              <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline" data-testid="invitation-export-pdf-button">
                 <Download className="w-4 h-4 mr-1" /> 
                 {exporting ? "Exportiere..." : "PDF"}
               </Button>
