@@ -337,6 +337,7 @@ export default function TemplateEditor() {
                       placeholder="Herrn&#10;Bürgermeister Erik Mustermann"
                       rows={4}
                       className="mt-1.5"
+                      data-testid="template-recipient-title-textarea"
                     />
                   </div>
                 )}
