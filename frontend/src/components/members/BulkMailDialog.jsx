@@ -225,7 +225,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={resetAndClose}>Abbrechen</Button>
+              <Button variant="outline" onClick={resetAndClose} data-testid="bulk-mail-cancel-button">Abbrechen</Button>
               <Button
                 onClick={handleSend}
                 disabled={sending || !selectedIds.length || !subject.trim() || !body.trim()}
