@@ -89,78 +89,15 @@ export default function BankStatementImport({ open, onClose, organization, conta
     if (!file) return;
     setStep("scanning");
 
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-
-    // Build member name hints
-    const memberHints = contacts.length > 0
-      ? `Bekannte Mitglieder der Organisation: ${contacts.map(c => `${c.first_name || ''} ${c.last_name}`).join(", ")}.`
-      : "";
-
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `Du bist ein Buchhalter. Analysiere diesen Kontoauszug und extrahiere ALLE einzelnen Transaktionen/Buchungszeilen.
-
-${memberHints}
-
-Für jede Transaktion erkenne:
-- description: Beschreibung/Verwendungszweck
-- sender_receiver: Name des Auftraggebers oder Empfängers
-- amount: Betrag als positive Zahl
-- date: Datum im Format YYYY-MM-DD
-- transaction_type: "einnahme" oder "ausgabe"
-- category: klassifiziere automatisch:
-  * "mitgliedsbeitrag" wenn der Verwendungszweck "Beitrag", "Mitgliedsbeitrag", "Jahresbeitrag" o.ä. enthält
-  * "spende" wenn "Spende", "Spendeneingang" o.ä.
-  * "mandatsabgabe" wenn "Mandatsabgabe", "Mandatsträgerabgabe", "Fraktionsabgabe", "Ratsmitglied" o.ä.
-  * "zuschuss" wenn "Zuschuss", "Förderung", "Erstattung" o.ä.
-  * "veranstaltung" wenn Veranstaltungsbezug erkennbar
-  * "personal" wenn Lohn/Gehalt/Honorar
-  * "raummiete" wenn Miete/Mietzahlung
-  * "material" wenn Materialeinkauf
-  * "marketing" wenn Werbung/Drucksachen
-  * "verwaltung" wenn Bankgebühren, Versicherung, Verwaltungskosten
-  * sonst "sonstiges"
-- matched_contact: Name des passenden Mitglieds aus der Liste falls erkennbar, sonst leer
-- confidence: "hoch", "mittel" oder "niedrig" (wie sicher die Klassifizierung ist)
-
-Gib ALLE Buchungszeilen zurück, auch wenn es viele sind.`,
-      file_urls: [file_url],
-      response_json_schema: {
-        type: "object",
-        properties: {
-          transactions: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                description: { type: "string" },
-                sender_receiver: { type: "string" },
-                amount: { type: "number" },
-                date: { type: "string" },
-                transaction_type: { type: "string" },
-                category: { type: "string" },
-                matched_contact: { type: "string" },
-                confidence: { type: "string" },
-              },
-            },
-          },
-          account_owner: { type: "string" },
-          statement_period: { type: "string" },
-          total_credit: { type: "number" },
-          total_debit: { type: "number" },
-        },
-      },
-    });
-
-    const txs = (result.transactions || []).map((t) => {
-      const matchedExpense = findMatchingExpense(t, existingExpenses);
-      return { ...t, matched_expense: matchedExpense || null };
-    });
-    setTransactions(txs);
-    // pre-select all
-    const sel = {};
-    txs.forEach((_, i) => { sel[i] = true; });
-    setSelected(sel);
-    setStep("review");
+    try {
+      await base44.files.upload(file);
+      alert("Der Kontoauszug-Import per KI ist aktuell in Entwicklung. Bitte Buchungen manuell erfassen.");
+    } catch (error) {
+      console.error("Upload Fehler:", error);
+      alert("Fehler beim Hochladen des Kontoauszugs");
+    } finally {
+      setStep("upload");
+    }
   };
 
   const importMutation = useMutation({
