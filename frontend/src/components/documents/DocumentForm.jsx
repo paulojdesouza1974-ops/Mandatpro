@@ -236,6 +236,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
                       type="button"
                       onClick={() => removeTag(tag)}
                       className="text-slate-500 hover:text-slate-700"
+                      data-testid={`document-tag-remove-${idx}`}
                     >
                       ×
                     </button>
