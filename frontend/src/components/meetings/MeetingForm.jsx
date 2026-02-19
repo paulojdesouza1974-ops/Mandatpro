@@ -55,8 +55,7 @@ export default function MeetingForm({ isOpen, open, onClose, meeting, defaultDat
   const generateProtocol = async () => {
     if (!form.agenda) return;
     setGenerating(true);
-    const res = await base44.integrations.Core.InvokeLLM({
-      prompt: `Du bist Protokollant einer kommunalpolitischen Sitzung in Deutschland.
+    const response = await base44.ai.generateProtocol(`Du bist Protokollant einer kommunalpolitischen Sitzung in Deutschland.
       
 Sitzung: ${form.title}
 Datum: ${form.date ? new Date(form.date).toLocaleDateString('de-DE') : 'n/a'}
@@ -71,15 +70,8 @@ Erstelle ein professionelles Sitzungsprotokoll im üblichen Format:
 - Beschlüsse und Abstimmungsergebnisse (beispielhaft)
 - Ende der Sitzung
 
-Verwende formale Sprache, ca. 400-600 Wörter.`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          protocol: { type: "string", description: "Das generierte Protokoll" },
-        },
-      },
-    });
-    setForm((f) => ({ ...f, minutes: res.protocol }));
+Verwende formale Sprache, ca. 400-600 Wörter.`);
+    setForm((f) => ({ ...f, minutes: response.content || "" }));
     setGenerating(false);
   };
 
