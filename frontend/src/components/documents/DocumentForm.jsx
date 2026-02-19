@@ -138,6 +138,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
                     className="hidden"
                     onChange={handleFileUpload}
                     disabled={uploading}
+                    data-testid="document-file-input"
                   />
                 </label>
               )}
