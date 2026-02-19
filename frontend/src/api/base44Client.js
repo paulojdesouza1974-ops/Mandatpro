@@ -1,6 +1,9 @@
 // KommunalCRM API Client - replacing Base44 SDK
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.REACT_APP_BACKEND_URL;
+if (!API_URL) {
+  throw new Error('REACT_APP_BACKEND_URL not configured');
+}
 
 // Token management
 let authToken = localStorage.getItem('auth_token');
