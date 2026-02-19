@@ -125,7 +125,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" data-testid="bulk-mail-dialog">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base font-semibold">
             <Mail className="w-4 h-4" /> Massen-E-Mail versenden
