@@ -254,6 +254,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
             <Button
               onClick={() => onSave({ ...formData, upload_date: formData.upload_date || new Date().toISOString() })}
               disabled={!formData.title || !formData.file_url || saving || uploading}
+              data-testid="document-save-button"
             >
               <Save className="w-4 h-4 mr-2" />
               {saving ? "Wird gespeichert..." : "Speichern"}
