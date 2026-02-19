@@ -33,7 +33,9 @@ const mandateTypes = [
 
 export default function ProfilePage() {
   const [form, setForm] = useState({});
+  const [saving, setSaving] = useState(false);
   const qc = useQueryClient();
+  const { toast } = useToast();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["currentUser"],
