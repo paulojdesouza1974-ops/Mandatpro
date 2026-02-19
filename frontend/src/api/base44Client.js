@@ -216,6 +216,8 @@ const email = {
 export const base44 = {
   auth,
   entities,
+  ai,
+  email,
 };
 
 export default base44;
