@@ -238,7 +238,7 @@ ${protocol.replace(/\n/g, '<br>')}
         <Tabs defaultValue="invitation" className="w-full print:hidden">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="invitation" data-testid="invitation-tab-trigger">Einladung</TabsTrigger>
-            <TabsTrigger value="protocol">Protokoll</TabsTrigger>
+            <TabsTrigger value="protocol" data-testid="protocol-tab-trigger">Protokoll</TabsTrigger>
           </TabsList>
 
           <TabsContent value="invitation">
