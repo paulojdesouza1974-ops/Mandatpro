@@ -89,6 +89,7 @@ export const PAGES = {
     "Contacts": Contacts,
     "Dashboard": Dashboard,
     "Documents": Documents,
+    "FractionAccounting": FractionAccounting,
     "FractionMeetings": FractionMeetings,
     "FractionMeetingTemplates": FractionMeetingTemplates,
     "Imprint": Imprint,
