@@ -226,6 +226,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
                 className="bg-slate-900 hover:bg-slate-800"
                 onClick={() => saveMutation.mutate(form)}
                 disabled={saveMutation.isPending}
+                data-testid="receipt-save-button"
               >
                 {saveMutation.isPending ? <><Loader2 className="w-4 h-4 mr-1 animate-spin" /> Speichern...</> : "Buchung speichern"}
               </Button>
