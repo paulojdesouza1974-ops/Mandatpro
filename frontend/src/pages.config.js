@@ -98,6 +98,7 @@ export const PAGES = {
     "MandateLevy": MandateLevy,
     "Meetings": Meetings,
     "Motions": Motions,
+    "MyOrganization": MyOrganization,
     "OrganizationDetails": OrganizationDetails,
     "Organizations": Organizations,
     "PrintTemplates": PrintTemplates,
