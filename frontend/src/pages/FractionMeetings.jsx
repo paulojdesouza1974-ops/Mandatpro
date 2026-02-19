@@ -20,6 +20,7 @@ import {
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import jsPDF from "jspdf";
+import { useToast } from "@/hooks/use-toast";
 
 const statusConfig = {
   geplant: { label: "Geplant", color: "bg-slate-100 text-slate-700 border-slate-200", icon: Clock },
