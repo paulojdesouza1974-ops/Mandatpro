@@ -162,6 +162,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
               onChange={(e) => update("description", e.target.value)}
               placeholder="Kurze Beschreibung des Dokuments"
               rows={3}
+              data-testid="document-description-textarea"
             />
           </div>
 
