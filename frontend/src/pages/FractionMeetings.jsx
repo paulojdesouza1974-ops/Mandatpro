@@ -69,6 +69,19 @@ export default function FractionMeetings() {
       qc.invalidateQueries({ queryKey: ["fractionMeetings"] });
       setFormOpen(false);
       setEditingMeeting(null);
+      toast({
+        title: "Sitzung erstellt",
+        description: "Die Fraktionssitzung wurde erfolgreich angelegt.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Fehler",
+        description: error.message || "Die Sitzung konnte nicht erstellt werden.",
+        variant: "destructive",
+      });
+    },
+  });
     },
   });
 
