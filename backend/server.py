@@ -888,7 +888,7 @@ WICHTIG: Gib die Antwort IMMER als valides JSON zurück mit exakt diesen Feldern
             api_key=api_key,
             session_id=f"email-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-4o")
+        ).with_model("openai", "gpt-5.2")
         
         user_message = UserMessage(text=f"Erstelle eine E-Mail zum Thema: {request.topic}")
         response = await chat.send_message(user_message)
@@ -957,7 +957,7 @@ async def generate_text(request: AITextGenerateRequest):
             api_key=api_key,
             session_id=f"text-{datetime.now().timestamp()}",
             system_message=system_msg
-        ).with_model("openai", "gpt-4o")
+        ).with_model("openai", "gpt-5.2")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
@@ -1000,7 +1000,7 @@ Der Bescheid soll:
             api_key=api_key,
             session_id=f"notice-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-4o")
+        ).with_model("openai", "gpt-5.2")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
@@ -1036,7 +1036,7 @@ Verwende die korrekte Protokollstruktur mit:
             api_key=api_key,
             session_id=f"protocol-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-4o")
+        ).with_model("openai", "gpt-5.2")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
@@ -1072,7 +1072,7 @@ Die Einladungen sollen:
             api_key=api_key,
             session_id=f"invitation-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-4o")
+        ).with_model("openai", "gpt-5.2")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
