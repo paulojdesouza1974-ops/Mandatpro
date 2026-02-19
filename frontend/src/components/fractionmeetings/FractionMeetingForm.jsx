@@ -244,6 +244,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
             <Button
               onClick={() => onSave(formData)}
               disabled={!formData.title || !formData.date || saving}
+              data-testid="fraction-meeting-save-button"
             >
               <Save className="w-4 h-4 mr-2" />
               {saving ? "Wird gespeichert..." : "Speichern"}
