@@ -178,6 +178,40 @@ const entities = {
   Budget: createEntity('budgets'),
 };
 
+// AI API
+const ai = {
+  async generateEmail(topic, organizationName = null) {
+    return request('/api/ai/generate-email', {
+      method: 'POST',
+      body: JSON.stringify({ topic, organization_name: organizationName }),
+    });
+  },
+
+  async generateProtocol(prompt, context = null) {
+    return request('/api/ai/generate-protocol', {
+      method: 'POST',
+      body: JSON.stringify({ prompt, context }),
+    });
+  },
+
+  async generateInvitation(prompt, context = null) {
+    return request('/api/ai/generate-invitation', {
+      method: 'POST',
+      body: JSON.stringify({ prompt, context }),
+    });
+  },
+};
+
+// Email API
+const email = {
+  async sendBulk(to, subject, body) {
+    return request('/api/email/send-invitation', {
+      method: 'POST',
+      body: JSON.stringify({ to, subject, body }),
+    });
+  },
+};
+
 // Main export - compatible with base44 SDK interface
 export const base44 = {
   auth,
