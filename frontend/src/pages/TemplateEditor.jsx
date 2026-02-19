@@ -246,6 +246,7 @@ export default function TemplateEditor() {
                       if (e.target.files[0]) uploadLogo(e.target.files[0]);
                     }}
                     className="mt-1.5"
+                    data-testid="template-logo-file-input"
                   />
                 </div>
                 <div>
