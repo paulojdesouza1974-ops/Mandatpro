@@ -213,6 +213,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                 onChange={(e) => setAttendeeInput(e.target.value)}
                 placeholder="name@example.com"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAttendee())}
+                data-testid="fraction-meeting-attendee-input"
               />
               <Button type="button" onClick={addAttendee}>Hinzufügen</Button>
             </div>
