@@ -119,45 +119,35 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
     setGenerating(true);
     const typeLabel = types.find((t) => t.value === form.type)?.label || form.type;
     
-    const currentDate = new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    
-    const res = await base44.integrations.Core.InvokeLLM({
-      prompt: `Du bist ein erfahrener Kommunalpolitiker der AfD-Fraktion in Dormagen. Erstelle einen professionellen ${typeLabel} zum Thema: "${form.title}".
+    try {
+      const prompt = `Erstelle einen professionellen ${typeLabel} zum Thema: "${form.title}".
 
-VERWENDE EXAKT DIESE OFFIZIELLE VORLAGE (AfD Dormagen):
-
+Format:
 Antrag: ${form.title}
 
 Beschlussvorlage
+[Konkreter Beschlusstext - 1-2 Sätze, was beschlossen werden soll]
 
-[Hier kommt der konkrete Beschlusstext - 1-2 Sätze, klar und präzise formuliert, was beschlossen werden soll. Beispiel: "Auf der Kreuzung X und Y soll ein dauerhafter Verkehrsspiegel Richtung Z errichtet werden."]
-
-Die Verwaltung wird beauftragt, ein Konzept bis zur nächsten Sitzung des Rates vorzulegen, welches die technische Umsetzung und Kosten regelt.
+Die Verwaltung wird beauftragt, ein Konzept vorzulegen.
 
 Begründung
+[Sachliche Begründung in 3-4 Absätzen:
+- Ausgangslage und Kontext
+- Problemstellung oder Notwendigkeit
+- Erwartete Vorteile]
 
-[Hier folgt eine sachliche und ausführliche Begründung in 3-4 Absätzen:
-- Absatz 1: Ausgangslage und Kontext (2-3 Sätze)
-- Absatz 2: Konkrete Problemstellung oder Notwendigkeit (2-3 Sätze)
-- Absatz 3: Erwartete Vorteile und positive Auswirkungen (2-3 Sätze)
-- Optional Absatz 4: Zusätzliche technische oder rechtliche Details
+WICHTIG: Keine Anrede, keine Grußformel, keine Unterschrift. Sachlich und präzise.`;
 
-Verwende eine professionelle, sachliche Sprache. Keine Anrede, keine Grußformel, keine Unterschrift - das wird in der Vorlage separat hinzugefügt.]
-
-WICHTIG:
-- Beginne direkt mit "Antrag: [Titel]"
-- Gliedere in "Beschlussvorlage" und "Begründung"
-- Keine Briefform, keine Anrede, keine Unterschrift
-- Sachlich, präzise, überzeugend
-- 150-250 Wörter insgesamt`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          body: { type: "string", description: "Der vollständige Antragstext im offiziellen Format" },
-        },
-      },
-    });
-    setForm((f) => ({ ...f, body: res.body }));
+      const res = await base44.ai.generateText(prompt, 'motion');
+      if (res.success && res.content) {
+        setForm((f) => ({ ...f, body: res.content }));
+      } else {
+        alert('Fehler bei der KI-Generierung');
+      }
+    } catch (error) {
+      console.error('AI generation error:', error);
+      alert('Fehler bei der KI-Generierung: ' + error.message);
+    }
     setGenerating(false);
   };
 
