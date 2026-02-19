@@ -606,17 +606,17 @@ async def seed_full_demo():
                 
                 levy = {
                     "organization": org_name,
-                    "member_name": f"{mt['first_name']} {mt['last_name']}",
+                    "contact_name": f"{mt['first_name']} {mt['last_name']}",
                     "member_number": mt["member_number"],
-                    "mandate_type": mt["mandate"],
-                    "month": levy_date.strftime("%Y-%m"),
+                    "mandate_type": mt["mandate"].lower().replace(" ", ""),  # e.g., "ratsmitglied"
+                    "mandate_body": "Stadt Neustadt" if mt["mandate"] != "Kreistagsmitglied" else "Kreis Neustadt",
+                    "period_month": levy_date.strftime("%Y-%m"),
                     "gross_income": income,
                     "levy_rate": rate,
-                    "amount_due": amount,
-                    "amount_paid": amount if paid else 0,
+                    "deductions": 0,
+                    "final_levy": amount,
                     "status": "bezahlt" if paid else "offen",
-                    "due_date": (levy_date + timedelta(days=15)).isoformat(),
-                    "paid_date": levy_date.isoformat() if paid else None,
+                    "payment_date": levy_date.strftime("%Y-%m-%d") if paid else None,
                     "created_date": levy_date.isoformat()
                 }
                 db.mandate_levies.insert_one(levy)
