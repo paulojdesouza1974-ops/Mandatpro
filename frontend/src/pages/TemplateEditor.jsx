@@ -285,6 +285,7 @@ export default function TemplateEditor() {
                     onChange={(e) => update("fraction_name", e.target.value)}
                     placeholder="Z.B. Alternative für Deutschland"
                     className="mt-1.5"
+                    data-testid="template-fraction-name-input"
                   />
                 </div>
                 <div>
