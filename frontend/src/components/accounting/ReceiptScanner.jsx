@@ -76,6 +76,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
           date: data.date,
           source: data.vendor,
           notes: data.notes,
+          file_url: fileUrl,
         });
       } else {
         return base44.entities.Expense.create({
