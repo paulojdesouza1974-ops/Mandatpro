@@ -324,6 +324,7 @@ export default function TemplateEditor() {
                     checked={formData.show_recipient_address}
                     onChange={(e) => update("show_recipient_address", e.target.checked)}
                     className="w-4 h-4"
+                    data-testid="template-recipient-address-toggle"
                   />
                   <span className="text-xs">Empfängeradresse anzeigen</span>
                 </label>
