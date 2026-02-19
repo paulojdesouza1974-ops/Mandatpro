@@ -484,6 +484,7 @@ export default function TemplateEditor() {
                     placeholder=".motion-title { font-size: 18pt; }"
                     rows={6}
                     className="mt-1.5 font-mono text-xs"
+                    data-testid="template-custom-css-textarea"
                   />
                   <p className="text-xs text-slate-500 mt-1">
                     CSS-Regeln für detaillierte Layout-Anpassungen
