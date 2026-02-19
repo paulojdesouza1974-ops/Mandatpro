@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import MotionForm from "@/components/motions/MotionForm";
 import MotionPrintView from "@/components/motions/MotionPrintView";
 import PullToRefresh from "@/components/PullToRefresh";
+import { useToast } from "@/hooks/use-toast";
 
 const statusLabels = { entwurf: "Entwurf", eingereicht: "Eingereicht", in_beratung: "In Beratung", angenommen: "Angenommen", abgelehnt: "Abgelehnt", zurueckgezogen: "Zurückgezogen" };
 const statusColors = { entwurf: "bg-slate-100 text-slate-600", eingereicht: "bg-blue-100 text-blue-700", in_beratung: "bg-amber-100 text-amber-700", angenommen: "bg-emerald-100 text-emerald-700", abgelehnt: "bg-red-100 text-red-700", zurueckgezogen: "bg-slate-100 text-slate-500" };
@@ -27,6 +28,7 @@ export default function Motions() {
   const [editing, setEditing] = useState(null);
   const [printMotion, setPrintMotion] = useState(null);
   const qc = useQueryClient();
+  const { toast } = useToast();
 
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
