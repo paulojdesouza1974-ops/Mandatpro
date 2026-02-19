@@ -36,6 +36,9 @@ const mandateLabels = {
   bezirksvertretung: "Bezirksvertretung",
   ausschuss: "Ausschuss",
   sonstiges: "Sonstiges",
+  ratsmitglied: "Ratsmitglied",
+  kreistagsmitglied: "Kreistagsmitglied",
+  bürgermeister: "Bürgermeister",
 };
 
 export default function MandateLevyPage() {
