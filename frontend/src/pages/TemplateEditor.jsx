@@ -256,6 +256,7 @@ export default function TemplateEditor() {
                     onChange={(e) => update("logo_url", e.target.value)}
                     placeholder="https://..."
                     className="mt-1.5"
+                    data-testid="template-logo-url-input"
                   />
                 </div>
                 <div>
