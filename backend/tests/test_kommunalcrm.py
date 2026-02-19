@@ -8,7 +8,7 @@ import os
 import random
 import string
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://local-gov-hub-2.preview.emergentagent.com')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://motion-fix-preview.preview.emergentagent.com')
 BASE_URL = BASE_URL.rstrip('/')
 
 class TestHealthCheck:

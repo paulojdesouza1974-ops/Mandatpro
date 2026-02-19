@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 
 class KommunalCRMAPITester:
-    def __init__(self, base_url="https://local-gov-hub-2.preview.emergentagent.com"):
+    def __init__(self, base_url="https://motion-fix-preview.preview.emergentagent.com"):
         self.base_url = base_url
         self.token = None
         self.tests_run = 0
