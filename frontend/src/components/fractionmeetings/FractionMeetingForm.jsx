@@ -135,7 +135,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
             <div>
               <Label>Ort</Label>
               <Select value={formData.location || ""} onValueChange={(v) => update("location", v)}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="fraction-meeting-location-trigger">
                   <SelectValue placeholder="Ort wählen oder eingeben..." />
                 </SelectTrigger>
                 <SelectContent>
