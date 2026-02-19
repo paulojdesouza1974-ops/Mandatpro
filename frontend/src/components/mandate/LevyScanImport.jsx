@@ -47,43 +47,21 @@ export default function LevyScanImport({ open, onClose, user, onCreated }) {
     const file = e.target.files[0];
     if (!file) return;
     setUploading(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setFileUrl(file_url);
+    
+    // Note: File upload and AI document scanning not yet implemented
+    // For now, show a message that manual entry should be used
+    alert("Die automatische Dokumentenerkennung ist noch in Entwicklung. Bitte verwenden Sie 'Manuell erfassen' um Abgaben einzutragen.");
     setUploading(false);
-    setStep("scanning");
-    await scanFile(file_url);
+    onClose();
   };
 
   const scanFile = async (url) => {
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `Du analysierst eine kommunale Aufwandsentschädigungs-Abrechnung (Gemeinderats-, Kreistags- oder ähnliche Abrechnung).
-Extrahiere alle Mandatsträger mit ihren Vergütungsdaten. Für jeden Eintrag ermittle:
-- name: Vollständiger Name des Mandatsträgers
-- mandate_type: Art des Mandats (gemeinderat, kreistag, landtag, bundestag, bezirksvertretung, ausschuss, sonstiges)
-- mandate_body: Name der Körperschaft/des Gremiums
-- period_month: Abrechnungsmonat im Format YYYY-MM
-- gross_income: Brutto-Aufwandsentschädigung in EUR (nur Zahl)
-Antworte nur mit JSON.`,
-      file_urls: [url],
-      response_json_schema: {
-        type: "object",
-        properties: {
-          entries: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                name: { type: "string" },
-                mandate_type: { type: "string" },
-                mandate_body: { type: "string" },
-                period_month: { type: "string" },
-                gross_income: { type: "number" },
-              },
-            },
-          },
-        },
-      },
-    });
+    // Document scanning requires file upload integration
+    // For now, return empty to show manual entry is needed
+    setExtracted([]);
+    setEntries([]);
+    setStep("review");
+  };
 
     // Enrich with levy rules and contact matching
     const enriched = (result.entries || []).map((e) => {
