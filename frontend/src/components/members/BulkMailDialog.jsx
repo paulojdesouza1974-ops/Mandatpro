@@ -204,6 +204,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
                   onClick={generateEmail}
                   disabled={generating || !aiTopic.trim()}
                   className="shrink-0 border-indigo-300 text-indigo-700 hover:bg-indigo-100"
+                  data-testid="bulk-mail-ai-generate-button"
                 >
                   {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                 </Button>
