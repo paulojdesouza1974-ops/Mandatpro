@@ -111,7 +111,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Start Datum & Uhrzeit *</Label>
-              <Input type="datetime-local" value={form.date} onChange={(e) => update("date", e.target.value)} required />
+              <Input type="datetime-local" value={form.date} onChange={(e) => update("date", e.target.value)} required data-testid="meeting-start-date-input" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Ende (optional)</Label>
