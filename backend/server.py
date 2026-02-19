@@ -525,7 +525,7 @@ async def seed_full_demo():
         "role": "admin",
         "created_date": now.isoformat()
     }
-    user_result = db.users.insert_one(demo_user)
+    db.users.insert_one(demo_user)
     
     # ========== CREATE ORGANIZATION ==========
     demo_org = {
