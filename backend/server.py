@@ -846,6 +846,49 @@ WICHTIG: Gib die Antwort IMMER als valides JSON zurück mit exakt diesen Feldern
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class AINoticeGenerateRequest(BaseModel):
+    prompt: str
+    levy_data: Optional[dict] = None
+    organization_data: Optional[dict] = None
+
+@app.post("/api/ai/generate-notice")
+async def generate_notice(request: AINoticeGenerateRequest):
+    """Generate levy notice/Gebührenbescheid using AI"""
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    try:
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        api_key = os.environ.get("EMERGENT_LLM_KEY")
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        
+        system_message = """Du bist ein erfahrener Verwaltungsangestellter einer deutschen politischen Partei.
+Du erstellst professionelle, formelle Gebührenbescheide für Mandatsträgerabgaben.
+Der Bescheid soll:
+- Als formeller Geschäftsbrief formatiert sein
+- Absender oben links, Datum oben rechts, Empfänger darunter
+- Alle relevanten Abrechnungsdaten übersichtlich darstellen
+- Höflich aber bestimmt formuliert sein
+- Eine klare Zahlungsaufforderung mit Frist enthalten
+- Mit einer Grußformel enden"""
+
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"notice-{datetime.now().timestamp()}",
+            system_message=system_message
+        ).with_model("openai", "gpt-4o")
+        
+        user_message = UserMessage(text=request.prompt)
+        response = await chat.send_message(user_message)
+        
+        return {"content": response, "success": True}
+    except ImportError:
+        raise HTTPException(status_code=500, detail="emergentintegrations not installed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/ai/generate-protocol")
 async def generate_protocol(request: AIGenerateRequest):
     """Generate meeting protocol using AI"""
