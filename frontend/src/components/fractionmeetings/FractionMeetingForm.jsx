@@ -201,6 +201,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
               onChange={(e) => update("invitation_text", e.target.value)}
               placeholder="Einladungstext für E-Mail..."
               rows={8}
+              data-testid="fraction-meeting-invitation-textarea"
             />
           </div>
 
