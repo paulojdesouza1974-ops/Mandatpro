@@ -101,6 +101,20 @@ export default function Contacts() {
       qc.invalidateQueries({ queryKey: ["contacts", currentUser?.organization] });
       setFormOpen(false);
       setEditing(null);
+      toast({
+        title: editing ? "Kontakt aktualisiert" : "Kontakt erstellt",
+        description: editing ? "Die Änderungen wurden gespeichert." : "Der neue Kontakt wurde erfolgreich angelegt.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Fehler",
+        description: error.message || "Der Kontakt konnte nicht gespeichert werden.",
+        variant: "destructive",
+      });
+    },
+  });
+      setEditing(null);
     },
   });
 
