@@ -250,7 +250,7 @@ ${protocol.replace(/\n/g, '<br>')}
                 <Download className="w-4 h-4 mr-1" /> 
                 {exporting ? "Exportiere..." : "PDF"}
               </Button>
-              <Button size="sm" onClick={handlePrint} className="bg-slate-900">
+              <Button size="sm" onClick={handlePrint} className="bg-slate-900" data-testid="invitation-print-button">
                 <Printer className="w-4 h-4 mr-1" /> Drucken
               </Button>
             </div>
