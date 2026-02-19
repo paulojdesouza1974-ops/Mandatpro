@@ -101,8 +101,13 @@ export default function TemplateEditor() {
   });
 
   const uploadLogo = async (file) => {
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    update("logo_url", file_url);
+    try {
+      const { file_url } = await base44.files.upload(file);
+      update("logo_url", file_url);
+    } catch (error) {
+      console.error("Logo-Upload fehlgeschlagen:", error);
+      alert("Fehler beim Hochladen des Logos");
+    }
   };
 
   useEffect(() => {
