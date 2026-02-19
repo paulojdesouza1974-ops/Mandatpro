@@ -226,6 +226,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                       type="button"
                       onClick={() => removeAttendee(email)}
                       className="text-slate-500 hover:text-slate-700"
+                      data-testid={`fraction-meeting-remove-attendee-${idx}`}
                     >
                       ×
                     </button>
