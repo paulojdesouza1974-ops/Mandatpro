@@ -177,6 +177,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
               onChange={(e) => update("agenda", e.target.value)}
               placeholder="1. Begrüßung&#10;2. Protokoll der letzten Sitzung&#10;3. ..."
               rows={5}
+              data-testid="fraction-meeting-agenda-textarea"
             />
           </div>
 
