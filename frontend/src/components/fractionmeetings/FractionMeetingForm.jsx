@@ -129,6 +129,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                 type="datetime-local"
                 value={formData.date ? formData.date.slice(0, 16) : ""}
                 onChange={(e) => update("date", e.target.value ? new Date(e.target.value).toISOString() : "")}
+                data-testid="fraction-meeting-date-input"
               />
             </div>
             <div>
