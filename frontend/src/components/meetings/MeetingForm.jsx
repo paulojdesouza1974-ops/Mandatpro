@@ -86,7 +86,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label className="text-xs font-medium text-slate-500">Titel *</Label>
-            <Input value={form.title} onChange={(e) => update("title", e.target.value)} placeholder="z.B. Gemeinderatssitzung März" required />
+            <Input value={form.title} onChange={(e) => update("title", e.target.value)} placeholder="z.B. Gemeinderatssitzung März" required data-testid="meeting-title-input" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
