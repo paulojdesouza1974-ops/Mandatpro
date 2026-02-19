@@ -255,6 +255,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                       checked={!!selected[idx]}
                       onChange={() => toggleSelect(idx)}
                       className="accent-blue-600 w-4 h-4 flex-shrink-0"
+                      data-testid={`bank-statement-transaction-checkbox-${idx}`}
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
