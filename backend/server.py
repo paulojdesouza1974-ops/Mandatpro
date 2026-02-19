@@ -829,6 +829,24 @@ async def seed_full_demo():
     
     return {"success": True, "message": "Umfangreiche Demo-Daten erstellt", "summary": summary}
 
+# ============ FILE UPLOADS ============
+
+@app.post("/api/files/upload")
+async def upload_file(file: UploadFile = File(...)):
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No file provided")
+    filename = f"{uuid.uuid4().hex}_{file.filename}"
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    content = await file.read()
+    with open(file_path, "wb") as buffer:
+        buffer.write(content)
+    return {
+        "file_url": f"/api/uploads/{filename}",
+        "file_name": file.filename,
+        "content_type": file.content_type,
+        "size": len(content),
+    }
+
 # ============ AI ENDPOINTS ============
 
 class AIGenerateRequest(BaseModel):
