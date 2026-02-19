@@ -163,7 +163,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
             <div className="border border-slate-200 rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-3 py-2 bg-slate-50 border-b border-slate-200">
                 <div className="flex items-center gap-2">
-                  <Checkbox checked={selectedIds.length === eligibleContacts.length && eligibleContacts.length > 0} onCheckedChange={toggleAll} />
+                  <Checkbox checked={selectedIds.length === eligibleContacts.length && eligibleContacts.length > 0} onCheckedChange={toggleAll} data-testid="bulk-mail-toggle-all-checkbox" />
                   <span className="text-xs font-medium text-slate-600">
                     <Users className="w-3 h-3 inline mr-1" />
                     {selectedIds.length} von {eligibleContacts.length} ausgewählt
