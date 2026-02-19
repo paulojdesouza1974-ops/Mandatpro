@@ -118,6 +118,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
               value={formData.title}
               onChange={(e) => update("title", e.target.value)}
               placeholder="Fraktionssitzung März 2024"
+              data-testid="fraction-meeting-title-input"
             />
           </div>
 
