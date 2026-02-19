@@ -41,6 +41,29 @@ const request = async (endpoint, options = {}) => {
   return response.json();
 };
 
+const uploadFile = async (file) => {
+  const url = `${API_URL}/api/files/upload`;
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const headers = {
+    ...(authToken && { Authorization: `Bearer ${authToken}` }),
+  };
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ detail: 'Upload failed' }));
+    throw new Error(error.detail || 'Upload failed');
+  }
+
+  return response.json();
+};
+
 // Auth API
 const auth = {
   async register(data) {
