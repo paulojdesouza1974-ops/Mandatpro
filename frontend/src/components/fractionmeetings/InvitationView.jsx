@@ -228,7 +228,7 @@ ${protocol.replace(/\n/g, '<br>')}
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto" data-testid="invitation-view-dialog">
         <DialogHeader>
           <DialogTitle className="print:hidden">
             Einladung: {meeting.title}
