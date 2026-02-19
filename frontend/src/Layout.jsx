@@ -38,13 +38,10 @@ const fraktionNavItems = [
   { name: "Termine", icon: CalendarDays, page: "Meetings" },
   { name: "Kommunikation", icon: MessageCircle, page: "Communications" },
   { name: "Dokumente", icon: FolderOpen, page: "Documents" },
-  { name: "Meine Organisation", icon: Landmark, page: "Organizations" },
+  { name: "Meine Organisation", icon: Landmark, page: "MyOrganization" },
   { name: "Druckvorlagen", icon: FileText, page: "PrintTemplates" },
   { name: "Vorlagen-Editor", icon: FileText, page: "TemplateEditor" },
   { name: "Nutzerverwaltung", icon: UserIcon, page: "UserManagement", adminOnly: true },
-  { name: "Organisationsverwaltung", icon: Landmark, page: "AdminOrganizations", adminOnly: true, ownerOnly: true },
-  { name: "Rechnungen", icon: Mail, page: "Invoices", adminOnly: true, ownerOnly: true },
-  { name: "Support", icon: MessageCircle, page: "Support", adminOnly: true, ownerOnly: true },
   { name: "App-Einstellungen", icon: Settings, page: "AppSettings", adminOnly: true },
 ];
 
