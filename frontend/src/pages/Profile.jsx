@@ -18,7 +18,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Save, User as UserIcon, Trash2, AlertTriangle } from "lucide-react";
+import { Save, User as UserIcon, Trash2, AlertTriangle, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const mandateTypes = [
   { value: "gemeinderat", label: "Gemeinderat" },
