@@ -201,7 +201,7 @@ export default function TemplateEditor() {
                 Duplizieren
               </Button>
             )}
-            <Button onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending}>
+            <Button onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending} data-testid="template-save-button">
               <Save className="w-4 h-4 mr-2" />
               Speichern
             </Button>
