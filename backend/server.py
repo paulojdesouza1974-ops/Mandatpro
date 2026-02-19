@@ -774,6 +774,78 @@ class AIGenerateRequest(BaseModel):
     prompt: str
     context: Optional[str] = None
 
+class AIEmailGenerateRequest(BaseModel):
+    topic: str
+    template_type: Optional[str] = None
+    organization_name: Optional[str] = None
+
+@app.post("/api/ai/generate-email")
+async def generate_email(request: AIEmailGenerateRequest):
+    """Generate bulk email content using AI"""
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    try:
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        
+        api_key = os.environ.get("EMERGENT_LLM_KEY")
+        if not api_key:
+            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        
+        org_name = request.organization_name or "Ortsverband"
+        
+        system_message = f"""Du bist ein Assistent für eine deutsche politische Organisation ({org_name}).
+Du erstellst professionelle E-Mails auf Deutsch.
+Die E-Mails sollen:
+- Einen passenden, prägnanten Betreff haben
+- Einen freundlichen, professionellen Ton haben
+- Ca. 150-250 Wörter im Body haben
+- Mit "Mit freundlichen Grüßen,\nDer Vorstand" enden
+
+WICHTIG: Gib die Antwort IMMER als valides JSON zurück mit exakt diesen Feldern:
+{{"subject": "Betreff hier", "body": "E-Mail Text hier"}}"""
+
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"email-{datetime.now().timestamp()}",
+            system_message=system_message
+        ).with_model("openai", "gpt-4o")
+        
+        user_message = UserMessage(text=f"Erstelle eine E-Mail zum Thema: {request.topic}")
+        response = await chat.send_message(user_message)
+        
+        # Try to parse JSON from response
+        import json
+        try:
+            # Clean response - remove markdown code blocks if present
+            clean_response = response.strip()
+            if clean_response.startswith("```json"):
+                clean_response = clean_response[7:]
+            if clean_response.startswith("```"):
+                clean_response = clean_response[3:]
+            if clean_response.endswith("```"):
+                clean_response = clean_response[:-3]
+            clean_response = clean_response.strip()
+            
+            result = json.loads(clean_response)
+            return {"subject": result.get("subject", ""), "body": result.get("body", ""), "success": True}
+        except json.JSONDecodeError:
+            # If JSON parsing fails, try to extract subject and body from text
+            lines = response.strip().split("\n")
+            subject = ""
+            body = response
+            for i, line in enumerate(lines):
+                if line.lower().startswith("betreff:"):
+                    subject = line.replace("Betreff:", "").replace("betreff:", "").strip()
+                    body = "\n".join(lines[i+1:]).strip()
+                    break
+            return {"subject": subject, "body": body, "success": True}
+            
+    except ImportError:
+        raise HTTPException(status_code=500, detail="emergentintegrations not installed")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/ai/generate-protocol")
 async def generate_protocol(request: AIGenerateRequest):
     """Generate meeting protocol using AI"""
