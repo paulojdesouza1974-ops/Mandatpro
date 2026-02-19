@@ -151,6 +151,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
               value={formData.title}
               onChange={(e) => update("title", e.target.value)}
               placeholder="Dokument-Titel"
+              data-testid="document-title-input"
             />
           </div>
 
