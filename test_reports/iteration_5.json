@@ -1,0 +1,81 @@
+{
+  "summary": "Completed testing of KommunalCRM Login, Registration, Profile, and Contacts features. Fixed 2 bugs: 1) Toast notifications were not appearing (Toaster component used wrong use-toast import), 2) Authorization header not being read properly in backend auth endpoints. All requested features now working correctly.",
+  
+  "backend_issues": {
+    "critical": [],
+    "fixed": [
+      {
+        "endpoint": "/api/auth/me and /api/auth/logout",
+        "issue": "Authorization header was not being read properly (missing Header() import)",
+        "fix": "Changed parameter from 'authorization: str = None' to 'authorization: str = Header(None)' and added Header import",
+        "priority": "FIXED"
+      }
+    ],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "fixed": [
+      {
+        "component": "Toaster component",
+        "issue": "Toast notifications were not appearing on save operations",
+        "fix": "Changed import in /app/frontend/src/components/ui/toaster.jsx from '@/components/ui/use-toast' to '@/hooks/use-toast' to use the same toast state store as the pages",
+        "priority": "FIXED"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Login page loads correctly with Anmelden (Login) and Registrieren (Register) tabs",
+    "Demo login works - click 'Demo-Zugang testen' button seeds and logs in",
+    "After login, Dashboard loads with correct navigation and statistics",
+    "Registration form has all required fields: Name, Email, Organization, Password",
+    "Registration form validation works (password mismatch shows error)",
+    "Registration with Fraktion organization type works",
+    "Registration with Verband organization type works",
+    "Toast notifications appear on Profile save ('Änderungen gespeichert')",
+    "Toast notifications appear on Contact create ('Kontakt erstellt')",
+    "Switching between Fraktion and Verband organization types in Profile settings works",
+    "Navigation changes based on org_type (Kontakte vs Mitglieder)",
+    "Backend API health check passes",
+    "All 14 pytest tests pass (authentication, registration, profile, contacts CRUD)"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_kommunalcrm.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [
+    "There were two different use-toast files (/app/frontend/src/hooks/use-toast.js and /app/frontend/src/components/ui/use-toast.jsx) with different configurations - this caused the toast state mismatch. Consider removing the duplicate."
+  ],
+  
+  "updated_files": [
+    "/app/frontend/src/components/ui/toaster.jsx",
+    "/app/backend/server.py",
+    "/app/backend/tests/test_kommunalcrm.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (14/14 tests passed)",
+    "frontend": "100% (all requested features working)"
+  },
+  
+  "seed_data_creation": "Demo data seeded via /api/seed-demo endpoint with demo@kommunalcrm.de / demo123",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "All requested features are working. Toast notifications now appear on save operations in Profile and Contacts pages. Organization type switching (Fraktion/Verband) works and changes the navigation accordingly. The backend auth endpoints now properly read Authorization headers. MOCKED: Email sending uses print() statements, PDF generation returns HTML for client-side rendering.",
+  
+  "mocked_apis": {
+    "Email sending": "POST /api/email/send-invitation uses simulated sending with database logging",
+    "PDF generation": "Returns HTML for client-side PDF generation"
+  }
+}
