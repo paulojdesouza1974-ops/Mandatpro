@@ -180,7 +180,7 @@ export default function TemplateEditor() {
                 }
               }}
             >
-              <SelectTrigger className="w-64">
+              <SelectTrigger className="w-64" data-testid="template-select-trigger">
                 <SelectValue placeholder="Vorlage auswählen" />
               </SelectTrigger>
               <SelectContent>
