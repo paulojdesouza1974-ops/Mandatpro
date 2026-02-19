@@ -683,14 +683,6 @@ async def seed_full_demo():
                 db.mandate_levies.insert_one(levy)
     
     # ========== CREATE INCOMES (EINNAHMEN) ==========
-    income_categories = [
-        ("Mitgliedsbeiträge", "4100"),
-        ("Spenden natürliche Personen", "4110"),
-        ("Spenden juristische Personen", "4111"),
-        ("Mandatsträgerabgaben", "4120"),
-        ("Veranstaltungserlöse", "4130"),
-        ("Staatliche Zuschüsse", "4140"),
-    ]
     
     incomes_data = []
     for month_offset in range(12):
