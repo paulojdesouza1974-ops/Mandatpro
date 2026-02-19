@@ -1,0 +1,526 @@
+<analysis>**original_problem_statement:**
+The user provided a zip file of an existing React application called Kommunal-Connect-Pro, built on a Base44 platform SDK. The initial request was vague: kannst du das besser machen (can you make this better).
+
+Through a series of interactions, the user's requirements were clarified and expanded:
+1.  **Initial Goal:** Improve the overall UI/UX of the application.
+2.  **Major Refactor:** Remove the dependency on the Base44 SDK and create a standalone full-stack application with a Python (FastAPI) backend and MongoDB database.
+3.  **Bug Fix:** Fix an issue where switching the organization type between Fraktion (faction) and Verband (association) on the profile page did not work.
+4.  **Feature Request (Verband):** Enhance the finance module for the Verband organization type to a professional level, comparable to SAP/DATEV, including a feature to export data in the DATEV CSV format.
+5.  **Feature Request (Fraktion):** Implement a comprehensive Fraktionssitzungen (faction meetings) management module. This includes creating/managing meetings, generating meeting minutes and invitation text using AI, sending email invitations with PDF attachments, and uploading previous protocols.
+6.  **Feature Request (Registration & UX):**
+    *   Implement a new user registration page with fields for Name, Email, Organization Type (Fraktion/Verband), and Password.
+    *   Fix missing user feedback by adding Saved successfully toast notifications to all forms where data is created or updated.
+
+The request to build a downloadable desktop version was discussed and then **canceled** by the user.
+
+**User's preferred language**: German (Deutsch)
+
+**what currently exists?**
+A full-stack CRM application, KommunalCRM, tailored for German local political organizations. The original application has been significantly refactored:
+- The UI has been completely redesigned with a modern, professional look, including a dark sidebar and improved component layouts.
+- The dependency on the external Base44 SDK has been entirely removed.
+- A custom backend has been built using FastAPI and MongoDB, which replicates and extends the original functionality.
+- It features two distinct user modes based on organization type:
+    - **Fraktion:** Includes modules for contacts, motions, and a newly-added, feature-rich module for managing faction meetings with AI-powered content generation.
+    - **Verband:** Includes modules for members, campaigns, and a professional accounting section with a DATEV export feature and a standard chart of accounts (SKR03).
+- A complete authentication system (Login, Logout, Registration) and a profile management page are in place.
+
+**Last working item**:
+- **Last item agent was working:** The agent was implementing the user's request to add a new registration flow and add toast notifications for save confirmations across various forms (, , , ). The agent had just finished writing the code for these changes and attempted to take a screenshot to verify the UI.
+- **Status:** BLOCKED
+- **Agent Testing Done:** N (The last action, taking a screenshot, resulted in a blank page, indicating the application is currently broken).
+- **Which testing method agent to use?** frontend testing agent
+- **User Testing Done:** N
+
+**All Pending/In progress Issue list**:
+- **Issue 1: The application displays a blank white screen.** (PRIORITY: P0)
+
+  **Issues Detail:**
+  - **Issue 1:** The application frontend is not rendering after the latest code changes to implement toast notifications and the registration UI.
+    - **Attempted fixes:** None. The issue was just discovered at the end of the last session.
+    - **Next debug checklist:**
+        1.  Examine the supervisor logs for the frontend service:       at JSXParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/app/frontend/node_modules/gensync/index.js:261:32)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+      at /app/frontend/node_modules/gensync/index.js:189:28
+      at /app/frontend/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /app/frontend/node_modules/gensync/index.js:113:33
+      at step (/app/frontend/node_modules/gensync/index.js:287:14)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+10:39:52 AM [vite] Internal server error: /app/frontend/src/pages/Contacts.jsx: Unexpected token (118:5)
+
+  116 |   });
+  117 |       setEditing(null);
+> 118 |     },
+      |      ^
+  119 |   });
+  120 |
+  121 |   const deleteMutation = useMutation({
+  Plugin: vite:react-babel
+  File: /app/frontend/src/pages/Contacts.jsx:118:5
+  116|    });
+  117|        setEditing(null);
+  118|      },
+     |       ^
+  119|    });
+  120|  
+      at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+      at JSXParserMixin.unexpected (/app/frontend/node_modules/@babel/parser/lib/index.js:6619:16)
+      at JSXParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:11442:22)
+      at JSXParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/app/frontend/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/app/frontend/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/app/frontend/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/app/frontend/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/app/frontend/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/app/frontend/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/app/frontend/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /app/frontend/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/app/frontend/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/app/frontend/node_modules/gensync/index.js:261:32)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+      at /app/frontend/node_modules/gensync/index.js:189:28
+      at /app/frontend/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /app/frontend/node_modules/gensync/index.js:113:33
+      at step (/app/frontend/node_modules/gensync/index.js:287:14)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+10:40:53 AM [vite] Internal server error: /app/frontend/src/pages/Contacts.jsx: Unexpected token (118:5)
+
+  116 |   });
+  117 |       setEditing(null);
+> 118 |     },
+      |      ^
+  119 |   });
+  120 |
+  121 |   const deleteMutation = useMutation({
+  Plugin: vite:react-babel
+  File: /app/frontend/src/pages/Contacts.jsx:118:5
+  116|    });
+  117|        setEditing(null);
+  118|      },
+     |       ^
+  119|    });
+  120|  
+      at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+      at JSXParserMixin.unexpected (/app/frontend/node_modules/@babel/parser/lib/index.js:6619:16)
+      at JSXParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:11442:22)
+      at JSXParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/app/frontend/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/app/frontend/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/app/frontend/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/app/frontend/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/app/frontend/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/app/frontend/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/app/frontend/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /app/frontend/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/app/frontend/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/app/frontend/node_modules/gensync/index.js:261:32)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+      at /app/frontend/node_modules/gensync/index.js:189:28
+      at /app/frontend/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /app/frontend/node_modules/gensync/index.js:113:33
+      at step (/app/frontend/node_modules/gensync/index.js:287:14)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+10:41:53 AM [vite] Internal server error: /app/frontend/src/pages/Contacts.jsx: Unexpected token (118:5)
+
+  116 |   });
+  117 |       setEditing(null);
+> 118 |     },
+      |      ^
+  119 |   });
+  120 |
+  121 |   const deleteMutation = useMutation({
+  Plugin: vite:react-babel
+  File: /app/frontend/src/pages/Contacts.jsx:118:5
+  116|    });
+  117|        setEditing(null);
+  118|      },
+     |       ^
+  119|    });
+  120|  
+      at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:6599:19)
+      at JSXParserMixin.unexpected (/app/frontend/node_modules/@babel/parser/lib/index.js:6619:16)
+      at JSXParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:11442:22)
+      at JSXParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/app/frontend/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/app/frontend/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/app/frontend/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/app/frontend/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/app/frontend/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/app/frontend/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/app/frontend/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /app/frontend/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/app/frontend/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/app/frontend/node_modules/gensync/index.js:261:32)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+      at /app/frontend/node_modules/gensync/index.js:189:28
+      at /app/frontend/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /app/frontend/node_modules/gensync/index.js:113:33
+      at step (/app/frontend/node_modules/gensync/index.js:287:14)
+      at /app/frontend/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11) and yarn run v1.22.22
+$ craco start
+Attempting to bind to HOST environment variable: 0.0.0.0
+If this was unintentional, check that you haven't mistakenly set it in your shell.
+Learn more here: https://cra.link/advanced-config
+
+Starting the development server...
+
+Compiled successfully!
+
+You can now view frontend in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://10.49.150.229:3000
+
+Note that the development build is not optimized.
+To create a production build, use yarn build.
+
+webpack compiled successfully
+yarn run v1.22.22
+$ craco start
+Attempting to bind to HOST environment variable: 0.0.0.0
+If this was unintentional, check that you haven't mistakenly set it in your shell.
+Learn more here: https://cra.link/advanced-config
+
+Starting the development server...
+
+Compiled successfully!
+
+You can now view frontend in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://10.49.150.229:3000
+
+Note that the development build is not optimized.
+To create a production build, use yarn build.
+
+webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Failed to compile.
+
+Module not found: Error: Can't resolve '/app/frontend/node_modules/@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js' in '/app/frontend'
+ERROR in Module not found: Error: Can't resolve '/app/frontend/node_modules/@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js' in '/app/frontend'
+
+ERROR in main
+Module not found: Error: Can't resolve '/app/frontend/node_modules/babel-loader/lib/index.js' in '/app/frontend'
+
+ERROR in Module not found: Error: Can't resolve '/app/frontend/node_modules/webpack-dev-server/client/index.js?protocol=ws%3A&hostname=0.0.0.0&port=443&pathname=%2Fws&logging=none&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%7D&reconnect=10&hot=true&live-reload=true' in '/app/frontend'
+
+ERROR in Module not found: Error: Can't resolve '/app/frontend/node_modules/webpack/hot/dev-server.js' in '/app/frontend'
+
+ERROR in Error: Child compilation failed:
+Module not found: Error: Can't resolve '/app/frontend/node_modules/html-webpack-plugin/lib/loader.js' in '/app/frontend'
+ModuleNotFoundError: Module not found: Error: Can't resolve '/app/frontend/node_modules/html-webpack-plugin/lib/loader.js' in '/app/frontend'
+    at /app/frontend/node_modules/webpack/lib/Compilation.js:2065:28
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:1028:13
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:10:1)
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:429:22
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:9:1)
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:614:22
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:184:10
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:846:23
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:1338:5
+    at /app/frontend/node_modules/neo-async/async.js:2830:7
+    at done (/app/frontend/node_modules/neo-async/async.js:2925:13)
+    at /app/frontend/node_modules/webpack/lib/NormalModuleFactory.js:1301:23
+    at finishWithoutResolve (/app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:568:11)
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:657:14
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:27:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:89:43
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:27:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:89:43
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:16:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/app/frontend/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)
+    at /app/frontend/node_modules/enhanced-resolve/lib/DirectoryExistsPlugin.js:43:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:81:21)
+
+1 ERROR in child compilations (Use 'stats.children: true' resp. '--stats-children' for more details)
+webpack compiled with 6 errors
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+[base44] Proxy not enabled (VITE_BASE44_APP_BASE_URL not set)
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000
+yarn run v1.22.22
+$ vite --host 0.0.0.0 --port 3000. Look for any JavaScript runtime errors in the browser console output.
+        2.  Review the recent modifications made in the last session. The likely culprits are the files that were heavily edited:
+            -  (overwritten for registration)
+            -  (edited)
+            -  (toast added)
+            -  (toast added)
+            -  (toast added)
+            -  (toast added, duplicate code was fixed)
+        3.  Start by commenting out the  calls in the  handlers of the modified pages to see if the error is in the toast implementation itself.
+    - **Why fix this issue and what will be achieved with the fix?** This is a critical, blocking issue. The entire application is unusable until this is resolved. Fixing it will restore the application's functionality and allow for the testing of the newly added features.
+    - **Status:** IN PROGRESS
+    - **Is recurring issue?** N
+    - **Should Test frontend/backend/both after fix?** frontend
+    - **Blocked on other issue:** None. This issue blocks all other tasks.
+
+**In progress Task List**:
+- **Task 1: Complete and verify the new user registration flow.**
+  - **Where to resume:** After the blank screen issue (Issue 1) is resolved, navigate to the  page and test the Registrieren (Register) tab.
+  - **What will be achieved with this?** It will complete a key feature requested by the user, allowing new organizations to sign up for the service.
+  - **Status:** BLOCKED (by Issue 1)
+  - **Should Test frontend/backend/both after fix?** both
+  - **Blocked on something:** Issue 1: The application displays a blank white screen.
+
+- **Task 2: Verify all save confirmation toast notifications.**
+  - **Where to resume:** After the blank screen issue (Issue 1) is resolved, navigate to the modified pages (Profile, Contacts, Motions, FractionMeetings), perform a save action, and confirm that a toast message appears.
+  - **What will be achieved with this?** This will complete a usability improvement requested by the user, providing clear feedback on successful actions.
+  - **Status:** BLOCKED (by Issue 1)
+  - **Should Test frontend/backend/both after fix?** frontend
+  - **Blocked on something:** Issue 1: The application displays a blank white screen.
+
+**Upcoming and Future Tasks**
+- **Upcoming Tasks:**
+  - **Task 1 (P1):** Implement a support ticket system.
+  - **Task 2 (P2):** Implement file uploads for the Dokumente (Documents) section.
+  - **Task 3 (P2):** Add a global search functionality that searches across multiple entities.
+- **Future Tasks:**
+  - **Task 1:** Add an automated email reminder feature for upcoming meetings.
+  - **Task 2:** Investigate and implement a real-time data sync with tax advisors using the DATEVconnect online API.
+
+**Completed work in this session**
+- **UI/UX Redesign:** A complete visual overhaul of the application was completed.
+- **Base44 Dependency Removal:** The application was successfully migrated from the Base44 SDK to a custom FastAPI/MongoDB backend.
+- **Bug Fix:** The issue preventing users from switching between Fraktion and Verband organization types was resolved.
+- **DATEV Accounting Module:** A professional accounting module with SKR03 chart of accounts and DATEV export functionality was implemented for the Verband mode.
+- **Faction Meetings Module:** A comprehensive meeting management module was created for the Fraktion mode, including AI-powered minute generation, email invitations, and PDF creation.
+- **Logout Functionality:** A logout button was added to the user menu.
+
+**Earlier issues found/mentioned but not fixed**
+- None. All previously identified issues were addressed.
+
+**Known issue recurrence from previous fork**
+- None.
+
+**Code Architecture**
+
+
+**Key Technical Concepts**
+- **Frontend:** React, Vite, Tailwind CSS, React Query for state management,  for icons.
+- **Backend:** Python, FastAPI, MongoDB (via ).
+- **Architecture:** Decoupled SPA (Single Page Application) with a RESTful API backend. Authentication is handled via JWT.
+- **Integrations:**  library for connecting to LLMs (AI-powered features) using the .
+
+**key DB schema**
+- The database is schema-less (MongoDB). The backend dynamically creates CRUD endpoints for a list of ~25 collections, including , , , , , , etc. User documents contain an  field (fraktion or verband) that controls application behavior.
+
+**changes in tech stack**
+- The entire application was migrated away from the proprietary Base44 Platform-SDK to a standard open-source stack (React, FastAPI, MongoDB).
+
+**All files of reference**
+- : Contains the entire backend logic, including all API endpoints, database interactions, and AI integrations.
+- : The custom API client that replaced the Base44 SDK. It handles all communication with the backend.
+- : Manages authentication state and user data throughout the frontend application.
+- : The main application shell, controls navigation logic based on the user's .
+- : The entry point for authentication, now includes both Login and Registration forms.
+- : The central system for displaying toast notifications.
+- : The project requirements document, updated after major features are completed.
+
+**Areas that need refactoring**:
+- The error handling in the  could be centralized to automatically handle token expiry and refresh, reducing repeated login logic in components.
+- The dynamic CRUD endpoint generation in  is functional but could be made more robust with Pydantic model validation for each entity.
+
+**key api endpoints**
+- : User login.
+- : New user registration.
+- : Fetches the current user's data.
+- : Updates the current user's profile.
+- : Seeds the database with a demo user and data.
+- : Generic endpoint to fetch items from a collection.
+- : Generic endpoint to create an item in a collection.
+- : Generic endpoint to update an item.
+- : Generic endpoint to delete an item.
+- : AI endpoint to generate meeting minutes.
+- : Sends email invitations.
+
+**Critical Info for New Agent**
+- The application has two primary modes, Fraktion and Verband, controlled by the . The navigation and available pages change based on this value. This is a core concept.
+- All dependencies on the original Base44 platform have been removed. Do not attempt to use any  packages or concepts. The file  is now the single source of truth for API communication.
+- The last set of changes introduced a breaking error, causing a blank screen. Your first priority is to debug and fix this frontend issue. Check the browser console logs and review the files modified in the last session.
+
+**documents and test reports created in this job**
+- 
+- 
+- 
+- 
+- 
+- 
+
+**Last 10 User Messages and any pending HUMAN messages**
+1.  **User:** Requests to abandon the desktop app idea and instead implement a new registration flow, fix missing save confirmations, and continue removing any remaining Base44 dependencies. (Status: In Progress, but blocked)
+2.  **Agent:** Acknowledges the new direction.
+3.  **Agent:** Checks for remaining Base44 dependencies.
+4.  **User:** frage: kann dieser app in 2 versionen gemacht werden , 1 version Software zum lokale installation in window/apple mit updates möglichkeiten und 1 version als web app ? (Question: can this app be made in 2 versions, 1 version as software for local installation on windows/apple with update capabilities and 1 version as a web app?) (Status: Addressed, user pivoted)
+5.  **Agent:** Finishes the Fraktionssitzungen module implementation.
+6.  **Agent:** Acknowledges user request for desktop/local app and asks for confirmation.
+7.  **User:** wir sind noch nicht fertig, in bereich fraktion bitte eine entity Fraktionssitzungen einfügen... (We are not finished yet, in the faction area please add a Fraktionssitzungen entity...). (Status: Completed)
+8.  **Agent:** Finishes the DATEV/Accounting module implementation.
+9.  **User:** lass uns mal weiter arbeiten in der bereich verband, finanzen teile soll ja auf niveau SAP/Datev funktionieren wenn möglich mit datev schnittstelle (let's continue working in the association area, the finance parts should work at the SAP/Datev level if possible with a datev interface). (Status: Completed)
+10. **User:** wechseln zwischen fraktion und verband funktioniert nicht (switching between faction and association does not work). (Status: Completed)
+
+**Project Health Check:**
+- **Broken:** The frontend is currently broken and displays a blank white screen. This is a critical blocker.
+- **Mocked:** The email sending functionality in the backend uses  statements and does not send real emails. The PDF generation is also not fully implemented with a real service.
+
+**3rd Party Integrations**
+- **OpenAI GPT-4o (via  library):** Used for generating meeting minutes and invitation text. Uses the Emergent LLM Key.
+
+**Testing status**
+- **Testing agent used after significant changes:** YES
+- **Troubleshoot agent used after agent stuck in loop:** NO
+- **Test files created:** None.
+- **Known regressions:** The entire frontend is currently non-functional due to a regression introduced in the last set of changes.
+
+**Credentials to test flow:**
+Use the Demo Login button on the login page. This calls the  endpoint, which creates a user with email  and password , and then logs you in.
+
+**What agent forgot to execute**
+- The agent was in the middle of implementing and testing the registration and toast notification features when the session ended. It did not get to verify if the changes worked before the frontend broke.
+- The agent has not yet implemented the Support Ticket System which was mentioned by the user alongside the desktop app idea. While the desktop app was cancelled, the support system might still be a requirement.</analysis>
