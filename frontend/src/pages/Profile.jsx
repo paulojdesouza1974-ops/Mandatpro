@@ -66,8 +66,23 @@ export default function ProfilePage() {
     mutationFn: (data) => base44.auth.updateMe(data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["currentUser"] });
-      // Reload the page to update navigation
-      window.location.reload();
+      toast({
+        title: "Änderungen gespeichert",
+        description: "Ihre Profildaten wurden erfolgreich aktualisiert.",
+      });
+      setSaving(false);
+      // Only reload if org_type changed
+      if (form.org_type !== user?.org_type) {
+        setTimeout(() => window.location.reload(), 500);
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: "Fehler beim Speichern",
+        description: error.message || "Bitte versuchen Sie es erneut.",
+        variant: "destructive",
+      });
+      setSaving(false);
     },
   });
 
