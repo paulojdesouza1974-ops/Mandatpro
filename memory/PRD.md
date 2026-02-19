@@ -211,3 +211,10 @@ User requested to improve an existing German municipal CRM application called "K
   - Email: demo-verband@kommunalcrm.de
   - Password: demo123
   - Enthält: 22 Mitglieder, 3 Spender, 60 Mandatsträgerabgaben, Einnahmen, Ausgaben, Termine, etc.
+
+## Recent Updates (2026-02-19)
+- Alle verbleibenden Base44-Integrationen entfernt und auf API-Endpoints umgestellt (AI, E-Mail, File-Upload)
+- Neuer `/api/files/upload` Endpoint inkl. statischem Serving; Logo-Upload im Vorlagen-Editor und Dokument-Uploads funktionieren
+- KI-Modelle auf **OpenAI GPT-5.2** umgestellt
+- Beleg- und Kontoauszugs-Import laden Dateien hoch und bieten manuellen Fallback (AI-Scan aktuell deaktiviert)
+- Wichtige UI-Formulare mit `data-testid` ergänzt (Vorlagen, Meetings, Bulk-Mail, Dokumente, etc.)
