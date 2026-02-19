@@ -252,12 +252,17 @@ const email = {
   },
 };
 
+const files = {
+  upload: uploadFile,
+};
+
 // Main export - compatible with base44 SDK interface
 export const base44 = {
   auth,
   entities,
   ai,
   email,
+  files,
 };
 
 export default base44;
