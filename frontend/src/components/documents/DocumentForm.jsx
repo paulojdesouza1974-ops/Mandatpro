@@ -225,7 +225,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
                 data-testid="document-tag-input"
               />
-              <Button type="button" onClick={addTag}>Hinzufügen</Button>
+              <Button type="button" onClick={addTag} data-testid="document-add-tag-button">Hinzufügen</Button>
             </div>
             {formData.tags && formData.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
