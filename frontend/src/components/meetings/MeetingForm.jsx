@@ -142,7 +142,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
                 {generating ? "Generiert..." : "Mit KI generieren"}
               </Button>
             </div>
-            <Textarea value={form.minutes} onChange={(e) => update("minutes", e.target.value)} rows={4} placeholder="Notizen zur Sitzung..." />
+            <Textarea value={form.minutes} onChange={(e) => update("minutes", e.target.value)} rows={4} placeholder="Notizen zur Sitzung..." data-testid="meeting-minutes-textarea" />
           </div>
           <DialogFooter className="gap-2">
             <Button type="button" variant="outline" onClick={onClose} disabled={saving}>
