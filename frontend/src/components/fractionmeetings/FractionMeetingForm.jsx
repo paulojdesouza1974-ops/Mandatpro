@@ -104,7 +104,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" data-testid="fraction-meeting-dialog">
         <DialogHeader>
           <DialogTitle>
             {meeting ? "Fraktionssitzung bearbeiten" : "Neue Fraktionssitzung"}
