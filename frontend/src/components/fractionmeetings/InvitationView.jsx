@@ -243,7 +243,7 @@ ${protocol.replace(/\n/g, '<br>')}
 
           <TabsContent value="invitation">
             <div className="flex justify-end gap-2 mb-4 print:hidden">
-              <Button variant="outline" size="sm" onClick={onClose}>
+              <Button variant="outline" size="sm" onClick={onClose} data-testid="invitation-close-button">
                 <X className="w-4 h-4 mr-1" /> Schließen
               </Button>
               <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline">
