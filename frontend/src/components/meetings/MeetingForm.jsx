@@ -101,7 +101,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Status</Label>
               <Select value={form.status} onValueChange={(v) => update("status", v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger data-testid="meeting-status-trigger"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {statusOptions.map((s) => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}
                 </SelectContent>
