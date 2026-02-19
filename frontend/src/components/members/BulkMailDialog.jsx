@@ -50,32 +50,53 @@ export default function BulkMailDialog({ open, onClose, organization, contacts =
     else setSelectedIds(eligibleContacts.map(c => c.id));
   };
 
+  const parseEmailResponse = (content) => {
+    if (!content) return { subject: "", body: "" };
+    const cleaned = content.replace(/```json|```/g, "").trim();
+    try {
+      const parsed = JSON.parse(cleaned);
+      return { subject: parsed.subject || "", body: parsed.body || "" };
+    } catch {
+      const lines = cleaned.split("\n");
+      const subjectLine = lines.find((line) => line.toLowerCase().startsWith("betreff:"));
+      if (subjectLine) {
+        const subject = subjectLine.replace(/betreff:/i, "").trim();
+        const body = lines.filter((line) => line !== subjectLine).join("\n").trim();
+        return { subject, body };
+      }
+      return { subject: "", body: cleaned };
+    }
+  };
+
   const generateEmail = async () => {
     if (!aiTopic.trim()) return;
     setGenerating(true);
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `Du bist ein Assistent für eine deutsche politische Partei.
-Erstelle eine professionelle E-Mail für das Thema: "${aiTopic}".
+    try {
+      const systemMessage = `Du bist ein Assistent für eine deutsche politische Partei.
+Erstelle eine professionelle E-Mail mit Betreff und Text.
 Die E-Mail soll:
 - Einen passenden Betreff haben
 - Einen freundlichen, professionellen Ton haben
 - Auf Deutsch sein
 - Ca. 150-250 Wörter im Body haben
-- Den Platzhalter {name} für die Anrede verwenden (z.B. "Liebe/r {name},")
+- Die Platzhalter {vorname}, {nachname}, {name} für Personalisierung enthalten
 - Mit "Mit freundlichen Grüßen,\nDer Vorstand" enden
 
-Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          subject: { type: "string" },
-          body: { type: "string" },
-        },
-      },
-    });
-    setSubject(result.subject || "");
-    setBody(result.body || "");
-    setGenerating(false);
+Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
+      const prompt = `Thema: "${aiTopic}". Organisation: ${organization || "Ortsverband"}.`;
+      const response = await base44.ai.generateText(prompt, "general", systemMessage);
+      const parsed = parseEmailResponse(response.content || "");
+      if (!parsed.subject && !parsed.body) {
+        throw new Error("Leere Antwort von der KI");
+      }
+      setSubject(parsed.subject);
+      setBody(parsed.body);
+    } catch (error) {
+      console.error("Fehler bei der KI-Generierung:", error);
+      alert("Fehler bei der KI-Generierung");
+    } finally {
+      setGenerating(false);
+    }
   };
 
   const handleSend = async () => {
