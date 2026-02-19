@@ -186,7 +186,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
 
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Beschreibung</Label>
-              <Input value={form.description} onChange={(e) => update("description", e.target.value)} />
+              <Input value={form.description} onChange={(e) => update("description", e.target.value)} data-testid="receipt-description-input" />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
