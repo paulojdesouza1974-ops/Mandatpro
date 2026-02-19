@@ -84,16 +84,8 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
 
     setUploading(true);
     try {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      const attachment = {
-        file_url,
-        file_name: file.name,
-        uploaded_date: new Date().toISOString(),
-      };
-      setForm((f) => ({
-        ...f,
-        attachments: [...(f.attachments || []), attachment],
-      }));
+      // File upload not yet implemented - show message
+      alert('Datei-Upload ist noch in Entwicklung. Bitte fügen Sie die Datei manuell als Anhang bei.');
     } catch (error) {
       console.error('Upload Fehler:', error);
       alert('Fehler beim Hochladen der Datei');
