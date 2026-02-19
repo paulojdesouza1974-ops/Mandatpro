@@ -247,7 +247,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t">
-            <Button variant="outline" onClick={onClose} disabled={saving || uploading}>
+            <Button variant="outline" onClick={onClose} disabled={saving || uploading} data-testid="document-cancel-button">
               <X className="w-4 h-4 mr-2" />
               Abbrechen
             </Button>
