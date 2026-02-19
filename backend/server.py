@@ -165,12 +165,27 @@ async def register(user: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
     
+    # Generate organization slug from name
+    org_slug = user.organization.lower().replace(" ", "-").replace("ä", "ae").replace("ö", "oe").replace("ü", "ue").replace("ß", "ss") if user.organization else f"org-{datetime.now().timestamp()}"
+    
+    # Create organization if it doesn't exist
+    existing_org = db.organizations.find_one({"name": org_slug})
+    if not existing_org:
+        org_doc = {
+            "name": org_slug,
+            "display_name": user.organization,
+            "type": user.org_type,
+            "city": user.city,
+            "created_date": datetime.now(timezone.utc).isoformat()
+        }
+        db.organizations.insert_one(org_doc)
+    
     user_doc = {
         "email": user.email,
         "password": hash_password(user.password),
         "full_name": user.full_name,
         "city": user.city,
-        "organization": user.organization,
+        "organization": org_slug,
         "org_type": user.org_type,
         "role": user.role,
         "created_date": datetime.now(timezone.utc).isoformat()
