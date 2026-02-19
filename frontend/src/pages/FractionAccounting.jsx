@@ -43,7 +43,7 @@ const expenseCategories = [
 ];
 
 export default function FractionAccounting() {
-  const { currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState("overview");
   const [incomeDialogOpen, setIncomeDialogOpen] = useState(false);
