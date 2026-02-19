@@ -215,7 +215,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
             {/* Betreff & Text */}
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Betreff *</Label>
-              <Input value={subject} onChange={e => setSubject(e.target.value)} placeholder="Betreff der E-Mail" />
+              <Input value={subject} onChange={e => setSubject(e.target.value)} placeholder="Betreff der E-Mail" data-testid="bulk-mail-subject-input" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">
