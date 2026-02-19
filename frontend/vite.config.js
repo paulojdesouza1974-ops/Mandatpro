@@ -5,6 +5,7 @@ import path from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   logLevel: 'error',
+  envPrefix: ['VITE_', 'REACT_APP_'],
   server: {
     host: '0.0.0.0',
     port: 3000,
