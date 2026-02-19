@@ -56,6 +56,7 @@ import Communications from './pages/Communications';
 import Contacts from './pages/Contacts';
 import Dashboard from './pages/Dashboard';
 import Documents from './pages/Documents';
+import FractionAccounting from './pages/FractionAccounting';
 import FractionMeetings from './pages/FractionMeetings';
 import FractionMeetingTemplates from './pages/FractionMeetingTemplates';
 import Imprint from './pages/Imprint';
