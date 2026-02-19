@@ -115,6 +115,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
                       update("file_name", "");
                       update("file_size", 0);
                     }}
+                    data-testid="document-remove-file-button"
                   >
                     Entfernen
                   </Button>
