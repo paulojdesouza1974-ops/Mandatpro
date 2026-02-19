@@ -63,35 +63,6 @@ export default function LevyScanImport({ open, onClose, user, onCreated }) {
     setStep("review");
   };
 
-    // Enrich with levy rules and contact matching
-    const enriched = (result.entries || []).map((e) => {
-      // Find matching contact
-      const contact = contacts.find(
-        (c) => `${c.first_name} ${c.last_name}`.toLowerCase().includes(e.name?.toLowerCase()) ||
-               e.name?.toLowerCase().includes(c.last_name?.toLowerCase())
-      );
-      // Find matching rule
-      const rule = rules.find(r => r.mandate_type === e.mandate_type) || rules[0];
-      const levy_rate = rule?.levy_rate || 10;
-      const deductions = rule?.deduction_flat || 0;
-      const levy_amount = (e.gross_income || 0) * levy_rate / 100;
-      const final_levy = Math.max(0, levy_amount - deductions);
-      return {
-        ...e,
-        contact_id: contact?.id || "",
-        contact_name: contact ? `${contact.first_name || ""} ${contact.last_name}`.trim() : e.name,
-        contact_email: contact?.email || "",
-        levy_rate,
-        deductions,
-        levy_amount: parseFloat(levy_amount.toFixed(2)),
-        final_levy: parseFloat(final_levy.toFixed(2)),
-        selected: true,
-      };
-    });
-    setEntries(enriched);
-    setStep("review");
-  };
-
   const handleImport = async () => {
     const toImport = entries.filter(e => e.selected);
     for (const e of toImport) {
