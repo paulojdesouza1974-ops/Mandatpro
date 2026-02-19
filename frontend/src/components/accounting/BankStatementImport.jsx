@@ -292,7 +292,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                       </div>
                       <div>
                         <label className="text-xs text-slate-400">Betrag (€)</label>
-                        <Input className="h-7 text-xs mt-0.5" type="number" step="0.01" value={t.amount} onChange={(e) => updateTransaction(idx, "amount", e.target.value)} />
+                        <Input className="h-7 text-xs mt-0.5" type="number" step="0.01" value={t.amount} onChange={(e) => updateTransaction(idx, "amount", e.target.value)} data-testid={`bank-statement-amount-input-${idx}`} />
                       </div>
                       <div>
                         <label className="text-xs text-slate-400">Kategorie</label>
