@@ -173,5 +173,11 @@ User requested to improve an existing German municipal CRM application called "K
 5. Consider adding email notification system / real email sending
 
 ## Demo Credentials
-- **Email**: demo@kommunalcrm.de
-- **Password**: demo123
+- **Fraktion Demo (einfach):**
+  - Email: demo@kommunalcrm.de
+  - Password: demo123
+
+- **Verband Demo (mit allen Daten):**
+  - Email: demo-verband@kommunalcrm.de
+  - Password: demo123
+  - Enthält: 22 Mitglieder, 3 Spender, 60 Mandatsträgerabgaben, Einnahmen, Ausgaben, Termine, etc.
