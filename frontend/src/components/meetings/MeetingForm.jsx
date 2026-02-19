@@ -77,7 +77,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
 
   return (
     <Dialog open={dialogOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto" data-testid="meeting-dialog">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold text-slate-900">
             {meeting ? "Termin bearbeiten" : "Neuer Termin"}
