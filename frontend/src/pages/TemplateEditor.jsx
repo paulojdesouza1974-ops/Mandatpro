@@ -353,6 +353,7 @@ export default function TemplateEditor() {
                     checked={formData.show_document_type_box}
                     onChange={(e) => update("show_document_type_box", e.target.checked)}
                     className="w-4 h-4"
+                    data-testid="template-doc-type-box-toggle"
                   />
                   <span className="text-xs">Dokumenttyp-Box mit Checkboxen anzeigen</span>
                 </label>
