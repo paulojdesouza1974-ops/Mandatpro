@@ -54,9 +54,9 @@ const verbandNavItems = [
   { name: "Reporting", icon: BarChart3, page: "Reporting" },
   { name: "Massen-E-Mail", icon: Mail, page: "BulkEmail" },
   { name: "Mandatsträger-Abgabe", icon: Euro, page: "MandateLevy" },
-  { name: "Meine Organisation", icon: Landmark, page: "Organizations" },
+  { name: "Meine Organisation", icon: Landmark, page: "MyOrganization" },
   { name: "Nutzerverwaltung", icon: UserIcon, page: "UserManagement", adminOnly: true },
-  { name: "Organisationsverwaltung", icon: Landmark, page: "AdminOrganizations", adminOnly: true, ownerOnly: true },
+  { name: "App-Einstellungen", icon: Settings, page: "AppSettings", adminOnly: true },
 ];
 
 export default function Layout({ children, currentPageName }) {
