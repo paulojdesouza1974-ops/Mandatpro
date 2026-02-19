@@ -86,11 +86,14 @@ User requested to improve an existing German municipal CRM application called "K
 11. **KI-Generierung komplett überarbeitet**
     - **Bug behoben:** Massen-E-Mail KI-Generierung funktionierte nicht (alte Base44 SDK Methode)
     - **Neuer Endpoint:** `/api/ai/generate-email` für E-Mail-Generierung mit GPT-4o
+    - **Neuer Endpoint:** `/api/ai/generate-notice` für Gebührenbescheid-Generierung
     - **API Client erweitert:** `base44.ai.generateEmail()`, `base44.ai.generateProtocol()`, `base44.ai.generateInvitation()`
     - **Alle KI-Funktionen getestet und funktionieren:**
       - Massen-E-Mail mit KI generieren (Verband-Modus)
       - Protokoll mit KI generieren (Fraktion-Modus)
       - Einladung mit KI erstellen (Fraktion-Modus)
+      - **Gebührenbescheid mit KI erstellen** (Mandatsträger-Abgaben)
+    - **Hinweis:** Dokumenten-Scan (OCR für Abrechnungen) ist noch in Entwicklung
 
 ### Feb 18, 2026
 1. **UI/UX Redesign**
