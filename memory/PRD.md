@@ -95,6 +95,15 @@ User requested to improve an existing German municipal CRM application called "K
       - **Gebührenbescheid mit KI erstellen** (Mandatsträger-Abgaben)
     - **Hinweis:** Dokumenten-Scan (OCR für Abrechnungen) ist noch in Entwicklung
 
+12. **Vereinfachte Fraktionsfinanzen-Seite**
+    - Neue Seite `/FractionAccounting` für Fraktion-Modus (ohne DATEV)
+    - **Einnahmen-Kategorien:** Zuwendung Stadt, Zuwendung Kreis, Sonstige Zuwendungen
+    - **Ausgaben-Kategorien:** Personalkosten, Miete & Nebenkosten, Verwaltungskosten, Büromaterial
+    - Übersichtskarten mit Einnahmen, Ausgaben, Saldo
+    - Ausgaben-Breakdown nach Kategorie mit Prozentanzeige
+    - CRUD-Funktionen für Einnahmen und Ausgaben
+    - Demo-Daten im Fraktion-Demo enthalten
+
 ### Feb 18, 2026
 1. **UI/UX Redesign**
    - Dark sidebar navigation (Slate 900 background)
