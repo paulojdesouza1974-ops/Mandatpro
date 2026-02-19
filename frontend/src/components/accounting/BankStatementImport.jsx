@@ -322,7 +322,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
             </div>
 
             <DialogFooter className="gap-2 pt-2">
-              <Button variant="outline" onClick={handleClose}><X className="w-4 h-4 mr-1" />Abbrechen</Button>
+              <Button variant="outline" onClick={handleClose} data-testid="bank-statement-cancel-button"><X className="w-4 h-4 mr-1" />Abbrechen</Button>
               <Button
                 className="bg-slate-900 hover:bg-slate-800"
                 onClick={() => importMutation.mutate()}
