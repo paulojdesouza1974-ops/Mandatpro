@@ -195,6 +195,7 @@ export default function TemplateEditor() {
                 variant="outline" 
                 onClick={() => duplicateMutation.mutate(formData)} 
                 disabled={duplicateMutation.isPending}
+                data-testid="template-duplicate-button"
               >
                 <Copy className="w-4 h-4 mr-2" />
                 Duplizieren
