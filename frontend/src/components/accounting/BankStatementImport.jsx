@@ -181,6 +181,11 @@ export default function BankStatementImport({ open, onClose, organization, conta
             <p className="text-sm text-slate-500">
               Laden Sie einen Kontoauszug als PDF oder Bild hoch. Die KI erkennt alle Buchungen automatisch und ordnet sie Mitgliedsbeiträgen, Spenden, Mandatsabgaben usw. zu.
             </p>
+            {contacts.length > 0 && (
+              <p className="text-xs text-slate-400" data-testid="bank-statement-contact-hint">
+                {contacts.length} bekannte Kontakte werden später zur Zuordnung genutzt.
+              </p>
+            )}
             <div
               className="border-2 border-dashed border-slate-200 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors"
               onClick={() => fileInputRef.current?.click()}
