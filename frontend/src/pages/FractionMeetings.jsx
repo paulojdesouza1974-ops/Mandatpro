@@ -82,8 +82,6 @@ export default function FractionMeetings() {
       });
     },
   });
-    },
-  });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, ...data }) => base44.entities.FractionMeeting.update(id, data),
@@ -92,6 +90,10 @@ export default function FractionMeetings() {
       setFormOpen(false);
       setEditingMeeting(null);
       setDetailMeeting(null);
+      toast({
+        title: "Sitzung aktualisiert",
+        description: "Die Änderungen wurden gespeichert.",
+      });
     },
   });
 
@@ -100,6 +102,10 @@ export default function FractionMeetings() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["fractionMeetings"] });
       setDetailMeeting(null);
+      toast({
+        title: "Sitzung gelöscht",
+        description: "Die Sitzung wurde erfolgreich gelöscht.",
+      });
     },
   });
 
