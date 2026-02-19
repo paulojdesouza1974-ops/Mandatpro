@@ -43,50 +43,26 @@ export default function ReceiptScanner({ open, onClose, organization }) {
     setPreviewUrl(URL.createObjectURL(file));
     setStep("scanning");
 
-    // Upload file
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setFileUrl(file_url);
-
-    // Extract data via AI
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `Analysiere diesen Beleg/diese Rechnung und extrahiere folgende Informationen:
-- description: kurze Beschreibung des Belegs
-- vendor: Name des Ausstellers/Lieferanten
-- amount: Betrag als Zahl (nur die Zahl, kein €-Zeichen)
-- date: Datum im Format YYYY-MM-DD
-- transaction_type: entweder "einnahme" oder "ausgabe" (Ausgabe bei Rechnung/Kassenbon, Einnahme bei Zahlung/Gutschrift)
-- category_income: passende Kategorie falls Einnahme (mitgliedsbeitrag, spende, veranstaltung, zuschuss, sonstiges)
-- category_expense: passende Kategorie falls Ausgabe (personal, raummiete, material, marketing, verwaltung, sonstiges)
-- notes: weitere relevante Informationen
-
-Antworte NUR mit JSON, keine weiteren Erklärungen.`,
-      file_urls: [file_url],
-      response_json_schema: {
-        type: "object",
-        properties: {
-          description: { type: "string" },
-          vendor: { type: "string" },
-          amount: { type: "number" },
-          date: { type: "string" },
-          transaction_type: { type: "string" },
-          category_income: { type: "string" },
-          category_expense: { type: "string" },
-          notes: { type: "string" },
-        },
-      },
-    });
-
-    setScanned(result);
-    setForm({
-      description: result.description || "",
-      vendor: result.vendor || "",
-      amount: result.amount || "",
-      date: result.date || "",
-      transaction_type: result.transaction_type || "ausgabe",
-      category: result.transaction_type === "einnahme" ? (result.category_income || "sonstiges") : (result.category_expense || "sonstiges"),
-      notes: result.notes || "",
-    });
-    setStep("review");
+    try {
+      const { file_url } = await base44.files.upload(file);
+      setFileUrl(file_url);
+      setScanned(null);
+      setForm({
+        description: "",
+        vendor: "",
+        amount: "",
+        date: "",
+        transaction_type: "ausgabe",
+        category: "sonstiges",
+        notes: "",
+      });
+      alert("Die automatische Belegerkennung ist aktuell deaktiviert. Bitte Daten manuell prüfen.");
+      setStep("review");
+    } catch (error) {
+      console.error("Upload Fehler:", error);
+      alert("Fehler beim Hochladen des Belegs");
+      setStep("upload");
+    }
   };
 
   const saveMutation = useMutation({
