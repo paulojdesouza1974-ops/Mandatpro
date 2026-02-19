@@ -236,7 +236,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
 
             {/* Select all */}
             <div className="flex items-center justify-between">
-              <button onClick={toggleAll} className="text-xs text-blue-600 hover:underline">
+              <button onClick={toggleAll} className="text-xs text-blue-600 hover:underline" data-testid="bank-statement-toggle-all-button">
                 {transactions.every((_, i) => selected[i]) ? "Alle abwählen" : "Alle auswählen"}
               </button>
               <span className="text-xs text-slate-400">{selectedCount} von {transactions.length} ausgewählt</span>
