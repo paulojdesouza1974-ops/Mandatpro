@@ -59,7 +59,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
 
     setUploading(true);
     try {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      const { file_url } = await base44.files.upload(file);
       update("file_url", file_url);
       update("file_name", file.name);
       update("file_size", file.size);
