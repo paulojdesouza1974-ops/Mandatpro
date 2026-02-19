@@ -347,6 +347,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     size="sm"
                     onClick={saveProtocol}
                     disabled={!protocol}
+                    data-testid="protocol-save-button"
                   >
                     <Save className="w-3 h-3 mr-1" />
                     Speichern
