@@ -115,7 +115,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Ende (optional)</Label>
-              <Input type="datetime-local" value={form.end_date || ""} onChange={(e) => update("end_date", e.target.value)} />
+              <Input type="datetime-local" value={form.end_date || ""} onChange={(e) => update("end_date", e.target.value)} data-testid="meeting-end-date-input" />
             </div>
           </div>
           <div className="space-y-1.5">
