@@ -176,7 +176,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
               <div className="max-h-36 overflow-y-auto divide-y divide-slate-100">
                 {eligibleContacts.map(c => (
                   <div key={c.id} className="flex items-center gap-2 px-3 py-1.5 hover:bg-slate-50">
-                    <Checkbox checked={selectedIds.includes(c.id)} onCheckedChange={() => toggleContact(c.id)} />
+                    <Checkbox checked={selectedIds.includes(c.id)} onCheckedChange={() => toggleContact(c.id)} data-testid={`bulk-mail-contact-${c.id}`} />
                     <span className="text-sm text-slate-700 flex-1">{c.first_name} {c.last_name}</span>
                     <span className="text-xs text-slate-400">{c.email}</span>
                   </div>
