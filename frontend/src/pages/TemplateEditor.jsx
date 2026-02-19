@@ -420,6 +420,7 @@ export default function TemplateEditor() {
                     <Input
                       value={formData.primary_color}
                       onChange={(e) => update("primary_color", e.target.value)}
+                      data-testid="template-primary-color-input"
                     />
                   </div>
                 </div>
