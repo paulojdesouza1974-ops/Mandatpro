@@ -104,33 +104,8 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
   const identifyDocument = async (attachment) => {
     setIdentifying(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Analysiere dieses Dokument und extrahiere die wichtigsten Informationen. Gib mir:
-- Den Hauptinhalt/Thema
-- Die Art des Dokuments (Antrag, Anfrage, etc.)
-- Wichtige Daten oder Fristen
-- Eine kurze Zusammenfassung (2-3 Sätze)`,
-        file_urls: [attachment.file_url],
-        response_json_schema: {
-          type: "object",
-          properties: {
-            title: { type: "string", description: "Titel/Thema des Dokuments" },
-            type: { type: "string", description: "Art des Dokuments" },
-            summary: { type: "string", description: "Kurze Zusammenfassung" },
-          },
-        },
-      });
-
-      if (result.title && !form.title) {
-        setForm((f) => ({ ...f, title: result.title }));
-      }
-      if (result.summary) {
-        setForm((f) => ({
-          ...f,
-          notes: f.notes ? `${f.notes}\n\nAus Dokument:\n${result.summary}` : `Aus Dokument:\n${result.summary}`,
-        }));
-      }
-      alert('Dokument erfolgreich analysiert!');
+      // Document analysis not yet implemented
+      alert('Dokument-Analyse ist noch in Entwicklung.');
     } catch (error) {
       console.error('Analyse Fehler:', error);
       alert('Fehler beim Analysieren des Dokuments');
