@@ -136,7 +136,7 @@ export default function TemplateEditor() {
               setSelectedDocType(value);
               setSelectedTemplate(null);
             }}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="w-48" data-testid="template-doc-type-trigger">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
