@@ -159,7 +159,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
           <div>
             <Label>Status</Label>
             <Select value={formData.status} onValueChange={(v) => update("status", v)}>
-              <SelectTrigger>
+              <SelectTrigger data-testid="fraction-meeting-status-trigger">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
