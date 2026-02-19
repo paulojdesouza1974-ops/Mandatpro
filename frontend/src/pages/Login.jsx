@@ -5,13 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Landmark, Mail, Lock, User, MapPin, AlertCircle } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Landmark, Mail, Lock, User, Building2, AlertCircle, Users, CheckCircle } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
 export default function LoginPage() {
   const { login, register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   
   // Login form
   const [loginEmail, setLoginEmail] = useState("");
@@ -20,8 +22,10 @@ export default function LoginPage() {
   // Register form
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
+  const [regPasswordConfirm, setRegPasswordConfirm] = useState("");
   const [regName, setRegName] = useState("");
-  const [regCity, setRegCity] = useState("");
+  const [regOrganization, setRegOrganization] = useState("");
+  const [regOrgType, setRegOrgType] = useState("fraktion");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -41,16 +45,45 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setSuccess(null);
+
+    // Validation
+    if (!regName.trim()) {
+      setError("Bitte geben Sie Ihren Namen ein");
+      setIsLoading(false);
+      return;
+    }
+    if (!regEmail.includes("@")) {
+      setError("Bitte geben Sie eine gültige E-Mail-Adresse ein");
+      setIsLoading(false);
+      return;
+    }
+    if (!regOrganization.trim()) {
+      setError("Bitte geben Sie Ihre Organisation ein");
+      setIsLoading(false);
+      return;
+    }
+    if (regPassword.length < 6) {
+      setError("Das Passwort muss mindestens 6 Zeichen lang sein");
+      setIsLoading(false);
+      return;
+    }
+    if (regPassword !== regPasswordConfirm) {
+      setError("Die Passwörter stimmen nicht überein");
+      setIsLoading(false);
+      return;
+    }
     
     try {
       await register({
         email: regEmail,
         password: regPassword,
         full_name: regName,
-        city: regCity,
-        role: "admin",
-        org_type: "fraktion"
+        organization: regOrganization.toLowerCase().replace(/\s+/g, '-'),
+        org_type: regOrgType,
+        role: "admin", // First user of org is admin
       });
+      setSuccess("Registrierung erfolgreich! Sie werden angemeldet...");
     } catch (err) {
       setError(err.message || "Registrierung fehlgeschlagen");
     } finally {
@@ -75,20 +108,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4" data-testid="login-page">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4" data-testid="login-page">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
-            <Landmark className="w-6 h-6 text-white" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center shadow-xl shadow-slate-900/20">
+            <Landmark className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="font-heading font-bold text-slate-900 text-xl">KommunalCRM</h1>
-            <p className="text-xs text-slate-500">Politische Arbeit</p>
+            <h1 className="font-heading font-bold text-slate-900 text-2xl">KommunalCRM</h1>
+            <p className="text-sm text-slate-500">Politische Arbeit digital</p>
           </div>
         </div>
 
-        <Card className="shadow-elevated border-slate-200">
+        <Card className="shadow-xl border-slate-200">
           <CardHeader className="text-center pb-2">
             <CardTitle className="font-heading text-xl">Willkommen</CardTitle>
             <CardDescription>
@@ -99,8 +132,15 @@ export default function LoginPage() {
           <CardContent>
             {error && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-sm text-red-700">
-                <AlertCircle className="w-4 h-4" />
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center gap-2 text-sm text-emerald-700">
+                <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                {success}
               </div>
             )}
 
@@ -159,8 +199,9 @@ export default function LoginPage() {
               
               <TabsContent value="register">
                 <form onSubmit={handleRegister} className="space-y-4">
+                  {/* Name */}
                   <div className="space-y-2">
-                    <Label htmlFor="reg-name">Name</Label>
+                    <Label htmlFor="reg-name">Vollständiger Name *</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <Input
@@ -175,8 +216,9 @@ export default function LoginPage() {
                     </div>
                   </div>
                   
+                  {/* Email */}
                   <div className="space-y-2">
-                    <Label htmlFor="reg-email">E-Mail</Label>
+                    <Label htmlFor="reg-email">E-Mail *</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <Input
@@ -191,24 +233,74 @@ export default function LoginPage() {
                       />
                     </div>
                   </div>
-                  
+
+                  {/* Organization */}
                   <div className="space-y-2">
-                    <Label htmlFor="reg-city">Stadt</Label>
+                    <Label htmlFor="reg-organization">Organisation *</Label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <Input
-                        id="reg-city"
-                        placeholder="Musterstadt"
+                        id="reg-organization"
+                        placeholder="z.B. SPD Fraktion Musterstadt"
                         className="pl-10"
-                        value={regCity}
-                        onChange={(e) => setRegCity(e.target.value)}
-                        data-testid="register-city"
+                        value={regOrganization}
+                        onChange={(e) => setRegOrganization(e.target.value)}
+                        required
+                        data-testid="register-organization"
                       />
                     </div>
                   </div>
+
+                  {/* Organization Type */}
+                  <div className="space-y-3">
+                    <Label>Organisationstyp *</Label>
+                    <RadioGroup 
+                      value={regOrgType} 
+                      onValueChange={setRegOrgType}
+                      className="grid grid-cols-2 gap-3"
+                    >
+                      <div>
+                        <RadioGroupItem 
+                          value="fraktion" 
+                          id="type-fraktion" 
+                          className="peer sr-only" 
+                        />
+                        <Label 
+                          htmlFor="type-fraktion" 
+                          className="flex flex-col items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all
+                            peer-data-[state=checked]:border-slate-900 peer-data-[state=checked]:bg-slate-50
+                            hover:bg-slate-50 border-slate-200"
+                          data-testid="register-type-fraktion"
+                        >
+                          <Landmark className="w-6 h-6 mb-2 text-slate-600" />
+                          <span className="font-medium text-sm">Fraktion</span>
+                          <span className="text-xs text-slate-500 mt-1">Kommunale Fraktion</span>
+                        </Label>
+                      </div>
+                      <div>
+                        <RadioGroupItem 
+                          value="verband" 
+                          id="type-verband" 
+                          className="peer sr-only" 
+                        />
+                        <Label 
+                          htmlFor="type-verband" 
+                          className="flex flex-col items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all
+                            peer-data-[state=checked]:border-slate-900 peer-data-[state=checked]:bg-slate-50
+                            hover:bg-slate-50 border-slate-200"
+                          data-testid="register-type-verband"
+                        >
+                          <Users className="w-6 h-6 mb-2 text-slate-600" />
+                          <span className="font-medium text-sm">Verband</span>
+                          <span className="text-xs text-slate-500 mt-1">Ortsverband / Verein</span>
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
                   
+                  {/* Password */}
                   <div className="space-y-2">
-                    <Label htmlFor="reg-password">Passwort</Label>
+                    <Label htmlFor="reg-password">Passwort *</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <Input
@@ -224,15 +316,41 @@ export default function LoginPage() {
                       />
                     </div>
                   </div>
+
+                  {/* Password Confirm */}
+                  <div className="space-y-2">
+                    <Label htmlFor="reg-password-confirm">Passwort bestätigen *</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <Input
+                        id="reg-password-confirm"
+                        type="password"
+                        placeholder="Passwort wiederholen"
+                        className="pl-10"
+                        value={regPasswordConfirm}
+                        onChange={(e) => setRegPasswordConfirm(e.target.value)}
+                        required
+                        minLength={6}
+                        data-testid="register-password-confirm"
+                      />
+                    </div>
+                    {regPassword && regPasswordConfirm && regPassword !== regPasswordConfirm && (
+                      <p className="text-xs text-red-500">Die Passwörter stimmen nicht überein</p>
+                    )}
+                  </div>
                   
                   <Button 
                     type="submit" 
                     className="w-full bg-slate-900 hover:bg-slate-800" 
-                    disabled={isLoading}
+                    disabled={isLoading || (regPassword !== regPasswordConfirm)}
                     data-testid="register-submit"
                   >
                     {isLoading ? "Wird registriert..." : "Konto erstellen"}
                   </Button>
+
+                  <p className="text-xs text-slate-500 text-center">
+                    Mit der Registrierung akzeptieren Sie unsere Nutzungsbedingungen und Datenschutzrichtlinien.
+                  </p>
                 </form>
               </TabsContent>
             </Tabs>
