@@ -38,6 +38,7 @@ export default function FractionMeetings() {
   const [invitationDialogOpen, setInvitationDialogOpen] = useState(false);
   const [sendEmailDialogOpen, setSendEmailDialogOpen] = useState(false);
   const qc = useQueryClient();
+  const { toast } = useToast();
 
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
