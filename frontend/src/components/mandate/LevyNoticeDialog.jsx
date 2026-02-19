@@ -24,11 +24,11 @@ export default function LevyNoticeDialog({ levy, onClose, onSent }) {
 
   const generateNotice = async (orgData) => {
     setGenerating(true);
-    const senderName = orgData?.name || levy.organization || "[Organisation]";
-    const senderAddress = [orgData?.address, orgData?.city].filter(Boolean).join(", ") || "[Adresse]";
+    try {
+      const senderName = orgData?.display_name || orgData?.name || levy.organization || "[Organisation]";
+      const senderAddress = [orgData?.address, orgData?.city].filter(Boolean).join(", ") || "[Adresse]";
 
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `Erstelle einen formellen Gebührenbescheid (auf Deutsch) für einen Mandatsträger.
+      const prompt = `Erstelle einen formellen Gebührenbescheid (auf Deutsch) für einen Mandatsträger.
 
 Absender (oben links im Briefkopf):
 ${senderName}
@@ -42,13 +42,55 @@ Abrechnungsdaten:
 - Abrechnungsmonat: ${levy.period_month}
 - Brutto-Aufwandsentschädigung: ${(levy.gross_income || 0).toFixed(2)} €
 - Abgabesatz: ${levy.levy_rate}%
-- Berechnete Abgabe: ${(levy.levy_amount || 0).toFixed(2)} €
+- Berechnete Abgabe: ${(levy.final_levy || 0).toFixed(2)} €
 - Freibetrag/Abzüge: ${(levy.deductions || 0).toFixed(2)} €
 - Zu zahlende Abgabe: ${(levy.final_levy || 0).toFixed(2)} €
 
-Der Bescheid soll als formeller Brief aufgebaut sein mit vollständigem Briefkopf (Absender oben links, Ort und Datum oben rechts, Empfänger darunter). Professionell und förmlich. Zahlungsziel: 14 Tage nach Erhalt. Bankverbindung als Platzhalter [BANKVERBINDUNG EINFÜGEN].`,
-    });
-    setNoticeText(result);
+Der Bescheid soll als formeller Brief aufgebaut sein mit vollständigem Briefkopf (Absender oben links, Ort und Datum oben rechts, Empfänger darunter). Professionell und förmlich. Zahlungsziel: 14 Tage nach Erhalt. Bankverbindung: ${orgData?.iban || "[BANKVERBINDUNG EINFÜGEN]"}`;
+
+      const response = await fetch("/api/ai/generate-notice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, levy_data: levy, organization_data: orgData }),
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setNoticeText(data.content);
+      } else {
+        throw new Error(data.detail || "Fehler bei der Generierung");
+      }
+    } catch (error) {
+      console.error("Notice generation error:", error);
+      // Fallback to template
+      const senderName = orgData?.display_name || orgData?.name || levy.organization || "[Organisation]";
+      setNoticeText(`${senderName}
+[Adresse]
+
+${new Date().toLocaleDateString('de-DE')}
+
+${levy.contact_name}
+[Adresse des Empfängers]
+
+Gebührenbescheid – Mandatsträgerabgabe ${levy.period_month}
+
+Sehr geehrte(r) ${levy.contact_name},
+
+gemäß der Satzung zur Mandatsträgerabgabe berechnen wir Ihnen für den Abrechnungsmonat ${levy.period_month} folgende Abgabe:
+
+Brutto-Aufwandsentschädigung: ${(levy.gross_income || 0).toFixed(2)} €
+Abgabesatz: ${levy.levy_rate}%
+Abzüge/Freibetrag: ${(levy.deductions || 0).toFixed(2)} €
+────────────────────────────────
+Zu zahlende Abgabe: ${(levy.final_levy || 0).toFixed(2)} €
+
+Bitte überweisen Sie den Betrag innerhalb von 14 Tagen auf folgendes Konto:
+${orgData?.iban || "[BANKVERBINDUNG EINFÜGEN]"}
+Verwendungszweck: MTA ${levy.period_month} ${levy.contact_name}
+
+Mit freundlichen Grüßen,
+Der Vorstand`);
+    }
     setGenerating(false);
   };
 
