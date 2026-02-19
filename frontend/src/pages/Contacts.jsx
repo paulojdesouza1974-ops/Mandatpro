@@ -56,6 +56,7 @@ export default function Contacts() {
   const [profileContact, setProfileContact] = useState(null);
   const [filterGroup, setFilterGroup] = useState("all");
   const qc = useQueryClient();
+  const { toast } = useToast();
 
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
