@@ -170,7 +170,7 @@ export default function DocumentForm({ document, onSave, onClose, saving }) {
             <div>
               <Label>Kategorie *</Label>
               <Select value={formData.category} onValueChange={(v) => update("category", v)}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="document-category-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
