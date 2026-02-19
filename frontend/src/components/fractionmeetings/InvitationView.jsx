@@ -318,6 +318,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={summarizeProtocol}
                     disabled={summarizing || !protocol}
+                    data-testid="protocol-summarize-button"
                   >
                     <FileText className="w-3 h-3 mr-1" />
                     {summarizing ? "Fasst zusammen..." : "Zusammenfassen"}
