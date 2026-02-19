@@ -145,7 +145,7 @@ Gib die Antwort als JSON zurück mit den Feldern "subject" und "body".`;
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Empfängergruppe</Label>
               <Select value={groupFilter} onValueChange={setGroupFilter}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="bulk-mail-group-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
