@@ -242,7 +242,7 @@ async def update_me(data: dict, authorization: str = Header(None)):
     return user_doc
 
 @app.post("/api/auth/logout")
-async def logout(authorization: str = None):
+async def logout(authorization: str = Header(None)):
     if authorization:
         token = authorization.replace("Bearer ", "") if authorization.startswith("Bearer ") else authorization
         if token in tokens:
