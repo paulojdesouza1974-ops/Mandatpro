@@ -463,6 +463,7 @@ export default function TemplateEditor() {
                     checked={formData.is_default}
                     onChange={(e) => update("is_default", e.target.checked)}
                     className="w-4 h-4"
+                    data-testid="template-is-default-toggle"
                   />
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-500" />
