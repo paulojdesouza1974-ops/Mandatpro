@@ -82,16 +82,22 @@ export default function BulkEmail() {
   const sendEmails = async () => {
     if (!selectedContacts.length || !subject || !body) return;
     setSending(true);
-    const recipientContacts = contacts.filter(c => selectedContacts.includes(c.id));
-    for (const contact of recipientContacts) {
-      await base44.integrations.Core.SendEmail({
-        to: contact.email,
+    try {
+      const recipientContacts = contacts.filter(c => selectedContacts.includes(c.id));
+      const emails = recipientContacts.map(c => c.email).filter(Boolean);
+      
+      // Send bulk email
+      await base44.email.sendBulk(
+        emails,
         subject,
-        body: `Liebe(r) ${contact.first_name || ""} ${contact.last_name},\n\n${body}`,
-        from_name: user?.organization || "AfD Fraktion Dormagen",
-      });
+        body
+      );
+      
+      setSentCount(recipientContacts.length);
+    } catch (error) {
+      console.error("E-Mail sending error:", error);
+      alert("Fehler beim Senden der E-Mails: " + error.message);
     }
-    setSentCount(recipientContacts.length);
     setSending(false);
   };
 
