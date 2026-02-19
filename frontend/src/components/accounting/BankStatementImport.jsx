@@ -190,7 +190,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
               <p className="text-sm font-medium text-slate-600">Kontoauszug auswählen</p>
               <p className="text-xs text-slate-400 mt-1">PDF, JPG oder PNG</p>
             </div>
-            <input ref={fileInputRef} type="file" accept="image/*,.pdf" className="hidden" onChange={handleFileChange} />
+            <input ref={fileInputRef} type="file" accept="image/*,.pdf" className="hidden" onChange={handleFileChange} data-testid="bank-statement-upload-input" />
           </div>
         )}
 
