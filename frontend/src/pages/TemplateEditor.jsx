@@ -262,7 +262,7 @@ export default function TemplateEditor() {
                 <div>
                   <Label className="text-xs">Position</Label>
                   <Select value={formData.logo_position} onValueChange={(v) => update("logo_position", v)}>
-                    <SelectTrigger className="mt-1.5">
+                    <SelectTrigger className="mt-1.5" data-testid="template-logo-position-trigger">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
