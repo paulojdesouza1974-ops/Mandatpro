@@ -1,0 +1,490 @@
+import React, { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/hooks/use-toast";
+import {
+  Landmark,
+  Building2,
+  MapPin,
+  Phone,
+  Mail,
+  Globe,
+  Users,
+  Calendar,
+  Pencil,
+  Save,
+  X,
+  CreditCard,
+  FileText,
+} from "lucide-react";
+
+export default function MyOrganization() {
+  const qc = useQueryClient();
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  const { data: currentUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => base44.auth.me(),
+  });
+
+  const { data: organization, isLoading } = useQuery({
+    queryKey: ["myOrganization", currentUser?.organization],
+    queryFn: async () => {
+      const orgs = await base44.entities.Organization.filter({ name: currentUser.organization });
+      return orgs[0] || null;
+    },
+    enabled: !!currentUser?.organization,
+  });
+
+  // Count members in organization
+  const { data: members = [] } = useQuery({
+    queryKey: ["orgMembers", currentUser?.organization],
+    queryFn: () => base44.entities.Contact.filter({ organization: currentUser.organization }),
+    enabled: !!currentUser?.organization,
+  });
+
+  // Count users in organization
+  const { data: users = [] } = useQuery({
+    queryKey: ["orgUsers", currentUser?.organization],
+    queryFn: async () => {
+      // This would need a backend endpoint to count users per org
+      return [];
+    },
+    enabled: !!currentUser?.organization,
+  });
+
+  useEffect(() => {
+    if (organization) {
+      setFormData({
+        display_name: organization.display_name || "",
+        address: organization.address || "",
+        city: organization.city || "",
+        state: organization.state || "",
+        postal_code: organization.postal_code || "",
+        phone: organization.phone || "",
+        email: organization.email || "",
+        website: organization.website || "",
+        bank_name: organization.bank_name || "",
+        iban: organization.iban || "",
+        bic: organization.bic || "",
+        tax_number: organization.tax_number || "",
+        description: organization.description || "",
+      });
+    }
+  }, [organization]);
+
+  const updateMutation = useMutation({
+    mutationFn: (data) => base44.entities.Organization.update(organization.id, data),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["myOrganization"] });
+      setIsEditing(false);
+      toast({ title: "Organisation gespeichert" });
+    },
+    onError: (error) => {
+      toast({ title: "Fehler beim Speichern", description: error.message, variant: "destructive" });
+    },
+  });
+
+  const createMutation = useMutation({
+    mutationFn: (data) => base44.entities.Organization.create({
+      ...data,
+      name: currentUser.organization,
+      type: currentUser.org_type,
+    }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["myOrganization"] });
+      setIsEditing(false);
+      toast({ title: "Organisation erstellt" });
+    },
+    onError: (error) => {
+      toast({ title: "Fehler beim Erstellen", description: error.message, variant: "destructive" });
+    },
+  });
+
+  const handleSave = () => {
+    if (organization) {
+      updateMutation.mutate(formData);
+    } else {
+      createMutation.mutate(formData);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    if (organization) {
+      setFormData({
+        display_name: organization.display_name || "",
+        address: organization.address || "",
+        city: organization.city || "",
+        state: organization.state || "",
+        postal_code: organization.postal_code || "",
+        phone: organization.phone || "",
+        email: organization.email || "",
+        website: organization.website || "",
+        bank_name: organization.bank_name || "",
+        iban: organization.iban || "",
+        bic: organization.bic || "",
+        tax_number: organization.tax_number || "",
+        description: organization.description || "",
+      });
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-8 w-48 bg-slate-200 rounded animate-pulse" />
+        <Card className="animate-pulse">
+          <CardContent className="h-96" />
+        </Card>
+      </div>
+    );
+  }
+
+  const orgType = currentUser?.org_type === "fraktion" ? "Fraktion" : "Verband";
+
+  return (
+    <div className="space-y-6" data-testid="my-organization">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Meine Organisation</h1>
+          <p className="text-slate-500 text-sm">Organisationsdaten verwalten und bearbeiten</p>
+        </div>
+        {!isEditing ? (
+          <Button onClick={() => setIsEditing(true)} data-testid="edit-org-btn">
+            <Pencil className="w-4 h-4 mr-2" />
+            Bearbeiten
+          </Button>
+        ) : (
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleCancel}>
+              <X className="w-4 h-4 mr-2" />
+              Abbrechen
+            </Button>
+            <Button onClick={handleSave} disabled={updateMutation.isPending || createMutation.isPending} data-testid="save-org-btn">
+              <Save className="w-4 h-4 mr-2" />
+              Speichern
+            </Button>
+          </div>
+        )}
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card className="border-slate-100">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                <Landmark className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Typ</p>
+                <p className="font-semibold text-slate-900">{orgType}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-slate-100">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                <Users className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Kontakte</p>
+                <p className="font-semibold text-slate-900">{members.length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-slate-100">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Erstellt</p>
+                <p className="font-semibold text-slate-900">
+                  {organization?.created_date 
+                    ? new Date(organization.created_date).toLocaleDateString("de-DE")
+                    : "-"}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-slate-100">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Status</p>
+                <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+                  Aktiv
+                </Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Basic Info */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-slate-600" />
+              Grunddaten
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label>Organisationsname</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.display_name}
+                  onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
+                  placeholder="z.B. SPD Fraktion Musterstadt"
+                  data-testid="org-display-name"
+                />
+              ) : (
+                <p className="text-slate-900 font-medium mt-1">
+                  {organization?.display_name || currentUser?.organization || "-"}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label>Beschreibung</Label>
+              {isEditing ? (
+                <Textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="Kurze Beschreibung der Organisation..."
+                  rows={3}
+                />
+              ) : (
+                <p className="text-slate-600 text-sm mt-1">
+                  {organization?.description || "Keine Beschreibung"}
+                </p>
+              )}
+            </div>
+
+            <Separator />
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Stadt</Label>
+                {isEditing ? (
+                  <Input
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    placeholder="Stadt"
+                  />
+                ) : (
+                  <p className="text-slate-900 mt-1">{organization?.city || "-"}</p>
+                )}
+              </div>
+              <div>
+                <Label>Bundesland</Label>
+                {isEditing ? (
+                  <Input
+                    value={formData.state}
+                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                    placeholder="Bundesland"
+                  />
+                ) : (
+                  <p className="text-slate-900 mt-1">{organization?.state || "-"}</p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <Label>Adresse</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  placeholder="Straße und Hausnummer"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1">{organization?.address || "-"}</p>
+              )}
+            </div>
+
+            <div>
+              <Label>PLZ</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.postal_code}
+                  onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })}
+                  placeholder="12345"
+                  className="w-32"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1">{organization?.postal_code || "-"}</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Contact Info */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Mail className="w-5 h-5 text-slate-600" />
+              Kontaktdaten
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label>Telefon</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="0123 / 456789"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1 flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-slate-400" />
+                  {organization?.phone || "-"}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label>E-Mail</Label>
+              {isEditing ? (
+                <Input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="kontakt@organisation.de"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1 flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-slate-400" />
+                  {organization?.email || "-"}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label>Website</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.website}
+                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                  placeholder="www.organisation.de"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1 flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-slate-400" />
+                  {organization?.website ? (
+                    <a href={`https://${organization.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {organization.website}
+                    </a>
+                  ) : "-"}
+                </p>
+              )}
+            </div>
+
+            <Separator />
+
+            <CardTitle className="text-base flex items-center gap-2 pt-2">
+              <CreditCard className="w-5 h-5 text-slate-600" />
+              Bankverbindung
+            </CardTitle>
+
+            <div>
+              <Label>Bank</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.bank_name}
+                  onChange={(e) => setFormData({ ...formData, bank_name: e.target.value })}
+                  placeholder="Sparkasse Musterstadt"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1">{organization?.bank_name || "-"}</p>
+              )}
+            </div>
+
+            <div>
+              <Label>IBAN</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.iban}
+                  onChange={(e) => setFormData({ ...formData, iban: e.target.value })}
+                  placeholder="DE89 3704 0044 0532 0130 00"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1 font-mono text-sm">{organization?.iban || "-"}</p>
+              )}
+            </div>
+
+            <div>
+              <Label>BIC</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.bic}
+                  onChange={(e) => setFormData({ ...formData, bic: e.target.value })}
+                  placeholder="COBADEFFXXX"
+                  className="w-40"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1 font-mono text-sm">{organization?.bic || "-"}</p>
+              )}
+            </div>
+
+            <div>
+              <Label>Steuernummer</Label>
+              {isEditing ? (
+                <Input
+                  value={formData.tax_number}
+                  onChange={(e) => setFormData({ ...formData, tax_number: e.target.value })}
+                  placeholder="123/456/78901"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1">{organization?.tax_number || "-"}</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* No Organization Message */}
+      {!organization && !isEditing && (
+        <Card className="border-dashed border-2 border-slate-200 bg-slate-50">
+          <CardContent className="py-12 text-center">
+            <Landmark className="w-12 h-12 mx-auto text-slate-400 mb-4" />
+            <h3 className="text-lg font-semibold text-slate-700 mb-2">Organisation einrichten</h3>
+            <p className="text-slate-500 mb-4 max-w-md mx-auto">
+              Vervollständigen Sie die Daten Ihrer Organisation, um alle Funktionen nutzen zu können.
+            </p>
+            <Button onClick={() => setIsEditing(true)}>
+              <Pencil className="w-4 h-4 mr-2" />
+              Jetzt einrichten
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
