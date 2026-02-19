@@ -355,7 +355,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                 )}
               </p>
             </div>
-            <Button onClick={handleClose} className="bg-slate-900 hover:bg-slate-800">Schließen</Button>
+            <Button onClick={handleClose} className="bg-slate-900 hover:bg-slate-800" data-testid="bank-statement-done-close-button">Schließen</Button>
           </div>
         )}
       </DialogContent>
