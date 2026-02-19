@@ -58,12 +58,33 @@ export default function Motions() {
 
   const saveMutation = useMutation({
     mutationFn: (data) => editing ? base44.entities.Motion.update(editing.id, data) : base44.entities.Motion.create({ ...data, organization: currentUser.organization }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["motions", currentUser?.organization] }); setFormOpen(false); setEditing(null); },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["motions", currentUser?.organization] });
+      setFormOpen(false);
+      setEditing(null);
+      toast({
+        title: editing ? "Antrag aktualisiert" : "Antrag erstellt",
+        description: editing ? "Die Änderungen wurden gespeichert." : "Der neue Antrag wurde erfolgreich angelegt.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Fehler",
+        description: error.message || "Der Antrag konnte nicht gespeichert werden.",
+        variant: "destructive",
+      });
+    },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.Motion.delete(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["motions", currentUser?.organization] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["motions", currentUser?.organization] });
+      toast({
+        title: "Antrag gelöscht",
+        description: "Der Antrag wurde erfolgreich gelöscht.",
+      });
+    },
   });
 
   const filtered = motions.filter((m) => {
