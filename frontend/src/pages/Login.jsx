@@ -107,6 +107,22 @@ export default function LoginPage() {
     }
   };
 
+  const handleFullDemoLogin = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // First seed comprehensive demo data
+      await fetch('/api/seed-full-demo', { method: 'POST' });
+      // Then login with Verband user
+      await login("demo-verband@kommunalcrm.de", "demo123");
+    } catch (err) {
+      setError(err.message || "Demo-Anmeldung fehlgeschlagen");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4" data-testid="login-page">
       <div className="w-full max-w-md">
