@@ -361,6 +361,7 @@ ${protocol.replace(/\n/g, '<br>')}
                 placeholder="Protokoll der Sitzung... (oder mit KI generieren lassen)"
                 rows={20}
                 className="font-mono text-sm"
+                data-testid="protocol-textarea"
               />
 
               {meeting.protocol && (
