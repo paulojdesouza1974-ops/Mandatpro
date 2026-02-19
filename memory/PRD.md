@@ -67,6 +67,22 @@ User requested to improve an existing German municipal CRM application called "K
    - Contact create shows "Kontakt erstellt" / update shows "Kontakt aktualisiert"
    - Error handling toasts with destructive variant
 
+10. **Comprehensive Demo Organization (Verband)**
+    - Created `/api/seed-full-demo` endpoint with complete test data
+    - **22 Mitglieder** with groups: Vorstand, Mandatsträger, Jusos, AG 60+, Aktive Mitglieder
+    - **3 Spender** (Donors) with donation history
+    - **60 Mandatsträgerabgaben** (12 months × 5 mandate holders)
+      - Ratsmitglieder: 1.850€ Brutto, 20% Abgabe
+      - Kreistagsmitglied: 2.200€ Brutto, 18% Abgabe  
+      - Bürgermeister: 6.500€ Brutto, 15% Abgabe
+    - **29 Einnahmen** (Mitgliedsbeiträge, Spenden, Mandatsträgerabgaben, Zuschüsse)
+    - **10 Ausgaben** (Miete, Druck, Catering, IT, Versicherungen)
+    - **5 Termine** (Vorstand, MV, AG-Treffen)
+    - **6 Aufgaben** with different priorities
+    - **3 Kampagnen** (Kommunalwahl, Sommerfest, Mitgliederwerbung)
+    - **5 Dokumente** (Satzung, Protokolle, Haushaltsplan)
+    - Login-Buttons auf der Startseite: "Demo: Fraktion" und "Demo: Verband (mit allen Daten)"
+
 ### Feb 18, 2026
 1. **UI/UX Redesign**
    - Dark sidebar navigation (Slate 900 background)
