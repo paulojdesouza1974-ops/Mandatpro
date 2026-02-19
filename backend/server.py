@@ -6,6 +6,7 @@ from typing import Optional, List, Any
 from datetime import datetime, timezone
 from bson import ObjectId
 import os
+import uuid
 from pymongo import MongoClient
 import secrets
 import hashlib
