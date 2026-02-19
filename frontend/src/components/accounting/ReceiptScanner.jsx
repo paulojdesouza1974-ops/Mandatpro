@@ -196,7 +196,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
               </div>
               <div className="space-y-1.5">
                 <Label className="text-xs font-medium text-slate-500">Datum</Label>
-                <Input type="date" value={form.date} onChange={(e) => update("date", e.target.value)} />
+                <Input type="date" value={form.date} onChange={(e) => update("date", e.target.value)} data-testid="receipt-date-input" />
               </div>
             </div>
 
