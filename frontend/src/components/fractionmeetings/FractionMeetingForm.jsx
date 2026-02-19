@@ -215,7 +215,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAttendee())}
                 data-testid="fraction-meeting-attendee-input"
               />
-              <Button type="button" onClick={addAttendee}>Hinzufügen</Button>
+              <Button type="button" onClick={addAttendee} data-testid="fraction-meeting-add-attendee-button">Hinzufügen</Button>
             </div>
             {formData.attendees && formData.attendees.length > 0 && (
               <div className="flex flex-wrap gap-2">
