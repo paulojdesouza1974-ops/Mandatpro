@@ -219,6 +219,7 @@ export default function TemplateEditor() {
                 value={formData.name}
                 onChange={(e) => update("name", e.target.value)}
                 className="mt-1.5"
+                data-testid="template-name-input"
               />
             </div>
 
