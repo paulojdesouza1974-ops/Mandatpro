@@ -76,6 +76,7 @@ import TemplateEditor from './pages/TemplateEditor';
 import UserManagement from './pages/UserManagement';
 import WorkflowAutomation from './pages/WorkflowAutomation';
 import BulkEmail from './pages/BulkEmail';
+import MyOrganization from './pages/MyOrganization';
 import __Layout from './Layout.jsx';
 
 
