@@ -148,7 +148,7 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
             <Button type="button" variant="outline" onClick={onClose} disabled={saving} data-testid="meeting-cancel-button">
               <X className="w-4 h-4 mr-1" /> Abbrechen
             </Button>
-            <Button type="submit" disabled={saving} className="bg-slate-900 hover:bg-slate-800">
+            <Button type="submit" disabled={saving} className="bg-slate-900 hover:bg-slate-800" data-testid="meeting-save-button">
               <Save className="w-4 h-4 mr-1" /> {saving ? "Speichern..." : "Speichern"}
             </Button>
           </DialogFooter>
