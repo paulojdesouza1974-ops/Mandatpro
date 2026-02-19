@@ -280,7 +280,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
                     <span className={`text-sm font-semibold flex-shrink-0 ${t.transaction_type === "einnahme" ? "text-emerald-600" : "text-red-500"}`}>
                       {t.transaction_type === "einnahme" ? "+" : "-"}{parseFloat(t.amount || 0).toFixed(2)} €
                     </span>
-                    <button onClick={() => toggleExpand(idx)} className="text-slate-300 hover:text-slate-500 flex-shrink-0">
+                    <button onClick={() => toggleExpand(idx)} className="text-slate-300 hover:text-slate-500 flex-shrink-0" data-testid={`bank-statement-toggle-expand-${idx}`}>
                       {expanded[idx] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
                   </div>
