@@ -174,7 +174,7 @@ export default function ReceiptScanner({ open, onClose, organization }) {
                 update("transaction_type", v);
                 update("category", v === "einnahme" ? "sonstiges" : "sonstiges");
               }}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="receipt-transaction-type-trigger">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
