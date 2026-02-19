@@ -76,11 +76,7 @@ export default function UserManagementPage() {
 
   const sendWarningMutation = useMutation({
     mutationFn: async ({ user }) => {
-      await base44.integrations.Core.SendEmail({
-        to: user.email,
-        subject: "Zahlungserinnerung - KommunalCRM",
-        body: `Sehr geehrte/r ${user.full_name},\n\nwir möchten Sie daran erinnern, dass Ihre Rechnung noch nicht beglichen wurde.\n\nBitte überprüfen Sie Ihre offenen Rechnungen und tätigen Sie die Zahlung zeitnah.\n\nMit freundlichen Grüßen\nIhr KommunalCRM Team`,
-      });
+      await base44.email.sendBulk([user.email], "Zahlungserinnerung - KommunalCRM", `Sehr geehrte/r ${user.full_name},\n\nwir möchten Sie daran erinnern, dass Ihre Rechnung noch nicht beglichen wurde.\n\nBitte überprüfen Sie Ihre offenen Rechnungen und tätigen Sie die Zahlung zeitnah.\n\nMit freundlichen Grüßen\nIhr KommunalCRM Team`);
       
       return base44.entities.User.update(user.id, {
         account_status: "gemahnt",
