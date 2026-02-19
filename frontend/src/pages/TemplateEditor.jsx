@@ -295,6 +295,7 @@ export default function TemplateEditor() {
                     onChange={(e) => update("fraction_subtitle", e.target.value)}
                     placeholder="Z.B. Fraktion im Rat der Stadt Dormagen"
                     className="mt-1.5"
+                    data-testid="template-fraction-subtitle-input"
                   />
                 </div>
                 <div>
