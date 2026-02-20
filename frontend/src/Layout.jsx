@@ -76,6 +76,7 @@ export default function Layout({ children, currentPageName }) {
   });
 
   const isAppOwner = appSettings[0]?.app_owner_email === user?.email;
+  const isSupportUser = isAppOwner || user?.role === "support";
 
   // Show organization setup if user doesn't have one
   if (user && !user.organization) {
