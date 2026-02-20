@@ -144,7 +144,7 @@ export default function SupportPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card data-testid="support-stats-in-progress">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
