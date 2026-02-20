@@ -544,6 +544,33 @@ export default function TemplateEditor() {
               <h3 className="text-sm font-semibold mb-4">Erweiterte Anpassungen</h3>
               <div className="space-y-3">
                 <div>
+                  <Label className="text-xs">Kopfzeile (optional)</Label>
+                  <Textarea
+                    value={formData.header_text || ""}
+                    onChange={(e) => update("header_text", e.target.value)}
+                    placeholder="Zusätzliche Kopfzeilen-Informationen"
+                    rows={3}
+                    className="mt-1.5"
+                    data-testid="template-header-textarea"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs">Fußzeile (optional)</Label>
+                  <Textarea
+                    value={formData.footer_text || ""}
+                    onChange={(e) => update("footer_text", e.target.value)}
+                    placeholder={defaultFooterText || "Standard-Fußzeile"}
+                    rows={4}
+                    className="mt-1.5"
+                    data-testid="template-footer-textarea"
+                  />
+                  {defaultFooterText && (
+                    <p className="text-xs text-slate-500 mt-1" data-testid="template-footer-default-hint">
+                      Standard-Fußzeile wird verwendet, wenn dieses Feld leer ist.
+                    </p>
+                  )}
+                </div>
+                <div>
                   <Label className="text-xs">Eigenes CSS (für Experten)</Label>
                   <Textarea
                     value={formData.custom_css || ""}
