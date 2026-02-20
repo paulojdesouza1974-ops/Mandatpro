@@ -68,6 +68,7 @@ import OrganizationDetails from './pages/OrganizationDetails';
 import Organizations from './pages/Organizations';
 import PrintTemplates from './pages/PrintTemplates';
 import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import Profile from './pages/Profile';
 import Reporting from './pages/Reporting';
 import Support from './pages/Support';
