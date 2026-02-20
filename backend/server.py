@@ -1407,6 +1407,107 @@ async def send_invitation_email(request: SendEmailRequest, authorization: str = 
         "recipients": request.to,
     }
 
+class ReminderSendRequest(BaseModel):
+    meeting_id: str
+    meeting_type: Optional[str] = "meeting"
+
+
+def parse_iso_datetime(value: str):
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except Exception:
+        return None
+
+
+def collect_org_recipients(organization: str):
+    emails = set()
+    for user in db.users.find({"organization": organization}):
+        if user.get("email"):
+            emails.add(user["email"])
+    for contact in db.contacts.find({"organization": organization}):
+        if contact.get("email"):
+            emails.add(contact["email"])
+    return list(emails)
+
+
+def build_meeting_reminder_body(meeting: dict, meeting_type: str):
+    title = meeting.get("title", "Sitzung")
+    date_value = meeting.get("date", "")
+    location = meeting.get("location", "")
+    return (
+        f"Erinnerung an die bevorstehende Sitzung:\n\n"
+        f"Titel: {title}\n"
+        f"Datum: {date_value}\n"
+        f"Ort: {location or 'n/a'}\n\n"
+        "Bitte berücksichtigen Sie die aktuellen Unterlagen in KommunalCRM."
+    )
+
+
+def send_meeting_reminder(organization: str, meeting: dict, meeting_type: str):
+    recipients = collect_org_recipients(organization)
+    if not recipients:
+        return 0
+
+    settings = get_org_smtp_settings(organization)
+    subject = f"Erinnerung: {meeting.get('title', 'Sitzung')}"
+    body = build_meeting_reminder_body(meeting, meeting_type)
+    send_smtp_email(settings, recipients, subject, body)
+    return len(recipients)
+
+
+@app.post("/api/reminders/send-now")
+async def send_reminder_now(request: ReminderSendRequest):
+    collection = "meetings" if request.meeting_type == "meeting" else "fraction_meetings"
+    meeting = db[collection].find_one({"_id": ObjectId(request.meeting_id)})
+    if not meeting:
+        raise HTTPException(status_code=404, detail="Meeting not found")
+
+    organization = meeting.get("organization")
+    if not organization:
+        raise HTTPException(status_code=400, detail="Organization missing")
+
+    count = send_meeting_reminder(organization, meeting, request.meeting_type)
+    db[collection].update_one({"_id": meeting["_id"]}, {"$set": {"reminder_sent": True, "reminder_sent_date": datetime.now(timezone.utc).isoformat()}})
+
+    return {"success": True, "recipients": count}
+
+
+def send_due_reminders():
+    now = datetime.now(timezone.utc)
+    window = now + timedelta(hours=24)
+    start = now.isoformat()
+    end = window.isoformat()
+
+    for collection_name in ["meetings", "fraction_meetings"]:
+        meetings = db[collection_name].find({"date": {"$gte": start, "$lte": end}, "reminder_sent": {"$ne": True}})
+        for meeting in meetings:
+            organization = meeting.get("organization")
+            if not organization:
+                continue
+            try:
+                send_meeting_reminder(organization, meeting, "meeting" if collection_name == "meetings" else "fraction_meeting")
+                db[collection_name].update_one({"_id": meeting["_id"]}, {"$set": {"reminder_sent": True, "reminder_sent_date": datetime.now(timezone.utc).isoformat()}})
+            except Exception as exc:
+                logger.error("Reminder send failed: %s", exc)
+
+
+def start_reminder_scheduler():
+    def loop():
+        while True:
+            try:
+                send_due_reminders()
+            except Exception as exc:
+                logger.error("Reminder scheduler error: %s", exc)
+            time.sleep(3600)
+
+    thread = threading.Thread(target=loop, daemon=True)
+    thread.start()
+
+
+@app.on_event("startup")
+async def schedule_reminders_on_startup():
+    start_reminder_scheduler()
+
 # ============ PDF GENERATION ============
 
 @app.post("/api/pdf/generate-invitation")
