@@ -161,7 +161,7 @@ WICHTIG:
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" data-testid="motion-dialog">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold text-slate-900">
             {motion ? "Antrag bearbeiten" : "Neuer Antrag / Anfrage"}
