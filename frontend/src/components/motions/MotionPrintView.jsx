@@ -301,21 +301,21 @@ ${printContent.innerHTML}
             )}
 
             {/* Unterschrift - am Ende des Dokuments */}
-            {selectedTemplate?.show_creator && (
-              <div className="mt-16">
-                <div className="border-t border-black w-48 mb-2"></div>
-                <p className="font-semibold" style={{ color: selectedTemplate?.primary_color }}>
-                  {motion.signature_name || motion.created_by || "Unbekannt"}
-                </p>
-                {motion.signature_role && (
-                  <p className="text-xs italic" style={{ color: selectedTemplate?.secondary_color }}>
-                    {motion.signature_role === "fraktionsvorsitzender" && "Fraktionsvorsitzender"}
-                    {motion.signature_role === "stv_fraktionsvorsitzender" && "Stv. Fraktionsvorsitzender"}
-                    {motion.signature_role === "fraktionsgeschaeftsfuehrer" && "Fraktionsgeschäftsführer"}
-                    {motion.signature_role === "ratsmitglied" && "Ratsmitglied"}
-                    {motion.signature_role === "sachkundiger_buerger" && "Sachkundiger Bürger"}
-                  </p>
-                )}
+            {selectedTemplate?.show_creator && signatureEntries.length > 0 && (
+              <div className="mt-16 grid grid-cols-2 gap-8">
+                {signatureEntries.map((signature, idx) => (
+                  <div key={idx}>
+                    <div className="border-t border-black w-48 mb-2"></div>
+                    <p className="font-semibold" style={{ color: selectedTemplate?.primary_color }}>
+                      {signature.name}
+                    </p>
+                    {signature.role && (
+                      <p className="text-xs italic" style={{ color: selectedTemplate?.secondary_color }}>
+                        {roleLabel(signature.role)}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </div>
