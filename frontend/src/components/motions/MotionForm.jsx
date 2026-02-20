@@ -251,6 +251,43 @@ WICHTIG:
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-slate-500">2. Unterschrift Position</Label>
+              <Select value={form.signature_role_2 || ""} onValueChange={(v) => update("signature_role_2", v)}>
+                <SelectTrigger data-testid="motion-signature-role-2-trigger"><SelectValue placeholder="Position wählen..." /></SelectTrigger>
+                <SelectContent>
+                  {signatureRoles.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-slate-500">2. Unterschrift Name</Label>
+              {members.length > 0 && form.signature_role_2 ? (
+                <Select 
+                  value={form.signature_name_2 || ""} 
+                  onValueChange={(v) => update("signature_name_2", v)}
+                >
+                  <SelectTrigger data-testid="motion-signature-name-2-trigger"><SelectValue placeholder="Person wählen..." /></SelectTrigger>
+                  <SelectContent>
+                    {members
+                      .filter(m => m.role === form.signature_role_2)
+                      .map((m, idx) => (
+                        <SelectItem key={idx} value={m.name}>{m.name}</SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Input 
+                  value={form.signature_name_2 || ""} 
+                  onChange={(e) => update("signature_name_2", e.target.value)} 
+                  placeholder="Name eingeben..." 
+                  data-testid="motion-signature-name-2-input"
+                />
+              )}
+            </div>
+          </div>
+
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label className="text-xs font-medium text-slate-500">Antragstext</Label>
