@@ -143,6 +143,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
             date: t.date,
             vendor: t.sender_receiver,
             status: "bezahlt",
+            notes: matchNotes,
           });
         }
       });
