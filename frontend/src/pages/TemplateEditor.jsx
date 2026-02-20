@@ -103,6 +103,7 @@ export default function TemplateEditor() {
       const entity = base44.entities[entityName];
       const data = { 
         ...template, 
+        document_type: selectedDocType,
         organization: user?.organization,
         name: `${template.name} (Kopie)`,
         is_default: false
