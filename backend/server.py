@@ -1574,6 +1574,42 @@ def start_reminder_scheduler():
 async def schedule_reminders_on_startup():
     start_reminder_scheduler()
 
+
+class SmtpTestRequest(BaseModel):
+    organization: str
+    test_email: str
+
+
+@app.post("/api/smtp/test")
+async def test_smtp_connection(request: SmtpTestRequest):
+    """Test SMTP connection by sending a test email"""
+    try:
+        settings = get_org_smtp_settings(request.organization)
+        
+        # Try to connect and send a test email
+        subject = "KommunalCRM - SMTP Test"
+        body = f"""Dies ist eine Test-E-Mail von KommunalCRM.
+        
+Wenn Sie diese Nachricht erhalten, funktioniert Ihre SMTP-Konfiguration korrekt.
+
+Zeitstempel: {datetime.now(timezone.utc).strftime('%d.%m.%Y %H:%M:%S')} UTC
+Organisation: {request.organization}
+
+Mit freundlichen Grüßen,
+KommunalCRM System"""
+        
+        send_smtp_email(settings, [request.test_email], subject, body)
+        
+        return {
+            "success": True,
+            "message": f"Test-E-Mail erfolgreich an {request.test_email} gesendet"
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error("SMTP test failed: %s", str(e))
+        raise HTTPException(status_code=500, detail=f"SMTP-Test fehlgeschlagen: {str(e)}")
+
 # ============ PDF GENERATION ============
 
 @app.post("/api/pdf/generate-invitation")
