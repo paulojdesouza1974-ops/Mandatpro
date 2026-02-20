@@ -377,6 +377,7 @@ WICHTIG:
                         size="icon"
                         className="h-6 w-6 text-red-600 hover:text-red-700"
                         onClick={() => removeAttachment(index)}
+                        data-testid={`motion-attachment-remove-${index}`}
                       >
                         <Trash2 className="w-3 h-3" />
                       </Button>
