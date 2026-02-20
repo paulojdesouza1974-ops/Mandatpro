@@ -1307,6 +1307,50 @@ Die Einladungen sollen:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============ SMTP HELPERS ============
+
+def get_org_smtp_settings(organization: str):
+    org = db.organizations.find_one({"name": organization})
+    if not org:
+        raise HTTPException(status_code=404, detail="Organisation nicht gefunden")
+
+    smtp_fields = ["smtp_host", "smtp_port", "smtp_username", "smtp_password", "smtp_from_email"]
+    missing = [field for field in smtp_fields if not org.get(field)]
+    if missing:
+        raise HTTPException(status_code=400, detail="SMTP-Konfiguration unvollständig")
+
+    return {
+        "host": org.get("smtp_host"),
+        "port": int(org.get("smtp_port")),
+        "username": org.get("smtp_username"),
+        "password": org.get("smtp_password"),
+        "from_email": org.get("smtp_from_email"),
+        "from_name": org.get("smtp_from_name") or org.get("display_name") or "KommunalCRM",
+    }
+
+
+def send_smtp_email(settings: dict, to_list: List[str], subject: str, body: str, attachment_base64: Optional[str] = None, attachment_filename: Optional[str] = None):
+    message = MIMEMultipart()
+    message["From"] = f"{settings['from_name']} <{settings['from_email']}>"
+    message["To"] = ", ".join(to_list)
+    message["Subject"] = subject
+
+    message.attach(MIMEText(body or "", "plain"))
+
+    if attachment_base64 and attachment_filename:
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(base64.b64decode(attachment_base64))
+        encoders.encode_base64(part)
+        part.add_header("Content-Disposition", f"attachment; filename={attachment_filename}")
+        message.attach(part)
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP(settings["host"], settings["port"]) as server:
+        server.starttls(context=context)
+        server.login(settings["username"], settings["password"])
+        server.sendmail(settings["from_email"], to_list, message.as_string())
+
+
 # ============ EMAIL ENDPOINTS ============
 
 class SendEmailRequest(BaseModel):
