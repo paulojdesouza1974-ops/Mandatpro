@@ -32,6 +32,7 @@ export default function MeetingForm({ isOpen, open, onClose, meeting, defaultDat
   const dialogOpen = isOpen ?? open;
   const [form, setForm] = useState(emptyMeeting);
   const [generating, setGenerating] = useState(false);
+  const [sendingReminder, setSendingReminder] = useState(false);
 
   useEffect(() => {
     if (defaultData) {
