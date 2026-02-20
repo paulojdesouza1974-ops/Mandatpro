@@ -365,6 +365,7 @@ export const base44 = {
   files,
   organizations,
   users,
+  smtp,
 };
 
 export default base44;
