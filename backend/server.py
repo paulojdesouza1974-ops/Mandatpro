@@ -165,6 +165,7 @@ class GenericCreate(BaseModel):
 tokens = {}
 
 logger = logging.getLogger("kommunalcrm")
+reminder_scheduler_started = False
 
 def get_openai_key():
     api_key = os.environ.get("OPENAI_API_KEY")
