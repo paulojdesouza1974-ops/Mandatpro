@@ -240,6 +240,9 @@ export default function SupportPage() {
                       <p className="text-sm text-slate-600 mt-1">
                         {ticket.organization_name} • {ticket.contact_email}
                       </p>
+                      <p className="text-xs text-slate-500 mt-1" data-testid={`support-ticket-assigned-${ticket.id}`}>
+                        Zuweisung: {ticket.assigned_to || "-"}
+                      </p>
                     </div>
                     <div className="text-right text-sm text-slate-500">
                       {format(new Date(ticket.created_date), "dd.MM.yyyy", { locale: de })}
