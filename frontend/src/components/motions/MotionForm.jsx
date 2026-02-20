@@ -66,7 +66,18 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
   });
 
   const currentOrg = organizations.find(org => org.name === user?.organization);
-  const members = currentOrg?.members || [];
+  const { data: orgUsers = [] } = useQuery({
+    queryKey: ["orgUsers", user?.organization],
+    queryFn: () => base44.entities.User.list(),
+    enabled: !!user?.organization,
+  });
+
+  const members = orgUsers
+    .filter((u) => u.organization === user?.organization)
+    .map((u) => ({
+      name: u.full_name || u.email,
+      role: u.org_role || "mitglied",
+    }));
 
   useEffect(() => {
     setForm(motion ? { ...emptyMotion, ...motion } : emptyMotion);
