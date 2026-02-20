@@ -1361,11 +1361,31 @@ class SendEmailRequest(BaseModel):
     attachment_filename: Optional[str] = None
 
 @app.post("/api/email/send-invitation")
-async def send_invitation_email(request: SendEmailRequest):
-    """Send invitation email (simulated - in production use SendGrid/SES)"""
-    # In production, integrate with SendGrid, AWS SES, or similar
-    # For now, we'll simulate successful sending and log the email
-    
+async def send_invitation_email(request: SendEmailRequest, authorization: str = Header(None)):
+    user = get_current_user(authorization)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    organization = user.get("organization")
+    if not organization:
+        raise HTTPException(status_code=400, detail="Organization missing")
+
+    try:
+        settings = get_org_smtp_settings(organization)
+        send_smtp_email(
+            settings=settings,
+            to_list=request.to,
+            subject=request.subject,
+            body=request.body,
+            attachment_base64=request.attachment_base64,
+            attachment_filename=request.attachment_filename,
+        )
+        status = "sent"
+        message = f"Einladung an {len(request.to)} Empfänger gesendet"
+    except Exception as exc:
+        status = "failed"
+        message = f"E-Mail Versand fehlgeschlagen: {exc}"
+
     email_log = {
         "to": request.to,
         "subject": request.subject,
@@ -1373,16 +1393,18 @@ async def send_invitation_email(request: SendEmailRequest):
         "has_attachment": bool(request.attachment_base64),
         "attachment_filename": request.attachment_filename,
         "sent_at": datetime.now(timezone.utc).isoformat(),
-        "status": "simulated"  # In production: "sent" or "failed"
+        "status": status,
+        "organization": organization,
     }
-    
-    # Store email log
     db.email_logs.insert_one(email_log)
-    
+
+    if status == "failed":
+        raise HTTPException(status_code=500, detail=message)
+
     return {
-        "success": True, 
-        "message": f"Einladung an {len(request.to)} Empfänger gesendet (Simulation)",
-        "recipients": request.to
+        "success": True,
+        "message": message,
+        "recipients": request.to,
     }
 
 # ============ PDF GENERATION ============
