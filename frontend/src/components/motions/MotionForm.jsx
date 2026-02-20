@@ -170,7 +170,7 @@ WICHTIG:
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <Label className="text-xs font-medium text-slate-500">Titel *</Label>
-            <Input value={form.title} onChange={(e) => update("title", e.target.value)} placeholder="z.B. Sanierung der Radwege im Ortsteil Nord" required />
+            <Input value={form.title} onChange={(e) => update("title", e.target.value)} placeholder="z.B. Sanierung der Radwege im Ortsteil Nord" required data-testid="motion-title-input" />
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
