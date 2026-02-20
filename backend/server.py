@@ -13,6 +13,12 @@ import mimetypes
 import logging
 import threading
 import time
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 from pathlib import Path
 from pymongo import MongoClient
 import secrets
