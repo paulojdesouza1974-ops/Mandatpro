@@ -856,6 +856,94 @@ async def upload_file(file: UploadFile = File(...)):
         "size": len(content),
     }
 
+
+# ============ FILE HELPERS ============
+
+def resolve_upload_path(file_url: str) -> str:
+    if not file_url:
+        raise HTTPException(status_code=400, detail="file_url is required")
+    if "/api/uploads/" in file_url:
+        filename = file_url.split("/api/uploads/")[1]
+    else:
+        raise HTTPException(status_code=400, detail="Invalid file_url")
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found")
+    return file_path
+
+
+def load_file_images(file_url: str, max_pages: int = 2):
+    file_path = resolve_upload_path(file_url)
+    mime_type, _ = mimetypes.guess_type(file_path)
+
+    if mime_type == "application/pdf":
+        try:
+            import fitz  # PyMuPDF
+        except ImportError as exc:
+            raise HTTPException(status_code=500, detail="PyMuPDF not installed for PDF processing") from exc
+        images = []
+        doc = fitz.open(file_path)
+        for page_index in range(min(len(doc), max_pages)):
+            page = doc.load_page(page_index)
+            pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+            img_bytes = pix.tobytes("png")
+            images.append(("image/png", base64.b64encode(img_bytes).decode()))
+        doc.close()
+        if not images:
+            raise HTTPException(status_code=400, detail="PDF contains no renderable pages")
+        return images
+
+    with open(file_path, "rb") as file:
+        data = file.read()
+
+    if mime_type not in {"image/png", "image/jpeg", "image/webp"}:
+        try:
+            from PIL import Image
+        except ImportError as exc:
+            raise HTTPException(status_code=500, detail="Pillow not installed for image conversion") from exc
+        image = Image.open(file_path)
+        from io import BytesIO
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        data = buffer.getvalue()
+        mime_type = "image/png"
+
+    return [(mime_type, base64.b64encode(data).decode())]
+
+
+def parse_json_response(response_text: str):
+    import json
+    if not response_text:
+        return None
+    clean = response_text.strip()
+    if clean.startswith("```json"):
+        clean = clean[7:]
+    if clean.startswith("```"):
+        clean = clean[3:]
+    if clean.endswith("```"):
+        clean = clean[:-3]
+    clean = clean.strip()
+    try:
+        return json.loads(clean)
+    except json.JSONDecodeError:
+        return {"raw": response_text}
+
+
+async def run_vision_chat(prompt: str, system_message: str, images):
+    from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
+
+    api_key = get_openai_key()
+    chat = LlmChat(
+        api_key=api_key,
+        session_id=f"vision-{datetime.now().timestamp()}",
+        system_message=system_message,
+    ).with_model("openai", "gpt-5.2")
+
+    file_contents = [ImageContent(image_base64=b64) for _, b64 in images]
+    response = await chat.send_message(UserMessage(text=prompt, file_contents=file_contents))
+    return response
+
+
 # ============ AI ENDPOINTS ============
 
 class AIGenerateRequest(BaseModel):
