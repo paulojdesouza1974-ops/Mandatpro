@@ -182,6 +182,7 @@ export default function SupportPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9"
+              data-testid="support-search-input"
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
