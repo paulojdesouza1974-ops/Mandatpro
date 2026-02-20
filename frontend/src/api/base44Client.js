@@ -312,6 +312,7 @@ export const base44 = {
   entities,
   ai,
   email,
+  search,
   files,
 };
 
