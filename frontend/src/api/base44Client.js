@@ -169,6 +169,7 @@ const createEntity = (collectionName) => {
     },
 
     async create(data) {
+      ensureWriteAccess();
       const result = await request(`/api/${collectionName}`, {
         method: 'POST',
         body: JSON.stringify(data),
