@@ -153,6 +153,16 @@ export default function MyOrganization() {
   });
 
 
+  const handleSave = () => {
+    const emailDomain = formData.email && formData.email.includes("@") ? formData.email.split("@")[1].toLowerCase() : "";
+    const payload = { ...formData, email_domain: emailDomain };
+    if (organization) {
+      updateMutation.mutate(payload);
+    } else {
+      createMutation.mutate(payload);
+    }
+  };
+
   const handleCancel = () => {
     setIsEditing(false);
     if (organization) {
