@@ -103,6 +103,20 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
     }
   };
 
+  const sendReminder = async () => {
+    if (!formData.id) return;
+    setSendingReminder(true);
+    try {
+      await base44.reminders.sendNow(formData.id, "fraction_meeting");
+      alert("Erinnerung wurde versendet");
+    } catch (error) {
+      console.error(error);
+      alert("Erinnerung konnte nicht gesendet werden");
+    } finally {
+      setSendingReminder(false);
+    }
+  };
+
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" data-testid="fraction-meeting-dialog">
