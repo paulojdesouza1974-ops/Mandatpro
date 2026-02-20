@@ -228,6 +228,7 @@ User requested to improve an existing German municipal CRM application called "K
 - OCR/KI-Scan für Belege & Kontoauszüge mit Zuordnung inkl. Mandatsträger (OpenAI GPT-5.2)
 - DATEVconnect online Platzhalter-Status + UI-Karte in Buchhaltung
 - Rollen erweitert: Admin / Member / Viewer / Support (Viewer = read-only in Client)
+- Standardvorlage für Anträge/Anfragen/Beschlüsse hinterlegt + KI-Prompt an Standardformat angepasst
 
 ## Known Issues
 - OpenAI API-Key hat aktuell **Quota überschritten** → alle KI-Aufrufe (Text/Scan) geben 429 zurück, bis das Guthaben aufgeladen ist.
