@@ -624,6 +624,32 @@ export default function MyOrganization() {
                 )}
               </div>
             </div>
+
+            {/* SMTP Test Section */}
+            {isAdmin && organization?.smtp_host && !isEditing && (
+              <div className="pt-4 border-t border-slate-100">
+                <Label className="text-sm font-medium">SMTP-Verbindung testen</Label>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    type="email"
+                    value={smtpTestEmail}
+                    onChange={(e) => setSmtpTestEmail(e.target.value)}
+                    placeholder="test@example.com"
+                    className="flex-1"
+                    data-testid="smtp-test-email-input"
+                  />
+                  <Button 
+                    onClick={handleSmtpTest} 
+                    disabled={smtpTesting}
+                    variant="outline"
+                    data-testid="smtp-test-button"
+                  >
+                    {smtpTesting ? "Teste..." : "Test-E-Mail senden"}
+                  </Button>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">Sendet eine Test-E-Mail an die angegebene Adresse.</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
