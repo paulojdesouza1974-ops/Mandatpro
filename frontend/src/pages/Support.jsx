@@ -122,6 +122,7 @@ export default function SupportPage() {
             setSelectedTicket(null);
             setDialogOpen(true);
           }}
+          data-testid="support-new-ticket-button"
         >
           <Plus className="w-4 h-4 mr-2" />
           Neues Ticket
