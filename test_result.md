@@ -231,14 +231,14 @@ backend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "1.1"
+  test_sequence: 2
   run_ui: true
-  last_test_date: "2026-02-19"
+  last_test_date: "2026-02-20"
 
 test_plan:
   current_focus:
-    - "All core features tested and working"
+    - "Compact UI test completed - all scenarios passed"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
@@ -246,3 +246,5 @@ test_plan:
 agent_communication:
     - agent: "testing"
       message: "Completed comprehensive E2E UI testing for KommunalCRM. All 4 requested test scenarios passed successfully: 1) Demo login, 2) Motion AI generation, 3) Organization member list, 4) Template logo upload. Application is functioning correctly with no critical issues found."
+    - agent: "testing"
+      message: "2026-02-20: Completed compact UI test with 5 scenarios as requested. All tests PASSED: 1) Login via 'Demo: Verband (mit allen Daten)' ✓, 2) Search page with 'demo' query showing results ✓, 3) MyOrganization SMTP Versand section visible ✓, 4) Support page 'Kein Zugriff' message for demo user ✓, 5) Meetings 'Erinnerung senden' button present in meeting dialog ✓. No critical issues found. Application is fully functional."
