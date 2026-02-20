@@ -329,6 +329,7 @@ WICHTIG:
                 onClick={() => document.getElementById('file-upload')?.click()}
                 disabled={uploading}
                 className="text-xs"
+                data-testid="motion-attachment-upload-button"
               >
                 {uploading ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Upload className="w-3 h-3 mr-1" />}
                 {uploading ? "Lädt hoch..." : "Dokument hochladen"}
