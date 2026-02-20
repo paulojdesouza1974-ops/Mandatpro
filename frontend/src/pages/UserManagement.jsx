@@ -285,14 +285,10 @@ export default function UserManagementPage() {
                     <TableCell className="font-medium">{user.full_name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      {user.role === "admin" ? (
-                        <Badge className="bg-purple-100 text-purple-700">
-                          <Shield className="w-3 h-3 mr-1" />
-                          Admin
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline">User</Badge>
-                      )}
+                      <Badge className={user.role === "admin" ? "bg-purple-100 text-purple-700" : user.role === "support" ? "bg-blue-100 text-blue-700" : user.role === "viewer" ? "bg-slate-100 text-slate-700" : "bg-emerald-100 text-emerald-700"} data-testid={`user-role-badge-${user.id}`}>
+                        {user.role === "admin" && <Shield className="w-3 h-3 mr-1" />}
+                        {roleLabels[user.role] || "Mitglied"}
+                      </Badge>
                     </TableCell>
                     <TableCell>{user.city || "-"}</TableCell>
                     <TableCell>
