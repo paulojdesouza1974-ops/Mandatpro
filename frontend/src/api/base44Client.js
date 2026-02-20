@@ -179,6 +179,7 @@ const createEntity = (collectionName) => {
     },
 
     async update(id, data) {
+      ensureWriteAccess();
       const result = await request(`/api/${collectionName}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
