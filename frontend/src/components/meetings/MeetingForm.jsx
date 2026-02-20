@@ -76,6 +76,20 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
     setGenerating(false);
   };
 
+  const sendReminder = async () => {
+    if (!form.id) return;
+    setSendingReminder(true);
+    try {
+      await base44.reminders.sendNow(form.id, "meeting");
+      alert("Erinnerung wurde versendet");
+    } catch (error) {
+      console.error(error);
+      alert("Erinnerung konnte nicht gesendet werden");
+    } finally {
+      setSendingReminder(false);
+    }
+  };
+
   return (
     <Dialog open={dialogOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto" data-testid="meeting-dialog">
