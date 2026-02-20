@@ -69,7 +69,7 @@ class UserCreate(BaseModel):
     city: Optional[str] = None
     organization: Optional[str] = None
     org_type: Optional[str] = "fraktion"
-    role: Optional[str] = "user"
+    role: Optional[str] = "member"
 
 class UserLogin(BaseModel):
     email: str
