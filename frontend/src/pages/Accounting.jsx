@@ -74,6 +74,12 @@ export default function Accounting() {
     enabled: !!currentUser?.organization,
   });
 
+  const datevStatusQuery = useQuery({
+    queryKey: ["datev-status"],
+    queryFn: () => base44.datev.status(),
+    enabled: false,
+  });
+
   const createIncomeMutation = useMutation({
     mutationFn: (data) => base44.entities.Income.create({ ...data, organization: currentUser.organization }),
     onSuccess: () => {
