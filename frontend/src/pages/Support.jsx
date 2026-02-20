@@ -64,7 +64,7 @@ export default function SupportPage() {
   const { data: tickets = [], isLoading } = useQuery({
     queryKey: ["supportTickets"],
     queryFn: () => base44.entities.SupportTicket.list("-created_date"),
-    enabled: isAppOwner,
+    enabled: isSupportUser,
   });
 
   const updateMutation = useMutation({
