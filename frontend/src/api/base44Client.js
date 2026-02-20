@@ -112,7 +112,9 @@ const auth = {
     if (!authToken) {
       throw new Error('Not authenticated');
     }
-    return request(`/api/auth/me?authorization=${authToken}`);
+    const result = await request(`/api/auth/me?authorization=${authToken}`);
+    setRole(result?.role);
+    return result;
   },
 
   async updateMe(data) {
