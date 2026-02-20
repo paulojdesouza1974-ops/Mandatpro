@@ -104,6 +104,7 @@ export const PAGES = {
     "Organizations": Organizations,
     "PrintTemplates": PrintTemplates,
     "Privacy": Privacy,
+    "Terms": Terms,
     "Profile": Profile,
     "Reporting": Reporting,
     "Support": Support,
