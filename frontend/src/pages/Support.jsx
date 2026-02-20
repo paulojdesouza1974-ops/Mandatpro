@@ -251,6 +251,7 @@ export default function SupportPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-slate-600 line-clamp-2">{ticket.description}</p>
+                  <p className="text-xs text-slate-400 mt-2">Anhänge: {ticket.attachments?.length || 0}</p>
                 </CardContent>
               </Card>
             );
