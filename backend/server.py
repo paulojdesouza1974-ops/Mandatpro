@@ -994,7 +994,10 @@ async def run_vision_chat(prompt: str, system_message: str, images):
     ).with_model("openai", "gpt-5.2")
 
     file_contents = [ImageContent(image_base64=b64) for _, b64 in images]
-    response = await chat.send_message(UserMessage(text=prompt, file_contents=file_contents))
+    try:
+        response = await chat.send_message(UserMessage(text=prompt, file_contents=file_contents))
+    except Exception as exc:
+        raise_llm_error(exc)
     return response
 
 
