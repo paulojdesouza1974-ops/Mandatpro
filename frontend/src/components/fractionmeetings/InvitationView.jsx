@@ -274,7 +274,8 @@ ${protocol.replace(/\n/g, '<br>')}
                 </div>
               )}
 
-              {meeting.agenda && (
+              {/* Only show agenda separately if no invitation text exists */}
+              {!meeting.invitation_text && meeting.agenda && (
                 <div className="mb-8">
                   <h2 className="text-lg font-semibold text-slate-900 mb-3">Tagesordnung:</h2>
                   <div className="whitespace-pre-wrap bg-slate-50 p-4 rounded-lg">
