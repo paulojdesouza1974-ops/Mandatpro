@@ -240,6 +240,13 @@ User requested to improve an existing German municipal CRM application called "K
   - Neuer Backend-Endpoint: `POST /api/smtp/test`
   - Test-Button in "Meine Organisation" Seite (erscheint nur wenn SMTP konfiguriert)
   - Sendet Test-E-Mail zur Verifikation der SMTP-Konfiguration
+- **BugFix:** Organisation wird jetzt korrekt nach Namen gefiltert
+  - `name` Parameter zu Backend CRUD Routes hinzugefügt
+  - `name` Parameter zu Frontend API filter() Methode hinzugefügt
+  - SMTP-Konfiguration wird jetzt korrekt angezeigt und gespeichert
+- **BugFix:** Tagesordnung-Duplikation in Einladungen behoben
+  - InvitationView.jsx zeigt Tagesordnung nur separat wenn kein Einladungstext vorhanden
+  - PDF-Generierung bereinigt (keine doppelte Tagesordnung mehr)
 
 ## Known Issues
 - OpenAI API-Key hat aktuell **Quota überschritten** → alle KI-Aufrufe (Text/Scan) geben 429 zurück, bis das Guthaben aufgeladen ist.
