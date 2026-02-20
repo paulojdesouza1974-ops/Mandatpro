@@ -130,7 +130,7 @@ export default function MyOrganization() {
   });
 
   const updateMemberRoleMutation = useMutation({
-    mutationFn: ({ userId, org_role }) => base44.entities.User.update(userId, { org_role }),
+    mutationFn: ({ userId, org_role }) => base44.users.updateRole(userId, org_role),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["orgMembers", currentUser?.organization] });
       toast({ title: "Mitgliederrolle aktualisiert" });
