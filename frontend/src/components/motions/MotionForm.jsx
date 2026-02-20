@@ -231,7 +231,7 @@ WICHTIG:
                   value={form.signature_name || ""} 
                   onValueChange={(v) => update("signature_name", v)}
                 >
-                  <SelectTrigger><SelectValue placeholder="Person wählen..." /></SelectTrigger>
+                  <SelectTrigger data-testid="motion-signature-name-trigger"><SelectValue placeholder="Person wählen..." /></SelectTrigger>
                   <SelectContent>
                     {members
                       .filter(m => m.role === form.signature_role)
