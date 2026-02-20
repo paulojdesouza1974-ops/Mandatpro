@@ -210,7 +210,7 @@ WICHTIG:
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Sitzungsdatum</Label>
-              <Input type="date" value={form.session_date} onChange={(e) => update("session_date", e.target.value)} />
+              <Input type="date" value={form.session_date} onChange={(e) => update("session_date", e.target.value)} data-testid="motion-session-date-input" />
             </div>
           </div>
 
