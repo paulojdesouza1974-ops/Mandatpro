@@ -59,6 +59,7 @@ export default function SupportPage() {
   });
 
   const isAppOwner = appSettings[0]?.app_owner_email === user?.email;
+  const isSupportUser = isAppOwner || user?.role === "support";
 
   const { data: tickets = [], isLoading } = useQuery({
     queryKey: ["supportTickets"],
