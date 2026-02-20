@@ -44,6 +44,7 @@ const fraktionNavItems = [
   { name: "Vorlagen-Editor", icon: FileText, page: "TemplateEditor" },
   { name: "Nutzerverwaltung", icon: UserIcon, page: "UserManagement", adminOnly: true },
   { name: "App-Einstellungen", icon: Settings, page: "AppSettings", adminOnly: true },
+  { name: "Support", icon: MessageCircle, page: "Support", supportOnly: true },
 ];
 
 const verbandNavItems = [
