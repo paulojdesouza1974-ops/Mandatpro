@@ -108,6 +108,7 @@ export const PAGES = {
     "Terms": Terms,
     "Profile": Profile,
     "Reporting": Reporting,
+    "Search": Search,
     "Support": Support,
     "Tasks": Tasks,
     "TemplateEditor": TemplateEditor,
