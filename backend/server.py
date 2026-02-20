@@ -324,10 +324,12 @@ def create_crud_routes(collection_name: str, entity_name: str):
     """Create CRUD routes for an entity"""
     
     @app.get(f"/api/{collection_name}")
-    async def list_items(organization: Optional[str] = None, sort: Optional[str] = "-created_date", limit: Optional[int] = 100):
+    async def list_items(organization: Optional[str] = None, name: Optional[str] = None, sort: Optional[str] = "-created_date", limit: Optional[int] = 100):
         query = {}
         if organization:
             query["organization"] = organization
+        if name:
+            query["name"] = name
         
         sort_field = sort.lstrip("-")
         sort_order = -1 if sort.startswith("-") else 1
