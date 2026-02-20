@@ -28,19 +28,21 @@ export default function MotionPrintView({ motion, open, onClose }) {
     queryFn: () => base44.entities.PrintTemplate.list(),
   });
 
-  // Define selectedTemplate and defaultTemplate based on templates array
-  const defaultTemplate = templates.find(t => t.is_default) || templates[0];
-  const selectedTemplate = selectedTemplateId 
-    ? templates.find(t => t.id === selectedTemplateId) 
-    : defaultTemplate;
-
-  if (!motion) return null;
-
+  // Organization query must be called before any conditional returns (React hooks rules)
   const { data: orgData = [] } = useQuery({
     queryKey: ['printOrganization', motion?.organization],
     queryFn: () => base44.entities.Organization.filter({ name: motion?.organization }),
     enabled: !!motion?.organization,
   });
+
+  // Early return AFTER all hooks
+  if (!motion) return null;
+
+  // Define selectedTemplate and defaultTemplate based on templates array
+  const defaultTemplate = templates.find(t => t.is_default) || templates[0];
+  const selectedTemplate = selectedTemplateId 
+    ? templates.find(t => t.id === selectedTemplateId) 
+    : defaultTemplate;
 
   const organization = orgData[0] || null;
 
