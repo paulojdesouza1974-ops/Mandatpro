@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 const types = [
   { value: "antrag", label: "Antrag" },
   { value: "anfrage", label: "Anfrage" },
+  { value: "beschluss", label: "Beschluss" },
   { value: "resolution", label: "Resolution" },
   { value: "aenderungsantrag", label: "Änderungsantrag" },
   { value: "dringlichkeitsantrag", label: "Dringlichkeitsantrag" },
