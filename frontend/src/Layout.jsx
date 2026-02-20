@@ -60,6 +60,7 @@ const verbandNavItems = [
   { name: "Meine Organisation", icon: Landmark, page: "MyOrganization" },
   { name: "Nutzerverwaltung", icon: UserIcon, page: "UserManagement", adminOnly: true },
   { name: "App-Einstellungen", icon: Settings, page: "AppSettings", adminOnly: true },
+  { name: "Support", icon: MessageCircle, page: "Support", supportOnly: true },
 ];
 
 export default function Layout({ children, currentPageName }) {
