@@ -245,6 +245,7 @@ WICHTIG:
                   value={form.signature_name || ""} 
                   onChange={(e) => update("signature_name", e.target.value)} 
                   placeholder="Name eingeben..." 
+                  data-testid="motion-signature-name-input"
                 />
               )}
             </div>
