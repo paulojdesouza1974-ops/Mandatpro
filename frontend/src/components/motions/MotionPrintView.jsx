@@ -28,6 +28,12 @@ export default function MotionPrintView({ motion, open, onClose }) {
     queryFn: () => base44.entities.PrintTemplate.list(),
   });
 
+  // Define selectedTemplate and defaultTemplate based on templates array
+  const defaultTemplate = templates.find(t => t.is_default) || templates[0];
+  const selectedTemplate = selectedTemplateId 
+    ? templates.find(t => t.id === selectedTemplateId) 
+    : defaultTemplate;
+
   if (!motion) return null;
 
   const { data: orgData = [] } = useQuery({
