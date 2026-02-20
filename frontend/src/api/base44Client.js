@@ -98,6 +98,7 @@ const auth = {
       body: JSON.stringify({ email, password }),
     });
     setToken(result.token);
+    setRole(result.user?.role);
     return result.user;
   },
 
