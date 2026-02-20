@@ -238,81 +238,68 @@ ${printContent.innerHTML}
           )}
 
           {/* Header Area */}
-          <div className="mb-12">
-            {/* Fraction Name Centered at Top */}
-            {selectedTemplate?.fraction_name && (
-              <div className="text-center mb-8">
-                <div className="font-bold text-base" style={{ color: selectedTemplate?.primary_color }}>
-                  {selectedTemplate.fraction_name}
-                </div>
-                {selectedTemplate.fraction_subtitle && (
-                  <div className="italic text-sm" style={{ color: selectedTemplate?.primary_color }}>
-                    {selectedTemplate.fraction_subtitle}
-                  </div>
-                )}
+          <div className="relative mb-10" style={{ minHeight: '4cm' }}>
+            <div className="text-center">
+              <div className="font-bold text-base" style={{ color: selectedTemplate?.primary_color }}>
+                {headerName}
               </div>
-            )}
-
-            {/* Logo and Document Type Box */}
-            <div className="flex justify-between items-start mb-8">
-              {/* Logo Left */}
-              {selectedTemplate?.logo_url && (
-                <div className="flex-shrink-0">
-                  <img src={selectedTemplate.logo_url} alt="Logo" className="h-20 object-contain" />
+              {headerSubtitle && (
+                <div className="italic text-sm" style={{ color: selectedTemplate?.primary_color }}>
+                  {headerSubtitle}
                 </div>
               )}
-
-              {/* Spacer */}
-              <div className="flex-1"></div>
-
-              {/* Document Type Box - positioned based on setting */}
-              {selectedTemplate?.show_document_type_box && (
-                <div 
-                  className="border border-black flex-shrink-0" 
-                  style={{ 
-                    width: '200px',
-                    marginLeft: selectedTemplate.document_type_box_position === 'links' ? '0' : 'auto',
-                    marginRight: selectedTemplate.document_type_box_position === 'rechts' ? '0' : selectedTemplate.document_type_box_position === 'mittel' ? 'auto' : 'auto'
-                  }}
-                >
-                  <table className="w-full text-xs">
-                    <tbody>
-                      <tr className="border-b border-black">
-                        <td className="p-2 border-r border-black">Fraktionsantrag</td>
-                        <td className="p-2 text-center">{motion.type === 'antrag' ? 'X' : ''}</td>
-                      </tr>
-                      <tr className="border-b border-black">
-                        <td className="p-2 border-r border-black">Einzelantrag</td>
-                        <td className="p-2 text-center">{motion.type === 'aenderungsantrag' ? 'X' : ''}</td>
-                      </tr>
-                      <tr className="border-b border-black">
-                        <td className="p-2 border-r border-black">Anfrage</td>
-                        <td className="p-2 text-center">{motion.type === 'anfrage' ? 'X' : ''}</td>
-                      </tr>
-                      <tr className="border-b border-black">
-                        <td className="p-2 border-r border-black">Beschluss</td>
-                        <td className="p-2 text-center">{motion.type === 'resolution' || motion.type === 'beschluss' ? 'X' : ''}</td>
-                      </tr>
-                      {selectedTemplate.date_position === 'in_box' && (
-                        <tr>
-                          <td className="p-2" colSpan="2">
-                            Dormagen den {format(new Date(motion.created_date), "dd.MM.yyyy", { locale: de })}
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+              {selectedTemplate?.header_text && (
+                <div className="text-xs mt-2 whitespace-pre-line" style={{ color: selectedTemplate?.secondary_color }}>
+                  {selectedTemplate.header_text}
                 </div>
               )}
             </div>
 
-            {/* Recipient Address */}
-            {selectedTemplate?.show_recipient_address && selectedTemplate?.recipient_title && (
-              <div className="mb-12 whitespace-pre-line" style={{ color: selectedTemplate?.secondary_color }}>
-                {selectedTemplate.recipient_title}
+            {selectedTemplate?.logo_url && (
+              <div className="absolute" style={{ ...logoStyle }}>
+                <img src={selectedTemplate.logo_url} alt="Logo" className="h-16 object-contain" />
+              </div>
+            )}
+
+            {selectedTemplate?.show_document_type_box && (
+              <div className="absolute border border-black" style={{ ...docBoxStyle, width: '200px' }}>
+                <table className="w-full text-xs">
+                  <tbody>
+                    <tr className="border-b border-black">
+                      <td className="p-2 border-r border-black">Fraktionsantrag</td>
+                      <td className="p-2 text-center">{motion.type === 'antrag' ? 'X' : ''}</td>
+                    </tr>
+                    <tr className="border-b border-black">
+                      <td className="p-2 border-r border-black">Einzelantrag</td>
+                      <td className="p-2 text-center">{motion.type === 'aenderungsantrag' ? 'X' : ''}</td>
+                    </tr>
+                    <tr className="border-b border-black">
+                      <td className="p-2 border-r border-black">Anfrage</td>
+                      <td className="p-2 text-center">{motion.type === 'anfrage' ? 'X' : ''}</td>
+                    </tr>
+                    <tr className="border-b border-black">
+                      <td className="p-2 border-r border-black">Beschluss</td>
+                      <td className="p-2 text-center">{motion.type === 'resolution' || motion.type === 'beschluss' ? 'X' : ''}</td>
+                    </tr>
+                    {selectedTemplate.date_position === 'in_box' && (
+                      <tr>
+                        <td className="p-2" colSpan="2">
+                          Dormagen den {format(new Date(motion.created_date), "dd.MM.yyyy", { locale: de })}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
+
+          {/* Recipient Address */}
+          {selectedTemplate?.show_recipient_address && selectedTemplate?.recipient_title && (
+            <div className="mb-12 whitespace-pre-line" style={{ color: selectedTemplate?.secondary_color }}>
+              {selectedTemplate.recipient_title}
+            </div>
+          )}
 
           {/* Hauptinhalt */}
           <div className="mb-12">
