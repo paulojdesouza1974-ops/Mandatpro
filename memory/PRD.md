@@ -222,3 +222,9 @@ User requested to improve an existing German municipal CRM application called "K
 ## Recent Updates (2026-02-20)
 - Impressum, Datenschutz und neue AGB-Seite ohne Base44-Bezug aktualisiert (Betreiber: Paulo Jose De Souza)
 - AGB-Link im Footer ergänzt und neue /Terms Route registriert
+- Support-Ticket-System erweitert (Support-only Zugriff, Zuweisung, Anhänge) + Support-Anfrage für Orga-Admins
+- Globale Suche (Backend Endpoint + /Search Seite) über Kontakte, Mitglieder, Anträge, Meetings, Dokumente, Buchhaltung, Vorlagen
+- SMTP-Konfiguration pro Organisation in „Meine Organisation“ + automatische Meeting-Erinnerungen (Scheduler + Button)
+- OCR/KI-Scan für Belege & Kontoauszüge mit Zuordnung inkl. Mandatsträger (OpenAI GPT-5.2)
+- DATEVconnect online Platzhalter-Status + UI-Karte in Buchhaltung
+- Rollen erweitert: Admin / Member / Viewer / Support (Viewer = read-only in Client)
