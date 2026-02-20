@@ -45,7 +45,7 @@ const signatureRoles = [
 const emptyMotion = {
   title: "", type: "antrag", status: "entwurf", body: "",
   committee: "", session_date: "", submitted_date: "",
-  priority: "mittel", signature_role: "", signature_name: "", tags: [], notes: "", attachments: [],
+  priority: "mittel", signature_role: "", signature_name: "", signature_role_2: "", signature_name_2: "", tags: [], notes: "", attachments: [],
 };
 
 export default function MotionForm({ open, onClose, motion, onSave, saving }) {
