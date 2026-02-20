@@ -275,6 +275,30 @@ export default function Accounting() {
         </Card>
       </div>
 
+      <Card className="border border-slate-200" data-testid="datev-status-card">
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-blue-600" /> DATEVconnect online
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p className="text-sm text-slate-600">
+            Status: {datevStatusQuery.data?.status === "placeholder" ? "In Vorbereitung" : "Unbekannt"}
+          </p>
+          {datevStatusQuery.data?.message && (
+            <p className="text-xs text-slate-500">{datevStatusQuery.data.message}</p>
+          )}
+          <Button
+            variant="outline"
+            className="border-slate-300 text-slate-700"
+            onClick={() => datevStatusQuery.refetch()}
+            data-testid="datev-status-check-button"
+          >
+            Status prüfen
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Tabs */}
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList>
