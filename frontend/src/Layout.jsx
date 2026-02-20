@@ -164,6 +164,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="space-y-1">
             {navItems.filter(item => {
               if (item.ownerOnly) return isAppOwner;
+              if (item.supportOnly) return isSupportUser;
               if (item.adminOnly) return user?.role === "admin";
               return true;
             }).map((item) => {
