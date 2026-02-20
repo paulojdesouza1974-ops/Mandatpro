@@ -302,6 +302,15 @@ const search = {
   },
 };
 
+const reminders = {
+  async sendNow(meetingId, meetingType = "meeting") {
+    return request('/api/reminders/send-now', {
+      method: 'POST',
+      body: JSON.stringify({ meeting_id: meetingId, meeting_type: meetingType }),
+    });
+  },
+};
+
 const datev = {
   async status() {
     return request('/api/datev/status');
