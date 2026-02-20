@@ -179,7 +179,7 @@ def raise_llm_error(error: Exception):
     if "quota" in detail.lower() or "ratelimit" in detail.lower():
         raise HTTPException(
             status_code=429,
-            detail="OpenAI-Kontingent überschritten. Bitte Guthaben/Plan prüfen.",
+            detail="LLM-Kontingent überschritten. Bitte Guthaben/Plan prüfen.",
         )
     raise HTTPException(status_code=500, detail=detail)
 
