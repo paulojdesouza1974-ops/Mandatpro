@@ -246,6 +246,15 @@ export default function Layout({ children, currentPageName }) {
             </Link>
             <span className="text-slate-700">•</span>
             <Link
+              to={createPageUrl("Terms")}
+              onClick={() => setSidebarOpen(false)}
+              className="text-xs text-slate-500 hover:text-slate-400 transition-colors"
+              data-testid="nav-terms"
+            >
+              AGB
+            </Link>
+            <span className="text-slate-700">•</span>
+            <Link
               to={createPageUrl("Imprint")}
               onClick={() => setSidebarOpen(false)}
               className="text-xs text-slate-500 hover:text-slate-400 transition-colors"
