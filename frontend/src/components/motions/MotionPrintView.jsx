@@ -33,6 +33,26 @@ export default function MotionPrintView({ motion, open, onClose }) {
   const defaultTemplate = templates.find(t => t.is_default);
   const selectedTemplate = templates.find(t => t.id === selectedTemplateId) || defaultTemplate;
 
+  const roleLabel = (role) => {
+    if (role === "fraktionsvorsitzender") return "Fraktionsvorsitzender";
+    if (role === "stv_fraktionsvorsitzender") return "Stv. Fraktionsvorsitzender";
+    if (role === "fraktionsgeschaeftsfuehrer") return "Fraktionsgeschäftsführer";
+    if (role === "ratsmitglied") return "Ratsmitglied";
+    if (role === "sachkundiger_buerger") return "Sachkundiger Bürger";
+    return "";
+  };
+
+  const signatureEntries = [
+    {
+      name: motion.signature_name || motion.created_by || "Unbekannt",
+      role: motion.signature_role,
+    },
+    {
+      name: motion.signature_name_2,
+      role: motion.signature_role_2,
+    },
+  ].filter(entry => entry.name);
+
   const handlePrint = () => {
     window.print();
   };
