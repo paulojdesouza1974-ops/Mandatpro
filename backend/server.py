@@ -1308,6 +1308,15 @@ Die Einladungen sollen:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============ DATEV PLACEHOLDER ============
+
+@app.get("/api/datev/status")
+async def datev_status():
+    return {
+        "status": "placeholder",
+        "message": "DATEVconnect online Integration ist in Vorbereitung.",
+    }
+
 # ============ SMTP HELPERS ============
 
 def get_org_smtp_settings(organization: str):
