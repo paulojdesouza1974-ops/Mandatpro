@@ -158,6 +158,14 @@ class GenericCreate(BaseModel):
 # Simple token storage (in production use Redis or JWT)
 tokens = {}
 
+logger = logging.getLogger("kommunalcrm")
+
+def get_openai_key():
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
+    return api_key
+
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
