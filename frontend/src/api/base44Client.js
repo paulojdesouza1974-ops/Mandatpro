@@ -319,6 +319,21 @@ const reminders = {
   },
 };
 
+const organizations = {
+  async getMembers(orgName) {
+    return request(`/api/organizations/${encodeURIComponent(orgName)}/members`);
+  },
+};
+
+const users = {
+  async updateRole(userId, orgRole) {
+    return request(`/api/users/${userId}/role`, {
+      method: 'PUT',
+      body: JSON.stringify({ org_role: orgRole }),
+    });
+  },
+};
+
 const datev = {
   async status() {
     return request('/api/datev/status');
@@ -339,6 +354,8 @@ export const base44 = {
   reminders,
   datev,
   files,
+  organizations,
+  users,
 };
 
 export default base44;

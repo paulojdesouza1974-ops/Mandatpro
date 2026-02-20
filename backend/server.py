@@ -460,6 +460,39 @@ async def update_user(user_id: str, data: dict):
         del result["password"]
     return result
 
+
+# ============ Organization Members Management ============
+@app.get("/api/organizations/{org_name}/members")
+async def get_organization_members(org_name: str):
+    """Get all members (users) of an organization"""
+    docs = list(db.users.find({"organization": org_name}))
+    result = serialize_docs(docs)
+    for doc in result:
+        if "password" in doc:
+            del doc["password"]
+    return result
+
+
+class RoleUpdateRequest(BaseModel):
+    org_role: str
+
+
+@app.put("/api/users/{user_id}/role")
+async def update_user_role(user_id: str, request: RoleUpdateRequest):
+    """Update the org_role of a specific user"""
+    result = db.users.update_one(
+        {"_id": ObjectId(user_id)},
+        {"$set": {"org_role": request.org_role, "updated_date": datetime.now(timezone.utc).isoformat()}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    doc = db.users.find_one({"_id": ObjectId(user_id)})
+    serialized = serialize_doc(doc)
+    if "password" in serialized:
+        del serialized["password"]
+    return serialized
+
 # Health check
 @app.get("/api/health")
 async def health():
