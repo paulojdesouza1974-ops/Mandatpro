@@ -291,7 +291,7 @@ export default function SupportTicketDialog({
               </Button>
               <input id="support-attachments" type="file" className="hidden" onChange={handleUpload} />
             </div>
-            {formData.attachments?.length  0  (
+            {formData.attachments?.length > 0 && (
               <div className="mt-2 space-y-2">
                 {formData.attachments.map((file, idx) => (
                   <div key={file.file_url} className="flex items-center justify-between rounded border border-slate-200 px-3 py-2 text-sm" data-testid={`support-ticket-attachment-${idx}`}>
