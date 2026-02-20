@@ -159,19 +159,22 @@ export default function UserManagementPage() {
     const email = window.prompt("E-Mail-Adresse des neuen Nutzers:");
     if (!email) return;
 
-    const roleInput = window.prompt('Rolle (admin oder user):', 'user');
-    const role = roleInput?.toLowerCase() === 'admin' ? 'admin' : 'user';
+    const roleInput = window.prompt('Rolle (admin, member, viewer, support):', 'member');
+    const roleRaw = roleInput ? roleInput.toLowerCase() : 'member';
+    const role = ['admin', 'member', 'viewer', 'support'].includes(roleRaw) ? roleRaw : 'member';
 
     if (window.confirm(`Nutzer ${email} als ${role} einladen?`)) {
       inviteUserMutation.mutate({ email, role });
     }
   };
 
-  const handleToggleAdmin = (user) => {
-    const newRole = user.role === "admin" ? "user" : "admin";
-    const action = newRole === "admin" ? "Admin-Rechte geben" : "Admin-Rechte entziehen";
-    
-    if (window.confirm(`${action} für ${user.full_name} (${user.email})?`)) {
+  const handleChangeRole = (user) => {
+    const roleInput = window.prompt('Neue Rolle (admin, member, viewer, support):', user.role || 'member');
+    if (!roleInput) return;
+    const roleRaw = roleInput.toLowerCase();
+    const newRole = ['admin', 'member', 'viewer', 'support'].includes(roleRaw) ? roleRaw : 'member';
+
+    if (window.confirm(`Rolle für ${user.full_name} (${user.email}) auf ${newRole} setzen?`)) {
       updateUserMutation.mutate({
         userId: user.id,
         data: { role: newRole },
