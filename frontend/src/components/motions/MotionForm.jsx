@@ -119,25 +119,32 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
     if (!form.title) return;
     setGenerating(true);
     const typeLabel = types.find((t) => t.value === form.type)?.label || form.type;
-    
+    const decisionLabel = form.type === "anfrage" ? "Fragestellung" : "Beschlussvorlage";
+    const adminLine = form.type === "anfrage"
+      ? "Die Verwaltung wird um eine schriftliche Beantwortung bis zur nächsten Sitzung gebeten."
+      : "Die Verwaltung wird beauftragt, ein Konzept bis zur nächsten Sitzung des Rates vorzulegen, das Standorte, technische Umsetzung, Kosten sowie Pflege und Ersatz regelt. Dabei sind bestehende Beflaggungsvorschriften von Bund und Land zu beachten.";
+
     try {
-      const prompt = `Erstelle einen professionellen ${typeLabel} zum Thema: "${form.title}".
+      const prompt = `Formuliere einen kommunalpolitischen ${typeLabel} im Stil unserer Standardvorlage.
 
-Format:
-Antrag: ${form.title}
+Struktur (bitte exakt mit Überschriften):
+${typeLabel}: ${form.title}
+${typeLabel}: [Kurzfassung in 6-10 Wörtern]
 
-Beschlussvorlage
-[Konkreter Beschlusstext - 1-2 Sätze, was beschlossen werden soll]
-
-Die Verwaltung wird beauftragt, ein Konzept vorzulegen.
+${decisionLabel}
+[Konkreter Text, 2-4 Sätze]
+${adminLine}
 
 Begründung
-[Sachliche Begründung in 3-4 Absätzen:
-- Ausgangslage und Kontext
-- Problemstellung oder Notwendigkeit
-- Erwartete Vorteile]
+[3-5 Absätze: Ausgangslage, Problem, Nutzen, ggf. rechtlicher Rahmen]
 
-WICHTIG: Keine Anrede, keine Grußformel, keine Unterschrift. Sachlich und präzise.`;
+Beispiele aus anderen Kommunen
+[1 Absatz mit 2-3 konkreten Städten/Landkreisen als Referenz]
+
+WICHTIG:
+- Keine Empfängeradresse, keine Grußformel, keine Unterschriften.
+- Sachlich, formal, klar strukturiert.
+- Absätze mit Leerzeile trennen.`;
 
       const res = await base44.ai.generateText(prompt, 'motion');
       if (res.success && res.content) {
