@@ -1493,6 +1493,11 @@ def send_due_reminders():
 
 
 def start_reminder_scheduler():
+    global reminder_scheduler_started
+    if reminder_scheduler_started:
+        return
+    reminder_scheduler_started = True
+
     def loop():
         while True:
             try:
