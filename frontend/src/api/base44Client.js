@@ -34,6 +34,11 @@ const clearRole = () => {
 
 const getToken = () => authToken;
 const getRole = () => userRole;
+const ensureWriteAccess = () => {
+  if (getRole() === 'viewer') {
+    throw new Error('Nur Lesezugriff');
+  }
+};
 
 // HTTP client
 const request = async (endpoint, options = {}) => {
