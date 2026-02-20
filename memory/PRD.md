@@ -234,7 +234,12 @@ User requested to improve an existing German municipal CRM application called "K
   - Mitgliederliste mit Namen und E-Mail
   - Rollen-Dropdown für Admins (Fraktionsvorsitzender, stv. Fraktionsvorsitzender, Fraktionsgeschäftsführer, Ratsmitglied, Sachkundiger Bürger, Mitglied)
   - Toast-Benachrichtigung bei Rollenänderung
-- **BugFix:** MotionPrintView.jsx Syntaxfehler behoben (fehlende getRoleLabel Funktionsdefinition)
+- **BugFix:** MotionPrintView.jsx - React Hooks Reihenfolge korrigiert (hooks vor conditional return)
+- **BugFix:** MotionPrintView.jsx - getRoleLabel Funktionsaufruf korrigiert
+- **NEU:** SMTP-Test-Funktion hinzugefügt
+  - Neuer Backend-Endpoint: `POST /api/smtp/test`
+  - Test-Button in "Meine Organisation" Seite (erscheint nur wenn SMTP konfiguriert)
+  - Sendet Test-E-Mail zur Verifikation der SMTP-Konfiguration
 
 ## Known Issues
 - OpenAI API-Key hat aktuell **Quota überschritten** → alle KI-Aufrufe (Text/Scan) geben 429 zurück, bis das Guthaben aufgeladen ist.
