@@ -142,6 +142,22 @@ export default function MyOrganization() {
     },
   });
 
+  const handleSmtpTest = async () => {
+    if (!smtpTestEmail || !smtpTestEmail.includes("@")) {
+      toast({ title: "Bitte gültige Test-E-Mail eingeben", variant: "destructive" });
+      return;
+    }
+    setSmtpTesting(true);
+    try {
+      const result = await base44.smtp.test(currentUser?.organization, smtpTestEmail);
+      toast({ title: "SMTP Test erfolgreich", description: result.message });
+    } catch (error) {
+      toast({ title: "SMTP Test fehlgeschlagen", description: error.message, variant: "destructive" });
+    } finally {
+      setSmtpTesting(false);
+    }
+  };
+
 
   const handleSave = () => {
     const emailDomain = formData.email && formData.email.includes("@") ? formData.email.split("@")[1].toLowerCase() : "";
