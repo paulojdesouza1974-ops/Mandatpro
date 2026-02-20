@@ -79,6 +79,12 @@ export default function MyOrganization() {
         bic: organization.bic || "",
         tax_number: organization.tax_number || "",
         description: organization.description || "",
+        smtp_host: organization.smtp_host || "",
+        smtp_port: organization.smtp_port || "",
+        smtp_username: organization.smtp_username || "",
+        smtp_password: organization.smtp_password || "",
+        smtp_from_email: organization.smtp_from_email || "",
+        smtp_from_name: organization.smtp_from_name || "",
       });
     }
   }, [organization]);
@@ -136,6 +142,12 @@ export default function MyOrganization() {
         bic: organization.bic || "",
         tax_number: organization.tax_number || "",
         description: organization.description || "",
+        smtp_host: organization.smtp_host || "",
+        smtp_port: organization.smtp_port || "",
+        smtp_username: organization.smtp_username || "",
+        smtp_password: organization.smtp_password || "",
+        smtp_from_email: organization.smtp_from_email || "",
+        smtp_from_name: organization.smtp_from_name || "",
       });
     }
   };
