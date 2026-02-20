@@ -46,6 +46,8 @@ export default function MyOrganization() {
   const qc = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [supportDialogOpen, setSupportDialogOpen] = useState(false);
+  const [smtpTestEmail, setSmtpTestEmail] = useState("");
+  const [smtpTesting, setSmtpTesting] = useState(false);
   const [formData, setFormData] = useState({});
 
   const { data: currentUser } = useQuery({
