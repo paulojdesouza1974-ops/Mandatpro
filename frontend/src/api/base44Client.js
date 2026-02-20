@@ -263,6 +263,20 @@ const ai = {
       body: JSON.stringify({ prompt, levy_data: levyData, organization_data: organizationData }),
     });
   },
+
+  async scanReceipt(fileUrl, organization) {
+    return request('/api/ai/scan-receipt', {
+      method: 'POST',
+      body: JSON.stringify({ file_url: fileUrl, organization }),
+    });
+  },
+
+  async scanBankStatement(fileUrl, organization) {
+    return request('/api/ai/scan-bank-statement', {
+      method: 'POST',
+      body: JSON.stringify({ file_url: fileUrl, organization }),
+    });
+  },
 };
 
 // Email API
