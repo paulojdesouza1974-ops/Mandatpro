@@ -218,7 +218,7 @@ WICHTIG:
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Unterschrift Position</Label>
               <Select value={form.signature_role || ""} onValueChange={(v) => update("signature_role", v)}>
-                <SelectTrigger><SelectValue placeholder="Position wählen..." /></SelectTrigger>
+                <SelectTrigger data-testid="motion-signature-role-trigger"><SelectValue placeholder="Position wählen..." /></SelectTrigger>
                 <SelectContent>
                   {signatureRoles.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
                 </SelectContent>
