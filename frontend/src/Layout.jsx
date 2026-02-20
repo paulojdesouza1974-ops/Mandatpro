@@ -48,6 +48,7 @@ const fraktionNavItems = [
 
 const verbandNavItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
+  { name: "Suche", icon: Search, page: "Search" },
   { name: "Aufgaben", icon: CheckSquare, page: "Tasks" },
   { name: "Mitglieder", icon: Users, page: "Contacts" },
   { name: "Kampagnen", icon: Target, page: "Campaigns" },
