@@ -1034,10 +1034,22 @@ Die Einladung soll:
       }
       doc.text(`Ort: ${meeting.location || "-"}`, 20, y);
       y += 15;
-      doc.setFont("helvetica", "bold");
-      doc.text("Tagesordnung:", 20, y);
-      y += 8;
-      doc.setFont("helvetica", "normal");
+      
+      // Add invitation text (which may contain agenda)
+      if (invitationText) {
+        const invLines = doc.splitTextToSize(invitationText, 170);
+        doc.text(invLines, 20, y);
+        y += invLines.length * 6 + 15;
+      } else if (meeting.agenda) {
+        // Only add agenda separately if no invitation text exists
+        doc.setFont("helvetica", "bold");
+        doc.text("Tagesordnung:", 20, y);
+        y += 8;
+        doc.setFont("helvetica", "normal");
+        const agendaLines = doc.splitTextToSize(meeting.agenda, 170);
+        doc.text(agendaLines, 20, y);
+      }
+      
       const pdfBase64 = doc.output("datauristring").split(",")[1];
 
       // Send email
