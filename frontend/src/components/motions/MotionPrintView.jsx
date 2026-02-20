@@ -30,10 +30,39 @@ export default function MotionPrintView({ motion, open, onClose }) {
 
   if (!motion) return null;
 
-  const defaultTemplate = templates.find(t => t.is_default);
-  const selectedTemplate = templates.find(t => t.id === selectedTemplateId) || defaultTemplate;
+  const { data: orgData = [] } = useQuery({
+    queryKey: ['printOrganization', motion?.organization],
+    queryFn: () => base44.entities.Organization.filter({ name: motion?.organization }),
+    enabled: !!motion?.organization,
+  });
 
-  const roleLabel = (role) => {
+  const organization = orgData[0] || null;
+
+  const headerName = selectedTemplate?.fraction_name || organization?.display_name || "Fraktion";
+  const headerSubtitle = selectedTemplate?.fraction_subtitle || organization?.city || "";
+
+  const buildFooterText = () => {
+    if (!organization) return "";
+    const lines = [];
+    if (organization.display_name) lines.push(organization.display_name);
+    if (organization.address) lines.push(organization.address);
+    const cityLine = [organization.postal_code, organization.city].filter(Boolean).join(" ");
+    if (cityLine) lines.push(cityLine);
+    const contactLine = [organization.phone, organization.email, organization.website].filter(Boolean).join(" | ");
+    if (contactLine) lines.push(contactLine);
+    const bankLine = [organization.iban, organization.bic].filter(Boolean).join(" | ");
+    if (bankLine) lines.push(`IBAN/BIC: ${bankLine}`);
+    return lines.join("\n");
+  };
+
+  const footerText = selectedTemplate?.footer_text || buildFooterText();
+
+  const logoStyle = selectedTemplate?.logo_position_x !== null  selectedTemplate?.logo_position_x !== undefined
+    ? { left: `${selectedTemplate.logo_position_x}px`, top: `${selectedTemplate.logo_position_y || 0}px` }
+    : { right: '0', top: '0' };
+  const docBoxStyle = selectedTemplate?.document_type_box_x !== null  selectedTemplate?.document_type_box_x !== undefined
+    ? { left: `${selectedTemplate.document_type_box_x}px`, top: `${selectedTemplate.document_type_box_y || 0}px` }
+    : { right: '0', top: '110px' };
     if (role === "fraktionsvorsitzender") return "Fraktionsvorsitzender";
     if (role === "stv_fraktionsvorsitzender") return "Stv. Fraktionsvorsitzender";
     if (role === "fraktionsgeschaeftsfuehrer") return "Fraktionsgeschäftsführer";
