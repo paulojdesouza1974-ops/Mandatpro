@@ -30,6 +30,7 @@ import PageTransition from "@/components/PageTransition";
 
 const fraktionNavItems = [
   { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
+  { name: "Suche", icon: Search, page: "Search" },
   { name: "Aufgaben", icon: CheckSquare, page: "Tasks" },
   { name: "Kontakte", icon: Users, page: "Contacts" },
   { name: "Anträge", icon: FileText, page: "Motions" },
