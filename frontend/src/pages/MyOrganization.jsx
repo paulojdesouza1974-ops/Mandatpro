@@ -484,6 +484,101 @@ export default function MyOrganization() {
                 <p className="text-slate-900 mt-1">{organization?.tax_number || "-"}</p>
               )}
             </div>
+
+            <Separator />
+
+            <CardTitle className="text-base flex items-center gap-2 pt-2">
+              <Mail className="w-5 h-5 text-slate-600" />
+              SMTP Versand
+            </CardTitle>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>SMTP Host</Label>
+                {isEditing && isAdmin ? (
+                  <Input
+                    value={formData.smtp_host}
+                    onChange={(e) => setFormData({ ...formData, smtp_host: e.target.value })}
+                    placeholder="smtp.example.com"
+                    data-testid="smtp-host-input"
+                  />
+                ) : (
+                  <p className="text-slate-900 mt-1">{organization?.smtp_host || "-"}</p>
+                )}
+              </div>
+              <div>
+                <Label>SMTP Port</Label>
+                {isEditing && isAdmin ? (
+                  <Input
+                    value={formData.smtp_port}
+                    onChange={(e) => setFormData({ ...formData, smtp_port: e.target.value })}
+                    placeholder="587"
+                    data-testid="smtp-port-input"
+                  />
+                ) : (
+                  <p className="text-slate-900 mt-1">{organization?.smtp_port || "-"}</p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <Label>SMTP Benutzername</Label>
+              {isEditing && isAdmin ? (
+                <Input
+                  value={formData.smtp_username}
+                  onChange={(e) => setFormData({ ...formData, smtp_username: e.target.value })}
+                  placeholder="user@example.com"
+                  data-testid="smtp-username-input"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1">{organization?.smtp_username || "-"}</p>
+              )}
+            </div>
+
+            <div>
+              <Label>SMTP Passwort</Label>
+              {isEditing && isAdmin ? (
+                <Input
+                  type="password"
+                  value={formData.smtp_password}
+                  onChange={(e) => setFormData({ ...formData, smtp_password: e.target.value })}
+                  placeholder="••••••••"
+                  data-testid="smtp-password-input"
+                />
+              ) : (
+                <p className="text-slate-900 mt-1">{organization?.smtp_password ? "••••••••" : "-"}</p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Absender E-Mail</Label>
+                {isEditing && isAdmin ? (
+                  <Input
+                    type="email"
+                    value={formData.smtp_from_email}
+                    onChange={(e) => setFormData({ ...formData, smtp_from_email: e.target.value })}
+                    placeholder="noreply@organisation.de"
+                    data-testid="smtp-from-email-input"
+                  />
+                ) : (
+                  <p className="text-slate-900 mt-1">{organization?.smtp_from_email || "-"}</p>
+                )}
+              </div>
+              <div>
+                <Label>Absender Name</Label>
+                {isEditing && isAdmin ? (
+                  <Input
+                    value={formData.smtp_from_name}
+                    onChange={(e) => setFormData({ ...formData, smtp_from_name: e.target.value })}
+                    placeholder="KommunalCRM"
+                    data-testid="smtp-from-name-input"
+                  />
+                ) : (
+                  <p className="text-slate-900 mt-1">{organization?.smtp_from_name || "-"}</p>
+                )}
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
