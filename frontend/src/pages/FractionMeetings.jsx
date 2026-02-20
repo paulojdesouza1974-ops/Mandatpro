@@ -1038,13 +1038,6 @@ Die Einladung soll:
       doc.text("Tagesordnung:", 20, y);
       y += 8;
       doc.setFont("helvetica", "normal");
-      const agendaLines = doc.splitTextToSize(meeting.agenda || "-", 170);
-      doc.text(agendaLines, 20, y);
-      y += agendaLines.length * 6 + 15;
-      if (invitationText) {
-        const invLines = doc.splitTextToSize(invitationText, 170);
-        doc.text(invLines, 20, y);
-      }
       const pdfBase64 = doc.output("datauristring").split(",")[1];
 
       // Send email
