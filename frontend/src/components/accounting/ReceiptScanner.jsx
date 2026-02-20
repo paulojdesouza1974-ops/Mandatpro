@@ -65,6 +65,16 @@ export default function ReceiptScanner({ open, onClose, organization }) {
     } catch (error) {
       console.error("Upload Fehler:", error);
       alert("Fehler beim Beleg-Scan. Bitte Daten manuell eingeben.");
+      setScanned(null);
+      setForm({
+        description: "",
+        vendor: "",
+        amount: "",
+        date: "",
+        transaction_type: "ausgabe",
+        category: "sonstiges",
+        notes: "",
+      });
       setStep("review");
     }
   };
