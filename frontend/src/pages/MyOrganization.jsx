@@ -583,6 +583,28 @@ export default function MyOrganization() {
         </Card>
       </div>
 
+      {organization && isAdmin && (
+        <Card data-testid="support-request-card">
+          <CardHeader>
+            <CardTitle className="text-lg">Support</CardTitle>
+            <CardDescription>Support-Team kontaktieren und Anliegen dokumentieren.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => setSupportDialogOpen(true)} data-testid="support-request-open-button">
+              Support-Anfrage senden
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      <SupportRequestDialog
+        open={supportDialogOpen}
+        onOpenChange={setSupportDialogOpen}
+        organization={organization?.display_name || currentUser?.organization}
+        contactEmail={currentUser?.email}
+        onSuccess={() => toast({ title: "Support-Anfrage gesendet" })}
+      />
+
       {/* No Organization Message */}
       {!organization && !isEditing && (
         <Card className="border-dashed border-2 border-slate-200 bg-slate-50">
