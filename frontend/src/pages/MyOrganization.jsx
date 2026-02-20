@@ -33,6 +33,15 @@ import {
   FileText,
 } from "lucide-react";
 
+const ORG_ROLES = [
+  { value: "fraktionsvorsitzender", label: "Fraktionsvorsitzender" },
+  { value: "stv_fraktionsvorsitzender", label: "1. stv. Fraktionsvorsitzender" },
+  { value: "fraktionsgeschaeftsfuehrer", label: "Fraktionsgeschäftsführer" },
+  { value: "ratsmitglied", label: "Ratsmitglied" },
+  { value: "sachkundiger_buerger", label: "Sachkundiger Bürger" },
+  { value: "mitglied", label: "Mitglied" },
+];
+
 export default function MyOrganization() {
   const qc = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
