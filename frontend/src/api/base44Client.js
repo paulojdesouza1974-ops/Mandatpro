@@ -302,6 +302,12 @@ const search = {
   },
 };
 
+const datev = {
+  async status() {
+    return request('/api/datev/status');
+  },
+};
+
 const files = {
   upload: uploadFile,
 };
