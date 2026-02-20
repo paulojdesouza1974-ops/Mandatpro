@@ -57,10 +57,10 @@ export default function MotionPrintView({ motion, open, onClose }) {
 
   const footerText = selectedTemplate?.footer_text || buildFooterText();
 
-  const logoStyle = selectedTemplate?.logo_position_x !== null  selectedTemplate?.logo_position_x !== undefined
+  const logoStyle = selectedTemplate?.logo_position_x !== null && selectedTemplate?.logo_position_x !== undefined
     ? { left: `${selectedTemplate.logo_position_x}px`, top: `${selectedTemplate.logo_position_y || 0}px` }
     : { right: '0', top: '0' };
-  const docBoxStyle = selectedTemplate?.document_type_box_x !== null  selectedTemplate?.document_type_box_x !== undefined
+  const docBoxStyle = selectedTemplate?.document_type_box_x !== null && selectedTemplate?.document_type_box_x !== undefined
     ? { left: `${selectedTemplate.document_type_box_x}px`, top: `${selectedTemplate.document_type_box_y || 0}px` }
     : { right: '0', top: '110px' };
     if (role === "fraktionsvorsitzender") return "Fraktionsvorsitzender";
