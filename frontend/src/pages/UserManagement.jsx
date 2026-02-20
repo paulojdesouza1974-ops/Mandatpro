@@ -324,11 +324,11 @@ export default function UserManagementPage() {
                             Details anzeigen
                           </DropdownMenuItem>
                           <DropdownMenuItem 
-                            onClick={() => handleToggleAdmin(user)}
-                            className={user.role === "admin" ? "text-orange-600" : "text-purple-600"}
+                            onClick={() => handleChangeRole(user)}
+                            className="text-purple-600"
                           >
                             <UserCog className="w-4 h-4 mr-2" />
-                            {user.role === "admin" ? "Admin-Rechte entziehen" : "Zum Admin machen"}
+                            Rolle ändern
                           </DropdownMenuItem>
                           {unpaidInvoices.length > 0 && user.account_status !== "gemahnt" && (
                             <DropdownMenuItem onClick={() => handleSendWarning(user)}>
