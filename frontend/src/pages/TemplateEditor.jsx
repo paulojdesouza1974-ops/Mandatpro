@@ -175,9 +175,19 @@ export default function TemplateEditor() {
     const x = Math.max(0, event.clientX - containerRect.left - dragging.offsetX);
     const y = Math.max(0, event.clientY - containerRect.top - dragging.offsetY);
     if (dragging.type === "logo") {
-      setFormData(prev => ({ ...prev, logo_position_x: Math.round(x), logo_position_y: Math.round(y) }));
+      setFormData(prev => ({ 
+        ...prev, 
+        logo_position_x: Math.round(x), 
+        logo_position_y: Math.round(y),
+        logo_position: "frei",
+      }));
     } else if (dragging.type === "docBox") {
-      setFormData(prev => ({ ...prev, document_type_box_x: Math.round(x), document_type_box_y: Math.round(y) }));
+      setFormData(prev => ({ 
+        ...prev, 
+        document_type_box_x: Math.round(x), 
+        document_type_box_y: Math.round(y),
+        document_type_box_position: "frei",
+      }));
     }
   };
 
