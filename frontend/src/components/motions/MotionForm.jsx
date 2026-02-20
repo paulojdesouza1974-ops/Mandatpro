@@ -316,7 +316,7 @@ WICHTIG:
 
           <div className="space-y-1.5">
             <Label className="text-xs font-medium text-slate-500">Interne Notizen</Label>
-            <Textarea value={form.notes} onChange={(e) => update("notes", e.target.value)} rows={2} placeholder="Notizen..." />
+            <Textarea value={form.notes} onChange={(e) => update("notes", e.target.value)} rows={2} placeholder="Notizen..." data-testid="motion-notes-textarea" />
           </div>
 
           <div className="space-y-2">
