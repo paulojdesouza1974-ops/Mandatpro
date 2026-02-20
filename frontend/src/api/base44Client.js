@@ -133,6 +133,8 @@ const auth = {
 
   getToken,
   setToken,
+  setRole,
+  getRole,
 };
 
 // Entity factory - creates CRUD methods for any entity
