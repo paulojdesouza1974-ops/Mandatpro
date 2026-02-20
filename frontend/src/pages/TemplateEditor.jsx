@@ -122,9 +122,11 @@ export default function TemplateEditor() {
 
   useEffect(() => {
     if (selectedTemplate) {
-      setFormData({ ...formData, ...selectedTemplate });
+      setFormData({ ...createEmptyTemplate(selectedDocType), ...selectedTemplate });
+    } else {
+      setFormData(createEmptyTemplate(selectedDocType));
     }
-  }, [selectedTemplate]);
+  }, [selectedTemplate, selectedDocType]);
 
   const update = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
