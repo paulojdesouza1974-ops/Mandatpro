@@ -175,10 +175,14 @@ export default function MyOrganization() {
           <p className="text-slate-500 text-sm">Organisationsdaten verwalten und bearbeiten</p>
         </div>
         {!isEditing ? (
-          <Button onClick={() => setIsEditing(true)} data-testid="edit-org-btn">
-            <Pencil className="w-4 h-4 mr-2" />
-            Bearbeiten
-          </Button>
+          isAdmin ? (
+            <Button onClick={() => setIsEditing(true)} data-testid="edit-org-btn">
+              <Pencil className="w-4 h-4 mr-2" />
+              Bearbeiten
+            </Button>
+          ) : (
+            <Badge variant="secondary" data-testid="org-readonly-badge">Nur Admins können bearbeiten</Badge>
+          )
         ) : (
           <div className="flex gap-2">
             <Button variant="outline" onClick={handleCancel}>
