@@ -252,6 +252,11 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t">
+            {formData.id && (
+              <Button variant="outline" onClick={sendReminder} disabled={sendingReminder} data-testid="fraction-meeting-send-reminder-button">
+                {sendingReminder ? "Sende..." : "Erinnerung senden"}
+              </Button>
+            )}
             <Button variant="outline" onClick={onClose} disabled={saving} data-testid="fraction-meeting-cancel-button">
               <X className="w-4 h-4 mr-2" />
               Abbrechen
