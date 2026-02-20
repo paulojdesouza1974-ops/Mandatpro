@@ -186,7 +186,7 @@ export default function SupportPage() {
             />
           </div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-48" data-testid="support-status-filter-trigger">
               <SelectValue placeholder="Status filtern" />
             </SelectTrigger>
             <SelectContent>
