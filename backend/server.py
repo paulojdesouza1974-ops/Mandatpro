@@ -1413,13 +1413,6 @@ class ReminderSendRequest(BaseModel):
     meeting_type: Optional[str] = "meeting"
 
 
-def parse_iso_datetime(value: str):
-    try:
-        return datetime.fromisoformat(value.replace("Z", "+00:00"))
-    except Exception:
-        return None
-
-
 def collect_org_recipients(organization: str):
     emails = set()
     for user in db.users.find({"organization": organization}):
