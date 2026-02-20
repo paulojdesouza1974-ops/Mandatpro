@@ -71,6 +71,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
 import Reporting from './pages/Reporting';
+import Search from './pages/Search';
 import Support from './pages/Support';
 import Tasks from './pages/Tasks';
 import TemplateEditor from './pages/TemplateEditor';
