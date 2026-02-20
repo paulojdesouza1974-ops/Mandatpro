@@ -592,7 +592,16 @@ export default function TemplateEditor() {
         {/* Preview Panel */}
         <div className="flex-1 bg-slate-100 p-8 overflow-auto">
           <div className="max-w-4xl mx-auto">
-            <TemplatePreview template={formData} />
+            <TemplatePreview 
+              template={formData} 
+              organization={organization}
+              previewRef={previewRef}
+              onDragStart={handleDragStart}
+              onMouseMove={handleDragMove}
+              onMouseUp={handleDragEnd}
+              onMouseLeave={handleDragEnd}
+              footerText={formData.footer_text || defaultFooterText}
+            />
           </div>
         </div>
       </div>
