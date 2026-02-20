@@ -105,6 +105,7 @@ const auth = {
   async logout() {
     await request('/api/auth/logout', { method: 'POST' }).catch(() => {});
     setToken(null);
+    clearRole();
   },
 
   async me() {
