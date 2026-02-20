@@ -89,6 +89,12 @@ export default function SupportTicketDialog({
     }
   }, [ticket, open]);
 
+  useEffect(() => {
+    if (supportUsers.length > 0 && !formData.assigned_to) {
+      setFormData((prev) => ({ ...prev, assigned_to: supportUsers[0].email }));
+    }
+  }, [supportUsers]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const required = [
