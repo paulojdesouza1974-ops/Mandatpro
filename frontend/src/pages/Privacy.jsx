@@ -1,74 +1,102 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+const OWNER = {
+  name: "Paulo Jose De Souza",
+  addressLines: ["Nettergasse 9", "41539 Dormagen"],
+  email: "paulo@dshhome.de",
+  phone: "01747436594",
+};
+
 export default function PrivacyPage() {
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6" data-testid="privacy-page">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Datenschutzerklärung</h1>
-        <p className="text-slate-500 mt-1">
+        <h1 className="text-3xl font-bold text-slate-900" data-testid="privacy-title">Datenschutzerklärung</h1>
+        <p className="text-slate-500 mt-1" data-testid="privacy-subtitle">
           Informationen zum Umgang mit Ihren personenbezogenen Daten
         </p>
       </div>
 
-      <Card>
+      <Card data-testid="privacy-controller-card">
         <CardHeader>
           <CardTitle>1. Verantwortliche Stelle</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Verantwortlich für die Datenverarbeitung im Rahmen dieser Anwendung ist die jeweilige 
-            Organisation, die das KommunalCRM nutzt.
-          </p>
+        <CardContent className="space-y-3 text-slate-700">
+          <p className="font-semibold" data-testid="privacy-controller-name">{OWNER.name}</p>
+          <div className="space-y-1" data-testid="privacy-controller-address">
+            {OWNER.addressLines.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </div>
+          <p data-testid="privacy-controller-contact">E-Mail: {OWNER.email} · Telefon: {OWNER.phone}</p>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-data-categories-card">
         <CardHeader>
-          <CardTitle>2. Erhebung und Speicherung personenbezogener Daten</CardTitle>
+          <CardTitle>2. Erhobene Daten</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Bei der Nutzung von KommunalCRM werden folgende personenbezogene Daten erhoben und verarbeitet:
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-slate-700">
-            <li>Name und E-Mail-Adresse der Nutzer</li>
-            <li>Organisationszugehörigkeit</li>
-            <li>Kontaktdaten (Telefonnummer, Adresse)</li>
-            <li>Politische Funktionen und Rollen</li>
-            <li>Von Ihnen eingegebene Inhalte (Anträge, Termine, Kommunikationen, etc.)</li>
-            <li>Nutzungsdaten und Protokolldaten</li>
+          <p className="text-slate-700">Bei der Nutzung von KommunalCRM können folgende Daten verarbeitet werden:</p>
+          <ul className="list-disc list-inside space-y-2 text-slate-700" data-testid="privacy-data-list">
+            <li>Stammdaten (Name, E-Mail-Adresse, Telefonnummer)</li>
+            <li>Organisationszugehörigkeit und Rollen</li>
+            <li>Kontaktdaten von Mitgliedern, Spendern, Mandatsträgern</li>
+            <li>Inhalte aus Anträgen, Sitzungen, Aufgaben und Dokumenten</li>
+            <li>System- und Protokolldaten (Login, Änderungen, Zeitstempel)</li>
           </ul>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-purpose-card">
         <CardHeader>
-          <CardTitle>3. Zweck der Datenverarbeitung</CardTitle>
+          <CardTitle>3. Zweck der Verarbeitung</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Die Verarbeitung Ihrer personenbezogenen Daten erfolgt zu folgenden Zwecken:
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-slate-700">
-            <li>Bereitstellung und Verwaltung der Anwendungsfunktionen</li>
-            <li>Verwaltung von politischen Prozessen und Kommunikation</li>
-            <li>Organisation von Terminen und Sitzungen</li>
-            <li>Dokumentenverwaltung</li>
-            <li>Authentifizierung und Zugriffsverwaltung</li>
+          <ul className="list-disc list-inside space-y-2 text-slate-700" data-testid="privacy-purpose-list">
+            <li>Bereitstellung der App-Funktionen (Anträge, Meetings, Buchhaltung, Dokumente)</li>
+            <li>Organisation der politischen Arbeit innerhalb der jeweiligen Organisation</li>
+            <li>Nutzerverwaltung, Authentifizierung und Zugriffsschutz</li>
+            <li>Interne Kommunikation und Dokumentation</li>
           </ul>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-organization-card">
         <CardHeader>
-          <CardTitle>4. Rechtsgrundlage</CardTitle>
+          <CardTitle>4. Organisationen & Zugriffsberechtigungen</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-slate-700">
+          <p>
+            Daten werden organisationsbezogen gespeichert. Mitglieder einer Organisation sehen die Daten,
+            die innerhalb ihrer Organisation erfasst wurden, sofern sie berechtigt sind.
+          </p>
+          <p>
+            Administratoren der Organisation können weitere Mitglieder einladen und Zugriffe verwalten.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card data-testid="privacy-ai-card">
+        <CardHeader>
+          <CardTitle>5. KI-gestützte Funktionen</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-slate-700">
+          <p>
+            Für KI-Funktionen (z. B. Textentwürfe für Anträge oder Protokolle) werden Inhalte an den
+            Dienstleister OpenAI (GPT-5.2) übertragen. Es werden nur die für die Funktion notwendigen
+            Inhalte übermittelt.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card data-testid="privacy-legal-card">
+        <CardHeader>
+          <CardTitle>6. Rechtsgrundlage</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Die Verarbeitung personenbezogener Daten erfolgt auf Grundlage von:
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-slate-700">
+          <ul className="list-disc list-inside space-y-2 text-slate-700" data-testid="privacy-legal-list">
             <li>Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)</li>
             <li>Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO)</li>
             <li>Berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO)</li>
@@ -76,43 +104,31 @@ export default function PrivacyPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-sharing-card">
         <CardHeader>
-          <CardTitle>5. Datenweitergabe</CardTitle>
+          <CardTitle>7. Weitergabe an Dritte</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Ihre Daten werden nur innerhalb Ihrer Organisation verarbeitet. Eine Weitergabe an Dritte 
-            erfolgt nur, wenn dies gesetzlich vorgeschrieben ist oder Sie ausdrücklich eingewilligt haben.
-          </p>
-          <p className="text-slate-700">
-            Die technische Infrastruktur wird durch Base44 bereitgestellt. Ihre Daten werden auf 
-            sicheren Servern innerhalb der EU gespeichert.
-          </p>
+        <CardContent className="space-y-3 text-slate-700">
+          <p>Eine Weitergabe an Dritte erfolgt nur, wenn dies gesetzlich vorgeschrieben ist oder Sie eingewilligt haben.</p>
+          <p>Es werden keine Tracking- oder Werbe-Cookies eingesetzt (Stand heute).</p>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-retention-card">
         <CardHeader>
-          <CardTitle>6. Speicherdauer</CardTitle>
+          <CardTitle>8. Speicherdauer</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Ihre personenbezogenen Daten werden so lange gespeichert, wie dies für die Erfüllung der 
-            genannten Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen bestehen.
-          </p>
+        <CardContent className="text-slate-700">
+          <p>Ihre Daten werden nur so lange gespeichert, wie es für die Zwecke der Verarbeitung erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.</p>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-rights-card">
         <CardHeader>
-          <CardTitle>7. Ihre Rechte</CardTitle>
+          <CardTitle>9. Ihre Rechte</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-slate-700">
+          <ul className="list-disc list-inside space-y-2 text-slate-700" data-testid="privacy-rights-list">
             <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
             <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
             <li>Recht auf Löschung (Art. 17 DSGVO)</li>
@@ -120,39 +136,20 @@ export default function PrivacyPage() {
             <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
             <li>Widerspruchsrecht (Art. 21 DSGVO)</li>
             <li>Recht auf Widerruf der Einwilligung</li>
-            <li>Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO)</li>
           </ul>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card data-testid="privacy-contact-card">
         <CardHeader>
-          <CardTitle>8. Datensicherheit</CardTitle>
+          <CardTitle>10. Kontakt Datenschutz</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Wir setzen technische und organisatorische Sicherheitsmaßnahmen ein, um Ihre Daten gegen 
-            zufällige oder vorsätzliche Manipulationen, Verlust, Zerstörung oder den Zugriff 
-            unberechtigter Personen zu schützen.
-          </p>
+        <CardContent className="text-slate-700">
+          <p>Bei Fragen zum Datenschutz kontaktieren Sie uns unter: {OWNER.email}</p>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>9. Änderungen der Datenschutzerklärung</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-slate-700">
-            Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte 
-            Rechtslagen oder Änderungen unserer Anwendung anzupassen.
-          </p>
-        </CardContent>
-      </Card>
-
-      <div className="text-sm text-slate-500 pt-4">
-        Stand: Februar 2026
-      </div>
+      <div className="text-sm text-slate-500 pt-4" data-testid="privacy-last-updated">Stand: Februar 2026</div>
     </div>
   );
 }
