@@ -124,7 +124,7 @@ export default function BankStatementImport({ open, onClose, organization, conta
             amount: parseFloat(t.amount),
             date: t.date,
             source: t.sender_receiver,
-            notes: t.matched_contact ? `Zugeordnet: ${t.matched_contact}` : undefined,
+            notes: matchNotes,
           });
         } else {
           // If we have a matched existing expense, update it to "bezahlt"
