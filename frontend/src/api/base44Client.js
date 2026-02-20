@@ -319,6 +319,15 @@ const reminders = {
   },
 };
 
+const smtp = {
+  async test(organization, testEmail) {
+    return request('/api/smtp/test', {
+      method: 'POST',
+      body: JSON.stringify({ organization, test_email: testEmail }),
+    });
+  },
+};
+
 const organizations = {
   async getMembers(orgName) {
     return request(`/api/organizations/${encodeURIComponent(orgName)}/members`);
