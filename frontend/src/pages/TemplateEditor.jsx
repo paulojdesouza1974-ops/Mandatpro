@@ -23,30 +23,38 @@ export default function TemplateEditor() {
   const queryClient = useQueryClient();
   const [selectedDocType, setSelectedDocType] = useState('antrag');
   const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "Neue Vorlage",
+
+  const createEmptyTemplate = (docType) => ({
+    name: "",
     description: "",
+    document_type: docType,
     logo_url: "",
-    logo_position: "oben_links",
-    fraction_name: "Fraktion",
-    fraction_subtitle: "im Rat der Stadt Dormagen",
-    fraction_address: "Musterstraße 1\n12345 Musterstadt",
-    fraction_position: "oben_rechts",
+    logo_position: "oben_rechts",
+    logo_position_x: null,
+    logo_position_y: null,
+    fraction_name: "",
+    fraction_subtitle: "",
+    fraction_address: "",
+    fraction_position: "oben_mitte",
     show_document_type_box: true,
     document_type_box_position: "rechts",
+    document_type_box_x: null,
+    document_type_box_y: null,
     show_recipient_address: true,
-    recipient_title: "Herrn\nBürgermeister Erik Lierenfeld\nNeues Rathaus\nPaul-Wierich-Platz 2\n41539 Dormagen",
+    recipient_title: "",
     show_motion_number: true,
     show_date: true,
     show_creator: true,
     date_position: "in_box",
     header_text: "",
     footer_text: "",
-    primary_color: "#000000",
-    secondary_color: "#000000",
-    font_family: "Arial",
+    primary_color: "#111827",
+    secondary_color: "#6b7280",
+    font_family: "Times New Roman",
     custom_css: "",
   });
+
+  const [formData, setFormData] = useState(createEmptyTemplate('antrag'));
 
   const { data: user } = useQuery({
     queryKey: ["currentUser"],
