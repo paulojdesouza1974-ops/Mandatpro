@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DOCUMENT_TYPES = {
   antrag: { label: 'Antrag', entity: 'PrintTemplate' },
+  anfrage: { label: 'Anfrage', entity: 'PrintTemplate' },
+  beschluss: { label: 'Beschluss', entity: 'PrintTemplate' },
   brief: { label: 'Brief', entity: 'PrintTemplate' },
   einladung: { label: 'Einladung', entity: 'FractionMeetingTemplate' },
   protokoll: { label: 'Protokoll', entity: 'ProtocolTemplate' },
