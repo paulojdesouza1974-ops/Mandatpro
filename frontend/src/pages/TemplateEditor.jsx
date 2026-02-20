@@ -55,6 +55,8 @@ export default function TemplateEditor() {
   });
 
   const [formData, setFormData] = useState(createEmptyTemplate('antrag'));
+  const previewRef = useRef(null);
+  const [dragging, setDragging] = useState(null);
 
   const { data: user } = useQuery({
     queryKey: ["currentUser"],
