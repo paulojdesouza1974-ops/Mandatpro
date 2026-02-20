@@ -1072,7 +1072,7 @@ WICHTIG: Gib die Antwort IMMER als valides JSON zurück mit exakt diesen Feldern
     except ImportError:
         raise HTTPException(status_code=500, detail="emergentintegrations not installed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise_llm_error(e)
 
 class AITextGenerateRequest(BaseModel):
     prompt: str
@@ -1113,7 +1113,7 @@ async def generate_text(request: AITextGenerateRequest):
     except ImportError:
         raise HTTPException(status_code=500, detail="emergentintegrations not installed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise_llm_error(e)
 
 class AIReceiptScanRequest(BaseModel):
     file_url: str
@@ -1248,7 +1248,7 @@ Der Bescheid soll:
     except ImportError:
         raise HTTPException(status_code=500, detail="emergentintegrations not installed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise_llm_error(e)
 
 @app.post("/api/ai/generate-protocol")
 async def generate_protocol(request: AIGenerateRequest):
@@ -1282,7 +1282,7 @@ Verwende die korrekte Protokollstruktur mit:
     except ImportError:
         raise HTTPException(status_code=500, detail="emergentintegrations not installed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise_llm_error(e)
 
 @app.post("/api/ai/generate-invitation")
 async def generate_invitation(request: AIGenerateRequest):
@@ -1316,7 +1316,7 @@ Die Einladungen sollen:
     except ImportError:
         raise HTTPException(status_code=500, detail="emergentintegrations not installed")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise_llm_error(e)
 
 # ============ DATEV PLACEHOLDER ============
 
