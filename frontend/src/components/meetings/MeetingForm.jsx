@@ -160,6 +160,11 @@ Verwende formale Sprache, ca. 400-600 Wörter.`);
             <Textarea value={form.minutes} onChange={(e) => update("minutes", e.target.value)} rows={4} placeholder="Notizen zur Sitzung..." data-testid="meeting-minutes-textarea" />
           </div>
           <DialogFooter className="gap-2">
+            {form.id && (
+              <Button type="button" variant="outline" onClick={sendReminder} disabled={sendingReminder} data-testid="meeting-send-reminder-button">
+                {sendingReminder ? "Sende..." : "Erinnerung senden"}
+              </Button>
+            )}
             <Button type="button" variant="outline" onClick={onClose} disabled={saving} data-testid="meeting-cancel-button">
               <X className="w-4 h-4 mr-1" /> Abbrechen
             </Button>
