@@ -622,6 +622,48 @@ export default function MyOrganization() {
         </Card>
       </div>
 
+      {organization && (
+        <Card data-testid="org-members-card">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Users className="w-5 h-5 text-slate-600" /> Mitglieder
+            </CardTitle>
+            <CardDescription>Mitglieder der Organisation und ihre Rollen.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {orgMembers.length === 0 ? (
+              <p className="text-sm text-slate-500" data-testid="org-members-empty">Keine Mitglieder vorhanden.</p>
+            ) : (
+              orgMembers.map((member) => (
+                <div key={member.id} className="flex items-center justify-between border border-slate-100 rounded-lg p-3" data-testid={`org-member-${member.id}`}>
+                  <div>
+                    <p className="font-medium text-slate-900">{member.full_name || member.email}</p>
+                    <p className="text-xs text-slate-500">{member.email}</p>
+                  </div>
+                  {isAdmin ? (
+                    <Select
+                      value={member.org_role || "mitglied"}
+                      onValueChange={(value) => updateMemberRoleMutation.mutate({ userId: member.id, org_role: value })}
+                    >
+                      <SelectTrigger className="w-56" data-testid={`org-member-role-trigger-${member.id}`}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {ORG_ROLES.map((role) => (
+                          <SelectItem key={role.value} value={role.value}>{role.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <Badge variant="secondary" data-testid={`org-member-role-badge-${member.id}`}>{getOrgRoleLabel(member.org_role)}</Badge>
+                  )}
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       {organization && isAdmin && (
         <Card data-testid="support-request-card">
           <CardHeader>
