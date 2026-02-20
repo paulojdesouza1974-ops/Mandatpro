@@ -45,6 +45,14 @@ const statusLabels = {
   testphase: "Testphase",
 };
 
+const roleLabels = {
+  admin: "Admin",
+  support: "Support",
+  viewer: "Viewer",
+  member: "Mitglied",
+  user: "Mitglied",
+};
+
 export default function UserManagementPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
