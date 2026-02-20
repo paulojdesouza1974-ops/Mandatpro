@@ -13,6 +13,7 @@ import jsPDF from "jspdf";
 const typeLabels = {
   antrag: "Antrag",
   anfrage: "Anfrage",
+  beschluss: "Beschluss",
   resolution: "Resolution",
   aenderungsantrag: "Änderungsantrag",
   dringlichkeitsantrag: "Dringlichkeitsantrag",
