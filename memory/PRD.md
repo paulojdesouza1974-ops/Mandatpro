@@ -218,3 +218,7 @@ User requested to improve an existing German municipal CRM application called "K
 - KI-Modelle auf **OpenAI GPT-5.2** umgestellt
 - Beleg- und Kontoauszugs-Import laden Dateien hoch und bieten manuellen Fallback (AI-Scan aktuell deaktiviert)
 - Wichtige UI-Formulare mit `data-testid` ergänzt (Vorlagen, Meetings, Bulk-Mail, Dokumente, etc.)
+
+## Recent Updates (2026-02-20)
+- Impressum, Datenschutz und neue AGB-Seite ohne Base44-Bezug aktualisiert (Betreiber: Paulo Jose De Souza)
+- AGB-Link im Footer ergänzt und neue /Terms Route registriert
