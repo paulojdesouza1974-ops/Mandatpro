@@ -85,7 +85,7 @@ export default function TemplateEditor() {
     mutationFn: async (template) => {
       const entityName = DOCUMENT_TYPES[selectedDocType].entity;
       const entity = base44.entities[entityName];
-      const data = { ...template, organization: user?.organization };
+      const data = { ...template, document_type: selectedDocType, organization: user?.organization };
       if (selectedTemplate?.id) {
         return entity.update(selectedTemplate.id, data);
       }
