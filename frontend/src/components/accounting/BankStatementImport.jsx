@@ -112,6 +112,10 @@ export default function BankStatementImport({ open, onClose, organization, conta
     mutationFn: async () => {
       const toImport = transactions.filter((_, i) => selected[i]);
       const promises = toImport.map(async (t) => {
+        const noteParts = [];
+        if (t.matched_contact) noteParts.push(`Kontakt: ${t.matched_contact}`);
+        if (t.matched_mandate) noteParts.push(`Mandatsträger: ${t.matched_mandate}`);
+        const matchNotes = noteParts.length ? noteParts.join(" | ") : undefined;
         if (t.transaction_type === "einnahme") {
           return base44.entities.Income.create({
             organization,
