@@ -340,6 +340,7 @@ WICHTIG:
                 className="hidden"
                 onChange={handleFileUpload}
                 accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg"
+                data-testid="motion-attachment-file-input"
               />
             </div>
             {form.attachments && form.attachments.length > 0 && (
