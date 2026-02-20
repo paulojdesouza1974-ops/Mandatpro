@@ -130,7 +130,7 @@ export default function SupportPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
+        <Card data-testid="support-stats-open">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
