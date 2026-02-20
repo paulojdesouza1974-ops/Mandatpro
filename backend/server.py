@@ -838,6 +838,43 @@ async def seed_full_demo():
     
     return {"success": True, "message": "Umfangreiche Demo-Daten erstellt", "summary": summary}
 
+# ============ GLOBAL SEARCH ============
+
+@app.get("/api/search")
+async def global_search(q: str, organization: str):
+    if not q:
+        return {"results": []}
+
+    regex = {"$regex": q, "$options": "i"}
+    results = []
+
+    def add_results(collection, type_label, fields, title_field, subtitle_field=None):
+        query = {"organization": organization, "$or": [{field: regex} for field in fields]}
+        docs = list(db[collection].find(query).limit(10))
+        for doc in docs:
+            title = str(doc.get(title_field, "")) if title_field else ""
+            subtitle = str(doc.get(subtitle_field, "")) if subtitle_field else ""
+            results.append({
+                "type": type_label,
+                "id": str(doc.get("_id")),
+                "title": title,
+                "subtitle": subtitle,
+            })
+
+    add_results("contacts", "contact", ["first_name", "last_name", "email", "phone"], "first_name", "last_name")
+    add_results("users", "member", ["full_name", "email", "city"], "full_name", "email")
+    add_results("motions", "motion", ["title", "body", "summary"], "title", "status")
+    add_results("meetings", "meeting", ["title", "location"], "title", "date")
+    add_results("fraction_meetings", "fraction_meeting", ["title", "agenda"], "title", "date")
+    add_results("documents", "document", ["title", "description", "tags"], "title", "category")
+    add_results("incomes", "income", ["description", "source", "notes"], "description", "category")
+    add_results("expenses", "expense", ["description", "vendor", "notes"], "description", "category")
+    add_results("mandate_levies", "mandate_levy", ["contact_name", "mandate_type"], "contact_name", "period_month")
+    add_results("print_templates", "template", ["name", "description"], "name", "document_type")
+    add_results("tasks", "task", ["title", "description"], "title", "status")
+
+    return {"results": results}
+
 # ============ FILE UPLOADS ============
 
 @app.post("/api/files/upload")
