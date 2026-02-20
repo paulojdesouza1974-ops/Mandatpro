@@ -141,13 +141,17 @@ export default function MyOrganization() {
     },
   });
 
-  const handleSave = () => {
-    if (organization) {
-      updateMutation.mutate(formData);
-    } else {
-      createMutation.mutate(formData);
-    }
-  };
+  const updateMemberRoleMutation = useMutation({
+    mutationFn: ({ userId, org_role }) => base44.entities.User.update(userId, { org_role }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["orgMembers", currentUser?.organization] });
+      toast({ title: "Mitgliederrolle aktualisiert" });
+    },
+    onError: (error) => {
+      toast({ title: "Fehler beim Aktualisieren", description: error.message, variant: "destructive" });
+    },
+  });
+
 
   const handleCancel = () => {
     setIsEditing(false);
