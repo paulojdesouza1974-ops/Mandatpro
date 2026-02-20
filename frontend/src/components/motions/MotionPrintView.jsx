@@ -335,7 +335,7 @@ ${printContent.innerHTML}
                     </p>
                     {signature.role && (
                       <p className="text-xs italic" style={{ color: selectedTemplate?.secondary_color }}>
-                        {roleLabel(signature.role)}
+                        {getRoleLabel(signature.role)}
                       </p>
                     )}
                   </div>
