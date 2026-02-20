@@ -68,22 +68,10 @@ export default function MyOrganization() {
     enabled: !!currentUser?.organization,
   });
 
-  const { data: users = [] } = useQuery({
+  // Fetch organization members using the new dedicated endpoint
+  const { data: orgMembers = [] } = useQuery({
     queryKey: ["orgMembers", currentUser?.organization],
-    queryFn: () => base44.entities.User.list(),
-    enabled: !!currentUser?.organization,
-  });
-
-  const orgMembers = users.filter((u) => u.organization === currentUser?.organization);
-
-
-  // Count users in organization
-  const { data: users = [] } = useQuery({
-    queryKey: ["orgUsers", currentUser?.organization],
-    queryFn: async () => {
-      // This would need a backend endpoint to count users per org
-      return [];
-    },
+    queryFn: () => base44.organizations.getMembers(currentUser.organization),
     enabled: !!currentUser?.organization,
   });
 
