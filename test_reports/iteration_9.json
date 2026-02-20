@@ -1,0 +1,99 @@
+{
+  "summary": "Verified all bug fixes for KommunalCRM: 1) SMTP configuration saves and displays properly (smtp.ionos.de:587), 2) SMTP test button appears and functions when SMTP is configured, 3) TOPs (agenda items) no longer duplicate in invitations - fix in InvitationView.jsx working correctly, 4) Organization name filter in backend working for proper org data loading",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Backend: Login with demo@kommunalcrm.de / demo123 - SUCCESS",
+    "Backend: Organization filter by name (?name=demo-org) - WORKING",
+    "Backend: SMTP settings save via PUT /api/organizations/{id} - PERSISTS CORRECTLY",
+    "Backend: SMTP settings retrieved via GET /api/organizations/{id} - smtp.ionos.de:587 displayed",
+    "Backend: SMTP test endpoint POST /api/smtp/test - EXISTS and VALIDATES",
+    "Backend: Fraction meetings CRUD - ALL WORKING",
+    "Backend: Organization members endpoint - RETURNS MEMBERS",
+    "Frontend: Demo login button - WORKS",
+    "Frontend: Navigate to Meine Organisation - LOADS CORRECTLY",
+    "Frontend: SMTP data displayed (smtp.ionos.de, port 587) - VISIBLE",
+    "Frontend: Bearbeiten button opens edit mode - SMTP FIELDS EDITABLE",
+    "Frontend: SMTP test button appears when SMTP configured - VISIBLE",
+    "Frontend: SMTP test sends request and shows toast notification - WORKING",
+    "Frontend: Navigate to Fraktionssitzungen - 3 MEETINGS DISPLAYED",
+    "Frontend: Open meeting dialog - WORKS",
+    "Frontend: Einladung tab accessible - PDF + Send buttons present",
+    "Frontend: Meeting WITH invitation_text - NO DUPLICATE AGENDA (Tagesordnung appears 1 time)",
+    "Frontend: Meeting WITHOUT invitation_text - Shows 'Einladung mit KI erstellen' option",
+    "Frontend: PDF download button present - WORKING"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_smtp_org.py",
+    "/app/test_reports/pytest/pytest_smtp_org.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [
+    "InvitationView.jsx: Agenda duplication fix correctly implemented - line 277-285 only shows agenda separately if no invitation_text exists",
+    "MyOrganization.jsx: SMTP test button correctly conditionally rendered (line 629) - shows only when smtp_host configured AND not in edit mode",
+    "base44Client.js: name filter parameter correctly added to filter() method (line 164)",
+    "server.py: name parameter correctly added to create_crud_routes list_items function (line 327)"
+  ],
+  
+  "updated_files": [
+    "/app/backend/tests/test_smtp_org.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (12/12 tests passed)",
+    "frontend": "100% (all features verified working)"
+  },
+  
+  "test_credentials": {
+    "demo_email": "demo@kommunalcrm.de",
+    "demo_password": "demo123",
+    "demo_organization": "demo-org"
+  },
+  
+  "seed_data_creation": "Used existing seed data via /api/seed-demo + created test fraction meetings via API",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "All reported bugs verified as FIXED: 1) SMTP configuration now saves and loads properly due to name filter fix in backend and frontend, 2) SMTP test button + functionality working, 3) Agenda duplication in invitations FIXED - InvitationView.jsx now only shows agenda separately if no invitation_text exists. Test data: SMTP configured with smtp.ionos.de:587 (test credentials, actual sending will fail). 3 test meetings created with and without invitation_text.",
+  
+  "mocked_apis": {
+    "has_mocked_apis": false,
+    "mocked_apis_list": []
+  },
+  
+  "bug_verification": {
+    "bug_1_smtp_config_not_saving": {
+      "status": "FIXED",
+      "description": "SMTP configuration wasn't loading because organization filter by name wasn't working",
+      "fix": "Added name parameter to backend CRUD routes and frontend filter() method",
+      "verification": "SMTP data (smtp.ionos.de:587) now displays correctly on Meine Organisation page"
+    },
+    "bug_2_tops_duplicate_in_invitations": {
+      "status": "FIXED",
+      "description": "Agenda items (TOPs) were showing twice in invitations",
+      "fix": "InvitationView.jsx modified to only show agenda separately if no invitation_text exists (lines 277-285)",
+      "verification": "Meeting with invitation_text shows 'Tagesordnung' only 1 time, no duplication"
+    },
+    "smtp_test_functionality": {
+      "status": "WORKING",
+      "description": "New SMTP test feature requested by user",
+      "implementation": "SMTP test button + email input field + POST /api/smtp/test endpoint",
+      "verification": "Button visible when SMTP configured, test sends request and shows appropriate toast notification"
+    }
+  }
+}
