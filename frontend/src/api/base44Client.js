@@ -88,6 +88,7 @@ const auth = {
       body: JSON.stringify(data),
     });
     setToken(result.token);
+    setRole(result.user?.role);
     return result.user;
   },
 
