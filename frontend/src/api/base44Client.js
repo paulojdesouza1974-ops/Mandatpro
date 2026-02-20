@@ -281,11 +281,24 @@ const ai = {
 
 // Email API
 const email = {
-  async sendBulk(to, subject, body) {
+  async sendBulk(to, subject, body, attachment = null) {
     return request('/api/email/send-invitation', {
       method: 'POST',
-      body: JSON.stringify({ to, subject, body }),
+      body: JSON.stringify({
+        to,
+        subject,
+        body,
+        attachment_base64: attachment?.base64 || null,
+        attachment_filename: attachment?.filename || null,
+      }),
     });
+  },
+};
+
+const search = {
+  async global(query, organization) {
+    const params = new URLSearchParams({ q: query, organization });
+    return request(`/api/search?${params.toString()}`);
   },
 };
 
