@@ -7,6 +7,7 @@ if (!API_URL) {
 
 // Token management
 let authToken = localStorage.getItem('auth_token');
+let userRole = localStorage.getItem('user_role');
 
 const setToken = (token) => {
   authToken = token;
@@ -17,7 +18,22 @@ const setToken = (token) => {
   }
 };
 
+const setRole = (role) => {
+  userRole = role || 'member';
+  if (userRole) {
+    localStorage.setItem('user_role', userRole);
+  } else {
+    localStorage.removeItem('user_role');
+  }
+};
+
+const clearRole = () => {
+  userRole = null;
+  localStorage.removeItem('user_role');
+};
+
 const getToken = () => authToken;
+const getRole = () => userRole;
 
 // HTTP client
 const request = async (endpoint, options = {}) => {
