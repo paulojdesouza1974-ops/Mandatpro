@@ -310,6 +310,7 @@ WICHTIG:
               rows={10}
               placeholder="Text des Antrags / der Anfrage..."
               className="font-mono text-sm"
+              data-testid="motion-body-textarea"
             />
           </div>
 
