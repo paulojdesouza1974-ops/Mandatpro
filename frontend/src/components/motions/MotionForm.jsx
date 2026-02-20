@@ -206,7 +206,7 @@ WICHTIG:
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Ausschuss/Gremium</Label>
-              <Input value={form.committee} onChange={(e) => update("committee", e.target.value)} placeholder="z.B. Bauausschuss" />
+              <Input value={form.committee} onChange={(e) => update("committee", e.target.value)} placeholder="z.B. Bauausschuss" data-testid="motion-committee-input" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Sitzungsdatum</Label>
