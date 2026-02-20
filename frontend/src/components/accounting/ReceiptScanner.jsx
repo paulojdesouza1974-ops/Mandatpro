@@ -46,22 +46,26 @@ export default function ReceiptScanner({ open, onClose, organization }) {
     try {
       const { file_url } = await base44.files.upload(file);
       setFileUrl(file_url);
-      setScanned(null);
+
+      const response = await base44.ai.scanReceipt(file_url, organization);
+      const result = response?.data || {};
+
+      setScanned(result);
       setForm({
-        description: "",
-        vendor: "",
-        amount: "",
-        date: "",
-        transaction_type: "ausgabe",
-        category: "sonstiges",
-        notes: "",
+        description: result.description || "",
+        vendor: result.vendor || "",
+        amount: result.amount || "",
+        date: result.date || "",
+        transaction_type: result.transaction_type || "ausgabe",
+        category: result.category || "sonstiges",
+        notes: result.notes || "",
       });
-      alert("Die automatische Belegerkennung ist aktuell deaktiviert. Bitte Daten manuell prüfen.");
+
       setStep("review");
     } catch (error) {
       console.error("Upload Fehler:", error);
-      alert("Fehler beim Hochladen des Belegs");
-      setStep("upload");
+      alert("Fehler beim Beleg-Scan. Bitte Daten manuell eingeben.");
+      setStep("review");
     }
   };
 
