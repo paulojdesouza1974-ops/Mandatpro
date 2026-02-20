@@ -609,10 +609,23 @@ export default function TemplateEditor() {
   );
 }
 
-function TemplatePreview({ template }) {
+function TemplatePreview({ template, organization, previewRef, onDragStart, onMouseMove, onMouseUp, onMouseLeave, footerText }) {
+  const headerName = template.fraction_name || organization?.display_name || "Fraktion";
+  const headerSubtitle = template.fraction_subtitle || organization?.city || "";
+  const logoStyle = template.logo_position_x !== null && template.logo_position_x !== undefined
+    ? { left: `${template.logo_position_x}px`, top: `${template.logo_position_y || 0}px` }
+    : { right: '0', top: '0' };
+  const docBoxStyle = template.document_type_box_x !== null && template.document_type_box_x !== undefined
+    ? { left: `${template.document_type_box_x}px`, top: `${template.document_type_box_y || 0}px` }
+    : { right: '0', top: '110px' };
+
   return (
     <div 
+      ref={previewRef}
       className="bg-white shadow-2xl min-h-[29.7cm] relative text-sm"
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
       style={{ 
         fontFamily: template.font_family,
         width: '21cm',
@@ -623,87 +636,78 @@ function TemplatePreview({ template }) {
       <style>{template.custom_css}</style>
 
       {/* Header Area */}
-      <div className="mb-12">
-        {/* Fraction Name Centered at Top */}
-        {template.fraction_name && (
-          <div className="text-center mb-8">
-            <div className="font-bold text-base" style={{ color: template.primary_color }}>
-              {template.fraction_name}
-            </div>
-            {template.fraction_subtitle && (
-              <div className="italic text-sm" style={{ color: template.primary_color }}>
-                {template.fraction_subtitle}
-              </div>
-            )}
+      <div className="relative mb-10" style={{ minHeight: '4cm' }}>
+        <div className="text-center">
+          <div className="font-bold text-base" style={{ color: template.primary_color }}>
+            {headerName}
           </div>
-        )}
-
-        {/* Logo and Document Type Box */}
-        <div className="flex justify-between items-start mb-8">
-          {/* Logo Left */}
-          {template.logo_url && (
-            <div className="flex-shrink-0">
-              <img src={template.logo_url} alt="Logo" className="h-20 object-contain" />
+          {headerSubtitle && (
+            <div className="italic text-sm" style={{ color: template.primary_color }}>
+              {headerSubtitle}
             </div>
           )}
-
-          {/* Spacer */}
-          <div className="flex-1"></div>
-
-          {/* Document Type Box - positioned based on setting */}
-          {template.show_document_type_box && (
-            <div 
-              className="border border-black flex-shrink-0" 
-              style={{ 
-                width: '200px',
-                marginLeft: template.document_type_box_position === 'links' ? '0' : 'auto',
-                marginRight: template.document_type_box_position === 'rechts' ? '0' : template.document_type_box_position === 'mittel' ? 'auto' : 'auto'
-              }}
-            >
-              <table className="w-full text-xs">
-                <tbody>
-                  <tr className="border-b border-black">
-                    <td className="p-2 border-r border-black">Fraktionsantrag</td>
-                    <td className="p-2 text-center"></td>
-                  </tr>
-                  <tr className="border-b border-black">
-                    <td className="p-2 border-r border-black">Einzelantrag</td>
-                    <td className="p-2 text-center">X</td>
-                  </tr>
-                  <tr className="border-b border-black">
-                    <td className="p-2 border-r border-black">Anfrage</td>
-                    <td className="p-2 text-center"></td>
-                  </tr>
-                  <tr className="border-b border-black">
-                    <td className="p-2 border-r border-black">Beschlusskontrolle</td>
-                    <td className="p-2 text-center"></td>
-                  </tr>
-                  {template.date_position === 'in_box' && (
-                    <tr>
-                      <td className="p-2" colSpan="2">
-                        Dormagen den {new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+          {template.header_text && (
+            <div className="text-xs mt-2 whitespace-pre-line" style={{ color: template.secondary_color }}>
+              {template.header_text}
             </div>
           )}
         </div>
 
-        {/* Recipient Address */}
-        {template.show_recipient_address && template.recipient_title && (
-          <div className="mb-12 whitespace-pre-line" style={{ color: template.secondary_color }}>
-            {template.recipient_title}
-            <br />
-            Neues Rathaus
-            <br />
-            Paul-Wierich-Platz 2
-            <br />
-            41539 Musterstadt
+        {template.logo_url && (
+          <div
+            className="absolute cursor-move"
+            style={{ ...logoStyle }}
+            onMouseDown={onDragStart('logo')}
+            data-testid="template-preview-logo-draggable"
+          >
+            <img src={template.logo_url} alt="Logo" className="h-16 object-contain" />
+          </div>
+        )}
+
+        {template.show_document_type_box && (
+          <div
+            className="absolute cursor-move border border-black"
+            style={{ ...docBoxStyle, width: '200px' }}
+            onMouseDown={onDragStart('docBox')}
+            data-testid="template-preview-docbox-draggable"
+          >
+            <table className="w-full text-xs">
+              <tbody>
+                <tr className="border-b border-black">
+                  <td className="p-2 border-r border-black">Fraktionsantrag</td>
+                  <td className="p-2 text-center"></td>
+                </tr>
+                <tr className="border-b border-black">
+                  <td className="p-2 border-r border-black">Einzelantrag</td>
+                  <td className="p-2 text-center">X</td>
+                </tr>
+                <tr className="border-b border-black">
+                  <td className="p-2 border-r border-black">Anfrage</td>
+                  <td className="p-2 text-center"></td>
+                </tr>
+                <tr className="border-b border-black">
+                  <td className="p-2 border-r border-black">Beschluss</td>
+                  <td className="p-2 text-center"></td>
+                </tr>
+                {template.date_position === 'in_box' && (
+                  <tr>
+                    <td className="p-2" colSpan="2">
+                      Dormagen den {new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
+
+      {/* Recipient Address */}
+      {template.show_recipient_address && template.recipient_title && (
+        <div className="mb-12 whitespace-pre-line" style={{ color: template.secondary_color }}>
+          {template.recipient_title}
+        </div>
+      )}
 
       {/* Main Content */}
       <div>
@@ -747,10 +751,19 @@ function TemplatePreview({ template }) {
         {template.show_creator && (
           <div className="mt-16">
             <div className="border-t border-black w-48 mb-2"></div>
-            <p className="font-semibold" style={{ color: template.primary_color }}>Maxim Filimonov</p>
-            <p className="text-xs italic" style={{ color: template.secondary_color }}>2. stv. Fraktionsvorsitzender</p>
+            <p className="font-semibold" style={{ color: template.primary_color }}>
+              Bodo Gilz
+            </p>
+            <p className="text-xs italic" style={{ color: template.secondary_color }}>
+              Fraktionsvorsitzender
+            </p>
           </div>
         )}
+      </div>
+
+      {/* Footer */}
+      <div className="mt-12 text-xs whitespace-pre-line" style={{ color: template.secondary_color }}>
+        {footerText}
       </div>
     </div>
   );
