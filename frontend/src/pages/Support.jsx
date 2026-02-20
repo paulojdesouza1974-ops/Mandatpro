@@ -221,6 +221,7 @@ export default function SupportPage() {
                   setSelectedTicket(ticket);
                   setDialogOpen(true);
                 }}
+                data-testid={`support-ticket-card-${ticket.id}`}
               >
                 <CardHeader>
                   <div className="flex items-start justify-between">
