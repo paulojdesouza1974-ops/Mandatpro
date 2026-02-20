@@ -876,9 +876,7 @@ async def generate_email(request: AIEmailGenerateRequest):
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage
         
-        api_key = os.environ.get("EMERGENT_LLM_KEY")
-        if not api_key:
-            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        api_key = get_openai_key()
         
         org_name = request.organization_name or "Ortsverband"
         
@@ -948,9 +946,7 @@ async def generate_text(request: AITextGenerateRequest):
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage
         
-        api_key = os.environ.get("EMERGENT_LLM_KEY")
-        if not api_key:
-            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        api_key = get_openai_key()
         
         # Default system messages for different tasks
         default_systems = {
@@ -991,9 +987,7 @@ async def generate_notice(request: AINoticeGenerateRequest):
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage
         
-        api_key = os.environ.get("EMERGENT_LLM_KEY")
-        if not api_key:
-            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        api_key = get_openai_key()
         
         system_message = """Du bist ein erfahrener Verwaltungsangestellter einer deutschen politischen Partei.
 Du erstellst professionelle, formelle Gebührenbescheide für Mandatsträgerabgaben.
@@ -1029,9 +1023,7 @@ async def generate_protocol(request: AIGenerateRequest):
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage
         
-        api_key = os.environ.get("EMERGENT_LLM_KEY")
-        if not api_key:
-            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        api_key = get_openai_key()
         
         system_message = """Du bist ein erfahrener Protokollführer für politische Gremien in Deutschland. 
 Du erstellst professionelle, formelle Sitzungsprotokolle im deutschen Stil.
@@ -1065,9 +1057,7 @@ async def generate_invitation(request: AIGenerateRequest):
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage
         
-        api_key = os.environ.get("EMERGENT_LLM_KEY")
-        if not api_key:
-            raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
+        api_key = get_openai_key()
         
         system_message = """Du bist ein erfahrener Geschäftsführer einer politischen Fraktion in Deutschland.
 Du erstellst professionelle, förmliche Einladungen zu Fraktionssitzungen.
