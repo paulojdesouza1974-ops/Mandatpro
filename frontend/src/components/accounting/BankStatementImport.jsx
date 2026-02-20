@@ -131,7 +131,10 @@ export default function BankStatementImport({ open, onClose, organization, conta
           if (t.matched_expense && t.matched_expense.id) {
             return base44.entities.Expense.update(t.matched_expense.id, {
               status: "bezahlt",
-              notes: (t.matched_expense.notes ? t.matched_expense.notes + " | " : "") + `Abgeglichen via Kontoauszug ${t.date}`,
+              notes:
+                (t.matched_expense.notes ? t.matched_expense.notes + " | " : "") +
+                `Abgeglichen via Kontoauszug ${t.date}` +
+                (matchNotes ? ` | ${matchNotes}` : ""),
             });
           }
           // Otherwise create a new expense
