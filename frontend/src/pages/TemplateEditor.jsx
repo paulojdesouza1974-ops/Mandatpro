@@ -142,6 +142,51 @@ export default function TemplateEditor() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const buildFooterText = () => {
+    if (!organization) return "";
+    const lines = [];
+    if (organization.display_name) lines.push(organization.display_name);
+    if (organization.address) lines.push(organization.address);
+    const cityLine = [organization.postal_code, organization.city].filter(Boolean).join(" ");
+    if (cityLine) lines.push(cityLine);
+    const contactLine = [organization.phone, organization.email, organization.website].filter(Boolean).join(" | ");
+    if (contactLine) lines.push(contactLine);
+    const bankLine = [organization.iban, organization.bic].filter(Boolean).join(" | ");
+    if (bankLine) lines.push(`IBAN/BIC: ${bankLine}`);
+    return lines.join("\n");
+  };
+
+  const defaultFooterText = buildFooterText();
+
+  const handleDragStart = (type) => (event) => {
+    if (!previewRef.current) return;
+    const containerRect = previewRef.current.getBoundingClientRect();
+    const targetRect = event.currentTarget.getBoundingClientRect();
+    const offsetX = event.clientX - targetRect.left;
+    const offsetY = event.clientY - targetRect.top;
+    setDragging({ type, offsetX, offsetY, containerRect });
+    event.preventDefault();
+  };
+
+  const handleDragMove = (event) => {
+    if (!dragging || !previewRef.current) return;
+    const containerRect = previewRef.current.getBoundingClientRect();
+    const x = Math.max(0, event.clientX - containerRect.left - dragging.offsetX);
+    const y = Math.max(0, event.clientY - containerRect.top - dragging.offsetY);
+    if (dragging.type === "logo") {
+      setFormData(prev => ({ ...prev, logo_position_x: Math.round(x), logo_position_y: Math.round(y) }));
+    } else if (dragging.type === "docBox") {
+      setFormData(prev => ({ ...prev, document_type_box_x: Math.round(x), document_type_box_y: Math.round(y) }));
+    }
+  };
+
+  const handleDragEnd = () => {
+    if (dragging) {
+      setDragging(null);
+    }
+  };
+
+
   return (
     <div className="h-screen flex flex-col">
       <div className="border-b bg-white px-6 py-4">
