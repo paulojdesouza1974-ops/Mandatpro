@@ -90,12 +90,20 @@ export default function BankStatementImport({ open, onClose, organization, conta
     setStep("scanning");
 
     try {
-      await base44.files.upload(file);
-      alert("Der Kontoauszug-Import per KI ist aktuell in Entwicklung. Bitte Buchungen manuell erfassen.");
+      const { file_url } = await base44.files.upload(file);
+      const response = await base44.ai.scanBankStatement(file_url, organization);
+      const txs = (response.transactions || []).map((t) => {
+        const matchedExpense = findMatchingExpense(t, existingExpenses);
+        return { ...t, matched_expense: matchedExpense || null };
+      });
+      setTransactions(txs);
+      const sel = {};
+      txs.forEach((_, i) => { sel[i] = true; });
+      setSelected(sel);
+      setStep("review");
     } catch (error) {
-      console.error("Upload Fehler:", error);
-      alert("Fehler beim Hochladen des Kontoauszugs");
-    } finally {
+      console.error("Scan Fehler:", error);
+      alert("Fehler beim Kontoauszug-Scan. Bitte manuell erfassen.");
       setStep("upload");
     }
   };
