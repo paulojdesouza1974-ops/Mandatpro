@@ -1061,6 +1061,100 @@ async def generate_text(request: AITextGenerateRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class AIReceiptScanRequest(BaseModel):
+    file_url: str
+    organization: Optional[str] = None
+
+
+@app.post("/api/ai/scan-receipt")
+async def scan_receipt(request: AIReceiptScanRequest):
+    images = load_file_images(request.file_url)
+
+    system_message = (
+        "Du bist ein Buchhaltungsassistent. Extrahiere die wichtigsten Daten aus einem Beleg. "
+        "Gib NUR valides JSON zurück, ohne zusätzliche Texte."
+    )
+
+    prompt = (
+        "Analysiere den Beleg und extrahiere folgende Felder als JSON:\n"
+        "- description: kurze Beschreibung des Belegs\n"
+        "- vendor: Name des Ausstellers/Lieferanten\n"
+        "- amount: Betrag als Zahl (nur die Zahl, kein EUR-Zeichen)\n"
+        "- date: Datum im Format YYYY-MM-DD\n"
+        "- transaction_type: entweder \"einnahme\" oder \"ausgabe\"\n"
+        "- category: passende Kategorie (einnahme: mitgliedsbeitrag, spende, veranstaltung, zuschuss, sonstiges; ausgabe: personal, raummiete, material, marketing, verwaltung, sonstiges)\n"
+        "- notes: weitere relevante Informationen\n\n"
+        "Antworte NUR mit JSON."
+    )
+
+    response = await run_vision_chat(prompt, system_message, images)
+    data = parse_json_response(response)
+    return {"success": True, "data": data}
+
+
+class AIBankStatementScanRequest(BaseModel):
+    file_url: str
+    organization: str
+
+
+@app.post("/api/ai/scan-bank-statement")
+async def scan_bank_statement(request: AIBankStatementScanRequest):
+    images = load_file_images(request.file_url, max_pages=3)
+
+    contacts = list(db.contacts.find({"organization": request.organization}))
+    mandate_levies = list(db.mandate_levies.find({"organization": request.organization}))
+
+    contact_names = [f"{c.get('first_name','')} {c.get('last_name','')}".strip() for c in contacts]
+    contact_names = [name for name in contact_names if name]
+    mandate_names = list({m.get("contact_name") for m in mandate_levies if m.get("contact_name")})
+
+    contact_hint = ", ".join(contact_names[:50])
+    mandate_hint = ", ".join(mandate_names[:50])
+
+    system_message = (
+        "Du bist ein erfahrener Buchhalter. Du erkennst Transaktionen in deutschen Kontoauszügen. "
+        "Gib NUR valides JSON zurück, ohne zusätzliche Texte."
+    )
+
+    prompt = (
+        f"Analysiere den Kontoauszug und extrahiere ALLE Transaktionen.\n\n"
+        f"Bekannte Kontakte der Organisation: {contact_hint or 'Keine'}\n"
+        f"Bekannte Mandatsträger: {mandate_hint or 'Keine'}\n\n"
+        "Für jede Transaktion liefere diese Felder:\n"
+        "- description: Beschreibung/Verwendungszweck\n"
+        "- sender_receiver: Name des Auftraggebers oder Empfängers\n"
+        "- amount: Betrag als positive Zahl\n"
+        "- date: Datum im Format YYYY-MM-DD\n"
+        "- transaction_type: \"einnahme\" oder \"ausgabe\"\n"
+        "- category: klassifiziere automatisch:\n"
+        "  * \"mitgliedsbeitrag\" bei Mitgliedsbeitrag/Beitrag\n"
+        "  * \"spende\" bei Spende/Spendeneingang\n"
+        "  * \"mandatsabgabe\" bei Mandatsträgerabgabe/Fraktionsabgabe\n"
+        "  * \"zuschuss\" bei Zuschuss/Förderung\n"
+        "  * \"veranstaltung\" bei Veranstaltungsbezug\n"
+        "  * \"personal\" bei Lohn/Gehalt/Honorar\n"
+        "  * \"raummiete\" bei Miete\n"
+        "  * \"material\" bei Materialeinkauf\n"
+        "  * \"marketing\" bei Werbung/Drucksachen\n"
+        "  * \"verwaltung\" bei Bankgebühren/Versicherung/Verwaltungskosten\n"
+        "  * sonst \"sonstiges\"\n"
+        "- matched_contact: Name des passenden Kontakts falls erkennbar\n"
+        "- matched_mandate: Name des Mandatsträgers falls erkennbar\n"
+        "- confidence: \"hoch\", \"mittel\" oder \"niedrig\"\n\n"
+        "Antworte ausschließlich als JSON im Format:\n"
+        "{\"transactions\": [ ... ]}"
+    )
+
+    response = await run_vision_chat(prompt, system_message, images)
+    data = parse_json_response(response) or {}
+    transactions = []
+    if isinstance(data, dict):
+        transactions = data.get("transactions") or []
+    if not isinstance(transactions, list):
+        transactions = []
+
+    return {"success": True, "transactions": transactions}
+
 class AINoticeGenerateRequest(BaseModel):
     prompt: str
     levy_data: Optional[dict] = None
