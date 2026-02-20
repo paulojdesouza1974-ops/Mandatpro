@@ -159,6 +159,7 @@ const createEntity = (collectionName) => {
       const params = new URLSearchParams();
       if (query.organization) params.set('organization', query.organization);
       if (query.id) params.set('id', query.id);
+      if (query.name) params.set('name', query.name);
       params.set('sort', sort);
       params.set('limit', limit.toString());
       return request(`/api/${collectionName}?${params.toString()}`);
