@@ -168,9 +168,9 @@ logger = logging.getLogger("kommunalcrm")
 reminder_scheduler_started = False
 
 def get_openai_key():
-    api_key = os.environ.get("OPENAI_API_KEY")
+    api_key = os.environ.get("EMERGENT_LLM_KEY")
     if not api_key:
-        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
+        raise HTTPException(status_code=500, detail="EMERGENT_LLM_KEY not configured")
     return api_key
 
 
