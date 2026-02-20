@@ -98,13 +98,13 @@ export default function SupportPage() {
     gelöst: tickets.filter((t) => t.status === "gelöst").length,
   };
 
-  if (!isAppOwner) {
+  if (!isSupportUser) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh] p-6">
+      <div className="flex items-center justify-center min-h-[60vh] p-6" data-testid="support-no-access">
         <Card className="max-w-md p-8 text-center">
           <MessageSquare className="w-16 h-16 mx-auto text-slate-300 mb-4" />
           <h2 className="text-xl font-semibold text-slate-900 mb-2">Kein Zugriff</h2>
-          <p className="text-slate-500">Diese Seite ist nur für den App-Inhaber zugänglich.</p>
+          <p className="text-slate-500">Diese Seite ist nur für das Support-Team zugänglich.</p>
         </Card>
       </div>
     );
