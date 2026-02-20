@@ -289,7 +289,7 @@ export default function SupportTicketDialog({
                 <Upload className="w-4 h-4 mr-2" />
                 {uploading ? "Lädt..." : "Datei hochladen"}
               </Button>
-              <input id="support-attachments" type="file" className="hidden" onChange={handleUpload} />
+              <input id="support-attachments" type="file" className="hidden" onChange={handleUpload} data-testid="support-ticket-attachments-input" />
             </div>
             {formData.attachments?.length > 0 && (
               <div className="mt-2 space-y-2">
