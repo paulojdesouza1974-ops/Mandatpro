@@ -152,6 +152,7 @@ export default function MyOrganization() {
   }
 
   const orgType = currentUser?.org_type === "fraktion" ? "Fraktion" : "Verband";
+  const isAdmin = currentUser?.role === "admin";
 
   return (
     <div className="space-y-6" data-testid="my-organization">
