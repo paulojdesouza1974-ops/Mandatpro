@@ -61,6 +61,14 @@ export default function TemplateEditor() {
     queryFn: () => base44.auth.me(),
   });
 
+  const { data: organizationData = [] } = useQuery({
+    queryKey: ["template-organization", user?.organization],
+    queryFn: () => base44.entities.Organization.filter({ name: user?.organization }),
+    enabled: !!user?.organization,
+  });
+
+  const organization = organizationData[0] || null;
+
   const { data: templates = [] } = useQuery({
     queryKey: ['templates', selectedDocType, user?.organization],
     queryFn: async () => {
