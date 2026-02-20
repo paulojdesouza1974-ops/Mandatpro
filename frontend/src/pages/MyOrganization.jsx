@@ -245,7 +245,7 @@ export default function MyOrganization() {
               </div>
               <div>
                 <p className="text-xs text-slate-500">Kontakte</p>
-                <p className="font-semibold text-slate-900">{members.length}</p>
+                <p className="font-semibold text-slate-900">{contacts.length}</p>
               </div>
             </div>
           </CardContent>
