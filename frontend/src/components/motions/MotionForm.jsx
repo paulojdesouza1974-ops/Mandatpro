@@ -367,6 +367,7 @@ WICHTIG:
                         onClick={() => identifyDocument(att)}
                         disabled={identifying}
                         title="Dokument analysieren"
+                        data-testid={`motion-attachment-identify-${index}`}
                       >
                         {identifying ? <Loader2 className="w-3 h-3 animate-spin" /> : <FileText className="w-3 h-3" />}
                       </Button>
