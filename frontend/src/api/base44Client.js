@@ -189,6 +189,7 @@ const createEntity = (collectionName) => {
     },
 
     async delete(id) {
+      ensureWriteAccess();
       const result = await request(`/api/${collectionName}/${id}`, {
         method: 'DELETE',
       });
