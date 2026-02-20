@@ -63,6 +63,8 @@ export default function MotionPrintView({ motion, open, onClose }) {
   const docBoxStyle = selectedTemplate?.document_type_box_x !== null && selectedTemplate?.document_type_box_x !== undefined
     ? { left: `${selectedTemplate.document_type_box_x}px`, top: `${selectedTemplate.document_type_box_y || 0}px` }
     : { right: '0', top: '110px' };
+  
+  const getRoleLabel = (role) => {
     if (role === "fraktionsvorsitzender") return "Fraktionsvorsitzender";
     if (role === "stv_fraktionsvorsitzender") return "Stv. Fraktionsvorsitzender";
     if (role === "fraktionsgeschaeftsfuehrer") return "Fraktionsgeschäftsführer";
