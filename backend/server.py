@@ -173,6 +173,16 @@ def get_openai_key():
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
     return api_key
 
+
+def raise_llm_error(error: Exception):
+    detail = str(error)
+    if "quota" in detail.lower() or "ratelimit" in detail.lower():
+        raise HTTPException(
+            status_code=429,
+            detail="OpenAI-Kontingent überschritten. Bitte Guthaben/Plan prüfen.",
+        )
+    raise HTTPException(status_code=500, detail=detail)
+
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
