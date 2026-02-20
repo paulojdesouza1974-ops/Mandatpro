@@ -337,7 +337,7 @@ ${printContent.innerHTML}
           </div>
 
           {/* Footer Text */}
-          {selectedTemplate?.footer_text && (
+          {footerText && (
             <div 
               className="absolute bottom-0 left-0 right-0 text-center p-4 text-xs border-t-2"
               style={{ 
@@ -345,7 +345,7 @@ ${printContent.innerHTML}
                 color: selectedTemplate?.secondary_color 
               }}
             >
-              {selectedTemplate.footer_text}
+              {footerText}
             </div>
           )}
         </div>
