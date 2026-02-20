@@ -195,7 +195,7 @@ WICHTIG:
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Priorität</Label>
               <Select value={form.priority} onValueChange={(v) => update("priority", v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger data-testid="motion-priority-trigger"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {priorities.map((p) => <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>)}
                 </SelectContent>
