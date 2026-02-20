@@ -62,12 +62,20 @@ export default function MyOrganization() {
     enabled: !!currentUser?.organization,
   });
 
-  // Count members in organization
-  const { data: members = [] } = useQuery({
-    queryKey: ["orgMembers", currentUser?.organization],
+  const { data: contacts = [] } = useQuery({
+    queryKey: ["orgContacts", currentUser?.organization],
     queryFn: () => base44.entities.Contact.filter({ organization: currentUser.organization }),
     enabled: !!currentUser?.organization,
   });
+
+  const { data: users = [] } = useQuery({
+    queryKey: ["orgMembers", currentUser?.organization],
+    queryFn: () => base44.entities.User.list(),
+    enabled: !!currentUser?.organization,
+  });
+
+  const orgMembers = users.filter((u) => u.organization === currentUser?.organization);
+
 
   // Count users in organization
   const { data: users = [] } = useQuery({
