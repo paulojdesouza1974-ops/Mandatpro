@@ -116,6 +116,57 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Login via 'Demo: Verband (mit allen Daten)' button works correctly. User is successfully authenticated and redirected to dashboard."
+        - working: true
+          agent: "testing"
+          comment: "2026-02-20: Re-tested login flow for compact UI test. Login with demo-verband@kommunalcrm.de works perfectly. User authenticated as 'Maria Schmidt' and redirected to dashboard successfully."
+  
+  - task: "Global Search functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Search.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-20: Search page (/search) tested successfully. Entered 'demo' search query, results displayed correctly showing 1 member result (Maria Schmidt with email demo-verband@kommunalcrm.de). Search functionality works as expected with proper grouping by entity type."
+  
+  - task: "MyOrganization SMTP Versand section"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/MyOrganization.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-20: MyOrganization page (/myorganization) tested successfully. 'SMTP Versand' section is fully visible with all required configuration fields: SMTP Host, SMTP Port, SMTP Benutzername, SMTP Passwort, Absender E-Mail, and Absender Name. Section displays correctly for SPD Ortsverband Neustadt organization."
+  
+  - task: "Support page access control"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Support.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-20: Support page (/support) access control verified successfully. Demo user (Maria Schmidt, role: admin but not support) correctly sees 'Kein Zugriff' message with text 'Diese Seite ist nur für das Support-Team zugänglich'. Access restriction working as designed."
+  
+  - task: "Meeting reminder send button"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/meetings/MeetingForm.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-20: Meetings page (/meetings) and reminder button tested successfully. Found 5 meetings in system. Opened 'Mitgliederversammlung' meeting for editing. 'Erinnerung senden' button (data-testid='meeting-send-reminder-button') is visible and functional in the meeting dialog footer. Button only appears when editing existing meetings (not for new meetings), which is correct behavior."
   
   - task: "Motion AI text generation"
     implemented: true
