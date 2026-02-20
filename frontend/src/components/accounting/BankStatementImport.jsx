@@ -285,7 +285,10 @@ export default function BankStatementImport({ open, onClose, organization, conta
                           {INCOME_CATEGORIES.find(c => c.value === t.category)?.label || EXPENSE_CATEGORIES.find(c => c.value === t.category)?.label || t.category}
                         </span>
                         {t.matched_contact && (
-                          <span className="text-xs text-blue-600 flex items-center gap-1"><Users className="w-3 h-3" />{t.matched_contact}</span>
+                          <span className="text-xs text-blue-600 flex items-center gap-1" data-testid={`bank-statement-matched-contact-${idx}`}><Users className="w-3 h-3" />{t.matched_contact}</span>
+                        )}
+                        {t.matched_mandate && (
+                          <span className="text-xs text-emerald-600 flex items-center gap-1" data-testid={`bank-statement-matched-mandate-${idx}`}><Users className="w-3 h-3" />Mandat: {t.matched_mandate}</span>
                         )}
                         {t.matched_expense && (
                           <span className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 flex items-center gap-1 px-1.5 py-0.5 rounded-full">
