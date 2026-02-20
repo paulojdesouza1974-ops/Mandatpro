@@ -241,8 +241,8 @@ ${printContent.innerHTML}
                         <td className="p-2 text-center">{motion.type === 'anfrage' ? 'X' : ''}</td>
                       </tr>
                       <tr className="border-b border-black">
-                        <td className="p-2 border-r border-black">Beschlusskontrolle</td>
-                        <td className="p-2 text-center">{motion.type === 'resolution' ? 'X' : ''}</td>
+                        <td className="p-2 border-r border-black">Beschluss</td>
+                        <td className="p-2 text-center">{motion.type === 'resolution' || motion.type === 'beschluss' ? 'X' : ''}</td>
                       </tr>
                       {selectedTemplate.date_position === 'in_box' && (
                         <tr>
