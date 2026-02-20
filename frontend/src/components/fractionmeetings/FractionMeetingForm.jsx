@@ -29,6 +29,7 @@ export default function FractionMeetingForm({ meeting, onSave, onClose, saving }
   });
   const [attendeeInput, setAttendeeInput] = useState("");
   const [generatingInvitation, setGeneratingInvitation] = useState(false);
+  const [sendingReminder, setSendingReminder] = useState(false);
 
   const { data: currentUser } = useQuery({
     queryKey: ["currentUser"],
