@@ -177,7 +177,7 @@ WICHTIG:
             <div className="space-y-1.5">
               <Label className="text-xs font-medium text-slate-500">Art *</Label>
               <Select value={form.type} onValueChange={(v) => update("type", v)}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger data-testid="motion-type-trigger"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {types.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
                 </SelectContent>
