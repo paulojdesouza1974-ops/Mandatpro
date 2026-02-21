@@ -273,6 +273,10 @@ User requested to improve an existing German municipal CRM application called "K
     - "AfD Fraktion im Rat der Stadt Dormagen" (Fraktion)
     - "AfD Stadtverband Dormagen" (Verband)
 - **Testing:** Backend 100% (13/13 Tests), Frontend 100% - alle Features verifiziert
+- **Template Editor Logo Fix**
+  - Logo wird in Vorschau und PDF gerendert (feste Größe, oben rechts)
+  - PNG/JPG-Format-Erkennung für PDF-Ausgabe ergänzt
+  - data-testid für alle interaktiven Elemente im Template Editor ergänzt
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
