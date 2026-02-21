@@ -977,7 +977,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Signatures (in document body) */}
-            <div className="mt-16 pt-4">
+            <div className="mt-16 pt-4" data-testid="document-preview-signatures">
               <div className="flex justify-between">
                 <div className="w-40">
                   <div className="border-t border-black pt-1">
