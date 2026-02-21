@@ -324,9 +324,12 @@ async def login(credentials: UserLogin):
     return {"token": token, "user": user_doc}
 
 @app.get("/api/auth/me")
-async def get_me(authorization: str = Header(None)):
-    # Get token from header
-    user = get_current_user(authorization)
+async def get_me(
+    authorization: str = Header(None),
+    authorization_query: Optional[str] = Query(None, alias="authorization"),
+):
+    token = extract_token(authorization, authorization_query)
+    user = get_current_user(token)
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     if "password" in user:
@@ -334,13 +337,13 @@ async def get_me(authorization: str = Header(None)):
     return user
 
 @app.put("/api/auth/me")
-async def update_me(data: dict, authorization: str = Header(None)):
-    # Get token from header
-    token = None
-    if authorization:
-        token = authorization.replace("Bearer ", "") if authorization.startswith("Bearer ") else authorization
-    
-    user_id = tokens.get(token) if token else None
+async def update_me(
+    data: dict,
+    authorization: str = Header(None),
+    authorization_query: Optional[str] = Query(None, alias="authorization"),
+):
+    token = extract_token(authorization, authorization_query)
+    user_id = get_user_id_from_token(token)
     if not user_id:
         raise HTTPException(status_code=401, detail="Not authenticated")
     
