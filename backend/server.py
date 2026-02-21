@@ -24,6 +24,14 @@ from pymongo import MongoClient
 import secrets
 import hashlib
 
+# SendGrid import
+try:
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail
+    SENDGRID_AVAILABLE = True
+except ImportError:
+    SENDGRID_AVAILABLE = False
+
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 # MongoDB setup
