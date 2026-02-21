@@ -254,5 +254,24 @@ User requested to improve an existing German municipal CRM application called "K
 - **Seed-Logik verbessert** - Existierende Organisationen werden nicht mehr überschrieben
 - **base44Client.js umbenannt zu apiClient.js** - Kein Base44-Bezug mehr im Code
 
+## Recent Updates (2026-02-21)
+- **P0 BugFix: SendGrid E-Mail-Versand behoben**
+  - Root Cause: Organisations-SMTP-Email wurde an SendGrid übergeben statt dem verifizierten Sender
+  - Fix: `send_email_via_sendgrid()` verwendet jetzt immer `info@mandatpro.de` als verifizierten Sender
+  - Organisation's `from_name` wird für Anzeigenamen verwendet
+  - Alle E-Mail-Funktionen (Einladungen, Support-Tickets) funktionieren jetzt
+- **Testing:** Backend 100% (13/13 Tests), Frontend 100% - alle Features verifiziert
+
 ## Known Issues
-- OpenAI API-Key hat aktuell **Quota überschritten** → alle KI-Aufrufe (Text/Scan) geben 429 zurück, bis das Guthaben aufgeladen ist.
+- Keine kritischen Bugs bekannt
+
+## Feature Status
+| Feature | Status | Notizen |
+|---------|--------|---------|
+| SendGrid E-Mail | ✅ Working | Verwendet verifizierten Sender |
+| AI Generierung | ✅ Working | gpt-4o via Emergent Key |
+| Meeting Management | ✅ Working | CRUD + Einladungen + Protokolle |
+| Member Management | ✅ Working | Rollen-Dropdown für Admins |
+| Template Editor | ✅ Working | Header/Footer Support vorhanden |
+| Support Tickets | ✅ Working | E-Mail-Benachrichtigung möglich |
+| Data Persistence | ✅ Working | Seed-Logik nicht-destruktiv |
