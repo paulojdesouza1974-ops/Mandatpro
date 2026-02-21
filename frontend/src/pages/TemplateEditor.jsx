@@ -722,6 +722,7 @@ export default function TemplateEditor() {
                         value={formData.signer1_title}
                         onChange={(e) => setFormData({ ...formData, signer1_title: e.target.value })}
                         placeholder="Fraktionsvorsitzender"
+                        data-testid="signer1-title-input"
                       />
                     </div>
                     <Button 
