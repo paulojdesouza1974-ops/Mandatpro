@@ -517,11 +517,11 @@ export default function TemplateEditor() {
           <CardContent className="pt-4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="mb-4">
-                <TabsTrigger value="header"><Layout className="w-4 h-4 mr-1" /> Kopfbereich</TabsTrigger>
-                <TabsTrigger value="recipient"><FileText className="w-4 h-4 mr-1" /> Empfänger</TabsTrigger>
-                <TabsTrigger value="signers"><Users className="w-4 h-4 mr-1" /> Unterzeichner</TabsTrigger>
-                <TabsTrigger value="footer"><Type className="w-4 h-4 mr-1" /> Fußzeile</TabsTrigger>
-                <TabsTrigger value="settings"><Settings className="w-4 h-4 mr-1" /> Einstellungen</TabsTrigger>
+                <TabsTrigger value="header" data-testid="tab-header-trigger"><Layout className="w-4 h-4 mr-1" /> Kopfbereich</TabsTrigger>
+                <TabsTrigger value="recipient" data-testid="tab-recipient-trigger"><FileText className="w-4 h-4 mr-1" /> Empfänger</TabsTrigger>
+                <TabsTrigger value="signers" data-testid="tab-signers-trigger"><Users className="w-4 h-4 mr-1" /> Unterzeichner</TabsTrigger>
+                <TabsTrigger value="footer" data-testid="tab-footer-trigger"><Type className="w-4 h-4 mr-1" /> Fußzeile</TabsTrigger>
+                <TabsTrigger value="settings" data-testid="tab-settings-trigger"><Settings className="w-4 h-4 mr-1" /> Einstellungen</TabsTrigger>
               </TabsList>
 
               {/* Header Tab */}
