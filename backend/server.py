@@ -1432,6 +1432,32 @@ class SendEmailRequest(BaseModel):
     attachment_base64: Optional[str] = None
     attachment_filename: Optional[str] = None
 
+
+def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_email: str = None, from_name: str = None):
+    """Send email using SendGrid API"""
+    sendgrid_key = os.environ.get("SENDGRID_API_KEY")
+    if not sendgrid_key or not SENDGRID_AVAILABLE:
+        raise Exception("SendGrid nicht konfiguriert. Bitte SENDGRID_API_KEY in .env setzen.")
+    
+    # Use provided from_email or default
+    sender = from_email or "noreply@kommunalcrm.de"
+    
+    for recipient in to_list:
+        message = Mail(
+            from_email=sender,
+            to_emails=recipient,
+            subject=subject,
+            html_content=f"<pre style='font-family: Arial, sans-serif;'>{body}</pre>"
+        )
+        try:
+            sg = SendGridAPIClient(sendgrid_key)
+            response = sg.send(message)
+            logger.info(f"SendGrid email sent to {recipient}: {response.status_code}")
+        except Exception as e:
+            logger.error(f"SendGrid error: {e}")
+            raise
+
+
 @app.post("/api/email/send-invitation")
 async def send_invitation_email(request: SendEmailRequest, authorization: str = Header(None)):
     user = get_current_user(authorization)
@@ -1443,15 +1469,30 @@ async def send_invitation_email(request: SendEmailRequest, authorization: str = 
         raise HTTPException(status_code=400, detail="Organization missing")
 
     try:
-        settings = get_org_smtp_settings(organization)
-        send_smtp_email(
-            settings=settings,
-            to_list=request.to,
-            subject=request.subject,
-            body=request.body,
-            attachment_base64=request.attachment_base64,
-            attachment_filename=request.attachment_filename,
-        )
+        # Try SendGrid first (if configured), then fall back to SMTP
+        sendgrid_key = os.environ.get("SENDGRID_API_KEY")
+        if sendgrid_key and SENDGRID_AVAILABLE:
+            org_data = db.organizations.find_one({"name": organization})
+            from_email = org_data.get("smtp_from_email") if org_data else None
+            from_name = org_data.get("smtp_from_name") if org_data else None
+            send_email_via_sendgrid(
+                to_list=request.to,
+                subject=request.subject,
+                body=request.body,
+                from_email=from_email,
+                from_name=from_name
+            )
+        else:
+            # Fall back to SMTP
+            settings = get_org_smtp_settings(organization)
+            send_smtp_email(
+                settings=settings,
+                to_list=request.to,
+                subject=request.subject,
+                body=request.body,
+                attachment_base64=request.attachment_base64,
+                attachment_filename=request.attachment_filename,
+            )
         status = "sent"
         message = f"Einladung an {len(request.to)} Empfänger gesendet"
     except Exception as exc:
