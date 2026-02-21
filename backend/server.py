@@ -172,6 +172,58 @@ class GenericCreate(BaseModel):
 # Simple token storage (in production use Redis or JWT)
 tokens = {}
 
+def extract_token(authorization_header: str | None = None, authorization_query: str | None = None):
+    raw = authorization_header or authorization_query
+    if not raw:
+        return None
+    return raw.replace("Bearer ", "") if raw.startswith("Bearer ") else raw
+
+def store_token(token: str, user_id: str):
+    tokens[token] = user_id
+    db.auth_tokens.update_one(
+        {"token": token},
+        {
+            "$set": {
+                "token": token,
+                "user_id": user_id,
+                "created_date": datetime.now(timezone.utc).isoformat(),
+            }
+        },
+        upsert=True,
+    )
+
+def get_user_id_from_token(token: str | None):
+    if not token:
+        return None
+    user_id = tokens.get(token)
+    if user_id:
+        return user_id
+    doc = db.auth_tokens.find_one({"token": token})
+    if doc:
+        tokens[token] = doc.get("user_id")
+        return doc.get("user_id")
+    return None
+
+def create_token(user_id: str) -> str:
+    token = secrets.token_urlsafe(32)
+    store_token(token, user_id)
+    return token
+
+def revoke_token(token: str | None):
+    if not token:
+        return
+    tokens.pop(token, None)
+    db.auth_tokens.delete_one({"token": token})
+
+def get_current_user(token: str | None = None):
+    if not token:
+        return None
+    user_id = get_user_id_from_token(token)
+    if not user_id:
+        return None
+    user = db.users.find_one({"_id": ObjectId(user_id)})
+    return serialize_doc(user) if user else None
+
 logger = logging.getLogger("kommunalcrm")
 reminder_scheduler_started = False
 
