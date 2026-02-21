@@ -1436,14 +1436,17 @@ class SendEmailRequest(BaseModel):
 def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_email: str = None, from_name: str = None):
     """Send email using SendGrid API"""
     sendgrid_key = os.environ.get("SENDGRID_API_KEY")
-    print(f"DEBUG SendGrid key loaded: {sendgrid_key[:25] if sendgrid_key else 'NONE'}...", flush=True)
     
     if not sendgrid_key or not SENDGRID_AVAILABLE:
         raise Exception("SendGrid nicht konfiguriert. Bitte SENDGRID_API_KEY in .env setzen.")
     
-    # Use provided from_email or default to verified sender
-    sender = from_email if from_email and "@" in from_email else "info@mandatpro.de"
-    print(f"DEBUG SendGrid sender: {sender}", flush=True)
+    # SendGrid requires verified sender - always use the verified sender email
+    # Organization's smtp_from_email may not be verified in SendGrid
+    VERIFIED_SENDER = "info@mandatpro.de"
+    sender = VERIFIED_SENDER
+    
+    # Use from_name from organization if provided, otherwise use a default
+    display_name = from_name if from_name else "KommunalCRM"
     
     for recipient in to_list:
         message = Mail(
