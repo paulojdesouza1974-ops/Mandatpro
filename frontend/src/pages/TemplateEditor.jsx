@@ -572,19 +572,22 @@ export default function TemplateEditor() {
                   <Label>Logo hochladen</Label>
                   <div className="flex gap-4 items-start flex-wrap">
                     {/* Logo Preview - Clickable to replace */}
-                    {formData.logo_base64 ? (
-                      <label className="cursor-pointer group relative">
+                    {logoSrc ? (
+                      <label className="cursor-pointer group relative" data-testid="logo-preview-label">
                         <input
                           type="file"
                           onChange={handleLogoUpload}
-                          accept="image/png,image/jpeg,image/svg+xml"
+                          accept="image/png,image/jpeg"
                           className="hidden"
+                          data-testid="logo-upload-input"
                         />
                         <div className="relative border-2 border-dashed border-slate-300 rounded-lg p-2 hover:border-blue-500 transition-colors">
                           <img 
-                            src={formData.logo_base64} 
+                            src={logoSrc} 
                             alt="Logo" 
-                            className="h-20 object-contain max-w-[200px]" 
+                            className="object-contain"
+                            style={{ width: LOGO_DIMENSIONS.widthPx, height: LOGO_DIMENSIONS.heightPx }}
+                            data-testid="logo-preview-image"
                           />
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                             <span className="text-white text-sm font-medium">Klicken zum Ersetzen</span>
@@ -592,13 +595,14 @@ export default function TemplateEditor() {
                         </div>
                       </label>
                     ) : (
-                      <label className="cursor-pointer">
+                      <label className="cursor-pointer" data-testid="logo-upload-label">
                         <input
                           type="file"
                           onChange={handleLogoUpload}
-                          accept="image/png,image/jpeg,image/svg+xml"
+                          accept="image/png,image/jpeg"
                           className="hidden"
                           id="logo-upload-input"
+                          data-testid="logo-upload-input"
                         />
                         <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 hover:border-blue-500 transition-colors flex flex-col items-center gap-2">
                           <Upload className="w-8 h-8 text-slate-400" />
@@ -607,18 +611,19 @@ export default function TemplateEditor() {
                       </label>
                     )}
                     
-                    {formData.logo_base64 && (
+                    {logoSrc && (
                       <Button 
                         variant="outline" 
                         size="sm"
-                        onClick={() => setFormData({ ...formData, logo_base64: "" })}
+                        onClick={() => setFormData((prev) => ({ ...prev, logo_base64: "", logo_url: "" }))}
                         className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        data-testid="logo-remove-button"
                       >
                         <Trash2 className="w-4 h-4 mr-1" /> Logo entfernen
                       </Button>
                     )}
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">JPG, PNG oder SVG. Das Logo wird rechts oben im Dokument angezeigt.</p>
+                  <p className="text-xs text-slate-500 mt-2">JPG oder PNG. Das Logo wird rechts oben im Dokument angezeigt.</p>
                 </div>
               </TabsContent>
 
