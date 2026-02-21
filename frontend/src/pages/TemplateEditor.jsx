@@ -61,6 +61,23 @@ const DEFAULT_TEMPLATE = {
   is_default: false,
 };
 
+const LOGO_DIMENSIONS = {
+  widthPx: 140,
+  heightPx: 70,
+  widthMm: 35,
+  heightMm: 18,
+};
+
+const getLogoSrc = (template) => template?.logo_base64 || template?.logo_url || template?.logo || "";
+
+const getLogoFormat = (logoSrc) => {
+  if (!logoSrc || typeof logoSrc !== "string") return null;
+  const match = logoSrc.match(/^data:image\/(png|jpe?g)/i);
+  if (!match) return null;
+  const format = match[1].toLowerCase();
+  return format === "png" ? "PNG" : "JPEG";
+};
+
 export default function TemplateEditor() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
