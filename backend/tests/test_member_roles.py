@@ -8,7 +8,7 @@ import pytest
 import requests
 import os
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://member-roles-dev.preview.emergentagent.com')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://kommunal-rebuild.preview.emergentagent.com')
 
 # Test constants
 DEMO_EMAIL = "demo@kommunalcrm.de"
