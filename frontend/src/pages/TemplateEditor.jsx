@@ -1024,7 +1024,7 @@ export default function TemplateEditor() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>Abbrechen</Button>
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)} data-testid="delete-dialog-cancel-button">Abbrechen</Button>
             <Button variant="destructive" onClick={() => deleteMutation.mutate(selectedTemplate?.id)}>
               Löschen
             </Button>
