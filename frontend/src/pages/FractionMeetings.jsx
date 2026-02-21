@@ -1054,6 +1054,13 @@ Die Einladung soll:
 
       // Send email with authorization token
       const token = localStorage.getItem("token");
+      console.log("DEBUG: Sending invitation with token:", token ? token.substring(0, 20) + "..." : "NO TOKEN");
+      
+      if (!token) {
+        alert("Fehler: Kein Token gefunden. Bitte melden Sie sich erneut an.");
+        return;
+      }
+      
       const response = await fetch("/api/email/send-invitation", {
         method: "POST",
         headers: { 
