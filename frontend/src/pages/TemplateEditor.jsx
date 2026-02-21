@@ -221,18 +221,33 @@ export default function TemplateEditor() {
     // Set font
     doc.setFont("times", "normal");
 
+    const logoSrc = getLogoSrc(formData);
+    const logoFormat = getLogoFormat(logoSrc);
+
     // ========== LOGO (top right, above document box) ==========
     let logoHeight = 0;
-    if (formData.logo_base64) {
+    if (logoSrc && logoFormat) {
       try {
-        // Add logo to top right
-        const logoX = pageWidth - marginRight - 30;
-        const logoY = y - 10;
-        doc.addImage(formData.logo_base64, 'PNG', logoX, logoY, 30, 20);
-        logoHeight = 25;
+        const logoX = pageWidth - marginRight - LOGO_DIMENSIONS.widthMm;
+        const logoY = 10;
+        doc.addImage(
+          logoSrc,
+          logoFormat,
+          logoX,
+          logoY,
+          LOGO_DIMENSIONS.widthMm,
+          LOGO_DIMENSIONS.heightMm
+        );
+        logoHeight = LOGO_DIMENSIONS.heightMm + 7;
       } catch (e) {
         console.error("Logo konnte nicht geladen werden:", e);
       }
+    } else if (logoSrc && !logoFormat) {
+      toast({
+        title: "Logo-Format nicht unterstützt",
+        description: "Bitte PNG oder JPG für die PDF-Ausgabe verwenden.",
+        variant: "destructive",
+      });
     }
 
     // ========== HEADER ==========
