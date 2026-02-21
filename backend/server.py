@@ -564,6 +564,10 @@ async def update_user_role(user_id: str, request: RoleUpdateRequest):
 async def health():
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
 
+@app.get("/health")
+async def root_health():
+    return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
+
 # Seed endpoints disabled - production mode
 # Original seed-demo and seed-full-demo endpoints are no longer needed
 # Users should register directly with their organizations
