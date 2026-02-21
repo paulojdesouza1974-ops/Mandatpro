@@ -64,7 +64,6 @@ const DEFAULT_TEMPLATE = {
 export default function TemplateEditor() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const fileInputRef = useRef(null);
   
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
