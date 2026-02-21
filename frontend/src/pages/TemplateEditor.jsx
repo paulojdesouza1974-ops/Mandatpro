@@ -919,11 +919,13 @@ export default function TemplateEditor() {
               {/* Right: Logo + Document type box */}
               <div className="flex flex-col items-end gap-2">
                 {/* Logo */}
-                {formData.logo_base64 && (
+                {logoSrc && (
                   <img 
-                    src={formData.logo_base64} 
+                    src={logoSrc} 
                     alt="Logo" 
-                    className="h-16 object-contain"
+                    className="object-contain"
+                    style={{ width: LOGO_DIMENSIONS.widthPx, height: LOGO_DIMENSIONS.heightPx }}
+                    data-testid="document-preview-logo"
                   />
                 )}
                 
