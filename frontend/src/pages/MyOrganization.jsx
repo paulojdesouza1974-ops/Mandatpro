@@ -580,36 +580,36 @@ export default function MyOrganization() {
                   </div>
                 </div>
 
-            <div>
-              <Label>SMTP Benutzername</Label>
-              {isEditing && isAdmin ? (
-                <Input
-                  value={formData.smtp_username}
-                  onChange={(e) => setFormData({ ...formData, smtp_username: e.target.value })}
-                  placeholder="user@example.com"
-                  data-testid="smtp-username-input"
-                />
-              ) : (
-                <p className="text-slate-900 mt-1">{organization?.smtp_username || "-"}</p>
-              )}
-            </div>
+                <div>
+                  <Label>SMTP Benutzername</Label>
+                  {isEditing && isAdmin ? (
+                    <Input
+                      value={formData.smtp_username}
+                      onChange={(e) => setFormData({ ...formData, smtp_username: e.target.value })}
+                      placeholder="user@example.com"
+                      data-testid="smtp-username-input"
+                    />
+                  ) : (
+                    <p className="text-slate-900 mt-1">{organization?.smtp_username || "-"}</p>
+                  )}
+                </div>
 
-            <div>
-              <Label>SMTP Passwort</Label>
-              {isEditing && isAdmin ? (
-                <Input
-                  type="password"
-                  value={formData.smtp_password}
-                  onChange={(e) => setFormData({ ...formData, smtp_password: e.target.value })}
-                  placeholder="••••••••"
-                  data-testid="smtp-password-input"
-                />
-              ) : (
-                <p className="text-slate-900 mt-1">{organization?.smtp_password ? "••••••••" : "-"}</p>
-              )}
-            </div>
+                <div>
+                  <Label>SMTP Passwort</Label>
+                  {isEditing && isAdmin ? (
+                    <Input
+                      type="password"
+                      value={formData.smtp_password}
+                      onChange={(e) => setFormData({ ...formData, smtp_password: e.target.value })}
+                      placeholder="••••••••"
+                      data-testid="smtp-password-input"
+                    />
+                  ) : (
+                    <p className="text-slate-900 mt-1">{organization?.smtp_password ? "••••••••" : "-"}</p>
+                  )}
+                </div>
 
-            <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label>Absender E-Mail</Label>
                 {isEditing && isAdmin ? (
