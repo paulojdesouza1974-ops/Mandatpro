@@ -667,6 +667,7 @@ export default function TemplateEditor() {
                         value={formData.recipient_postal}
                         onChange={(e) => setFormData({ ...formData, recipient_postal: e.target.value })}
                         placeholder="41539 Dormagen"
+                        data-testid="recipient-postal-input"
                       />
                     </div>
                   </div>
