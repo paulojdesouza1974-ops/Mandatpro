@@ -172,7 +172,7 @@ class GenericCreate(BaseModel):
 # Simple token storage (in production use Redis or JWT)
 tokens = {}
 
-def extract_token(authorization_header: str | None = None, authorization_query: str | None = None):
+def extract_token(authorization_header: Optional[str] = None, authorization_query: Optional[str] = None):
     raw = authorization_header or authorization_query
     if not raw:
         return None
