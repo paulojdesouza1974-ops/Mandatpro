@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="14" time="25.403" timestamp="2026-02-21T19:22:54.135117+00:00" hostname="agent-env-1cbe45de-444b-4990-8e38-53d0b54072ab"><testcase classname="backend.tests.test_kommunalcrm.TestHealthAndAuth" name="test_health_endpoint" time="0.559" /><testcase classname="backend.tests.test_kommunalcrm.TestHealthAndAuth" name="test_seed_demo_fraktion" time="0.548" /><testcase classname="backend.tests.test_kommunalcrm.TestHealthAndAuth" name="test_seed_demo_verband" time="0.438" /><testcase classname="backend.tests.test_kommunalcrm.TestHealthAndAuth" name="test_demo_login_fraktion" time="0.405" /><testcase classname="backend.tests.test_kommunalcrm.TestHealthAndAuth" name="test_demo_login_verband" time="0.413" /><testcase classname="backend.tests.test_kommunalcrm.TestMeetingsAndFractionMeetings" name="test_list_fraction_meetings" time="1.269" /><testcase classname="backend.tests.test_kommunalcrm.TestMeetingsAndFractionMeetings" name="test_create_fraction_meeting" time="1.678" /><testcase classname="backend.tests.test_kommunalcrm.TestAIEndpoints" name="test_generate_invitation" time="6.965" /><testcase classname="backend.tests.test_kommunalcrm.TestAIEndpoints" name="test_generate_protocol" time="5.837" /><testcase classname="backend.tests.test_kommunalcrm.TestEmailSending" name="test_send_invitation_email_endpoint" time="1.766"><failure message="requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)">/root/.venv/lib/python3.11/site-packages/requests/models.py:976: in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/json/__init__.py:346: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/json/decoder.py:355: in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+E   json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+backend/tests/test_kommunalcrm.py:237: in test_send_invitation_email_endpoint
+    data = response.json()
+           ^^^^^^^^^^^^^^^
+/root/.venv/lib/python3.11/site-packages/requests/models.py:980: in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+E   requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)</failure></testcase><testcase classname="backend.tests.test_kommunalcrm.TestMemberManagement" name="test_get_organization_members" time="1.250" /><testcase classname="backend.tests.test_kommunalcrm.TestMemberManagement" name="test_update_member_role" time="1.642" /><testcase classname="backend.tests.test_kommunalcrm.TestMotions" name="test_create_motion" time="1.259" /><testcase classname="backend.tests.test_kommunalcrm.TestMotions" name="test_list_motions" time="1.208" /></testsuite></testsuites>
