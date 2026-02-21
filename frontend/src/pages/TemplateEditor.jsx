@@ -914,7 +914,7 @@ export default function TemplateEditor() {
             {/* Header with logo and document type box */}
             <div className="flex justify-between items-start mb-6" data-testid="document-preview-header">
               {/* Left: Faction name */}
-              <div className="font-bold text-sm flex-1">{formData.faction_name}</div>
+              <div className="font-bold text-sm flex-1" data-testid="document-preview-faction-name">{formData.faction_name}</div>
               
               {/* Right: Logo + Document type box */}
               <div className="flex flex-col items-end gap-2">
