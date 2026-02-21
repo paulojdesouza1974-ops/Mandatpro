@@ -132,7 +132,9 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
     const typeLabel = types.find((t) => t.value === form.type)?.label || form.type;
     const decisionHeading = form.type === "anfrage" ? "Fragestellung" : "Beschlussvorschlag";
     const orgName = currentOrg?.display_name || currentOrg?.name || user?.organization || "Organisation";
-    const stateName = currentOrg?.state || "nicht angegeben";
+    const stateName = currentOrg?.state;
+    const stateLabel = stateName || "nicht angegeben";
+    const legalState = stateName || "des jeweiligen Landes";
     const committeeLine = form.committee ? `Ausschuss/Gremium: ${form.committee}` : "Ausschuss/Gremium: nicht angegeben";
     const sessionLine = form.session_date ? `Sitzungsdatum: ${form.session_date}` : "Sitzungsdatum: nicht angegeben";
     const lengthGuidance = "5–12 Sätze je Abschnitt (bei einfachen Anliegen eher 5–8, bei technischen/baulichen Themen eher 8–12).";
