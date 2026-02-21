@@ -810,7 +810,7 @@ export default function TemplateEditor() {
                       value={formData.font_family}
                       onValueChange={(value) => setFormData({ ...formData, font_family: value })}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger data-testid="font-family-select">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
