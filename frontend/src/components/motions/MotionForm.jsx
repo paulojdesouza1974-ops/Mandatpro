@@ -146,7 +146,7 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
 
 Kontext:
 Organisation: ${orgName}
-Bundesland: ${stateName}
+Bundesland: ${stateLabel}
 ${committeeLine}
 ${sessionLine}
 Thema: "${form.title}"
