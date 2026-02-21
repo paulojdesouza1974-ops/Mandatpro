@@ -194,7 +194,11 @@ export default function TemplateEditor() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData({ ...formData, logo_base64: reader.result });
+        setFormData((prev) => ({
+          ...prev,
+          logo_base64: reader.result,
+          logo_url: reader.result,
+        }));
         toast({ title: "Logo hochgeladen" });
       };
       reader.readAsDataURL(file);
