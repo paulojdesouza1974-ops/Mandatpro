@@ -881,7 +881,7 @@ export default function TemplateEditor() {
                 value={previewData.documentType}
                 onValueChange={(value) => setPreviewData({ ...previewData, documentType: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger data-testid="preview-document-type-select">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
