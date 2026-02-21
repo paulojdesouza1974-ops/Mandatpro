@@ -960,7 +960,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Meeting Reference */}
-            <div className="mb-6 text-sm">
+            <div className="mb-6 text-sm" data-testid="document-preview-meeting-reference">
               Sitzung des Stadtrats vom {previewData.meetingDate}
             </div>
 
