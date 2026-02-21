@@ -563,6 +563,7 @@ export default function TemplateEditor() {
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       placeholder="Dormagen"
+                      data-testid="template-city-input"
                     />
                   </div>
                 </div>
