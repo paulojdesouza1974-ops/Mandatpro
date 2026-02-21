@@ -292,6 +292,6 @@ User requested to improve an existing German municipal CRM application called "K
 | AI Generierung | ✅ Working | gpt-4o via Emergent Key |
 | Meeting Management | ✅ Working | CRUD + Einladungen + Protokolle |
 | Member Management | ✅ Working | Rollen-Dropdown für Admins |
-| Template Editor | ✅ Working | Header/Footer Support vorhanden |
+| Template Editor | ✅ Working | Logo in Vorschau/PDF + Header/Footer Support vorhanden |
 | Support Tickets | ✅ Working | E-Mail-Benachrichtigung möglich |
 | Data Persistence | ✅ Working | Seed-Logik nicht-destruktiv |
