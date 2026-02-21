@@ -1439,8 +1439,8 @@ def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_em
     if not sendgrid_key or not SENDGRID_AVAILABLE:
         raise Exception("SendGrid nicht konfiguriert. Bitte SENDGRID_API_KEY in .env setzen.")
     
-    # Use provided from_email or default
-    sender = from_email or "noreply@kommunalcrm.de"
+    # Use provided from_email or default to verified sender
+    sender = from_email if from_email and "@" in from_email else "info@mandatpro.de"
     
     for recipient in to_list:
         message = Mail(
