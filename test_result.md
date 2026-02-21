@@ -234,10 +234,10 @@ backend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.1"
-  test_sequence: 2
+  version: "1.2"
+  test_sequence: 3
   run_ui: true
-  last_test_date: "2026-02-20"
+  last_test_date: "2026-02-21"
 
 test_plan:
   current_focus:
