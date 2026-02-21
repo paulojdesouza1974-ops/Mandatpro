@@ -773,7 +773,7 @@ export default function TemplateEditor() {
                 <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
                   <div>
                     <Label>Zeile 1 (Name)</Label>
-                    Input
+                    <Input
                       value={formData.footer_line1}
                       onChange={(e) => setFormData({ ...formData, footer_line1: e.target.value })}
                       placeholder="AfD Fraktion im Rat der Stadt Dormagen"
@@ -786,6 +786,7 @@ export default function TemplateEditor() {
                       value={formData.footer_line2}
                       onChange={(e) => setFormData({ ...formData, footer_line2: e.target.value })}
                       placeholder="Paul-Wierich-Platz 2 | 41539 Dormagen"
+                      data-testid="footer-line2-input"
                     />
                   </div>
                   <div>
@@ -794,6 +795,7 @@ export default function TemplateEditor() {
                       value={formData.footer_line3}
                       onChange={(e) => setFormData({ ...formData, footer_line3: e.target.value })}
                       placeholder="kontakt@afd-dormagen.de | www.afd-dormagen.de"
+                      data-testid="footer-line3-input"
                     />
                   </div>
                 </div>
