@@ -1040,7 +1040,7 @@ async def run_vision_chat(prompt: str, system_message: str, images):
         api_key=api_key,
         session_id=f"vision-{datetime.now().timestamp()}",
         system_message=system_message,
-    ).with_model("openai", "gpt-5.2")
+    ).with_model("openai", "gpt-4o")
 
     file_contents = [ImageContent(image_base64=b64) for _, b64 in images]
     try:
@@ -1089,7 +1089,7 @@ WICHTIG: Gib die Antwort IMMER als valides JSON zurück mit exakt diesen Feldern
             api_key=api_key,
             session_id=f"email-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-5.2")
+        ).with_model("openai", "gpt-4o")
         
         user_message = UserMessage(text=f"Erstelle eine E-Mail zum Thema: {request.topic}")
         response = await chat.send_message(user_message)
@@ -1156,7 +1156,7 @@ async def generate_text(request: AITextGenerateRequest):
             api_key=api_key,
             session_id=f"text-{datetime.now().timestamp()}",
             system_message=system_msg
-        ).with_model("openai", "gpt-5.2")
+        ).with_model("openai", "gpt-4o")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
@@ -1291,7 +1291,7 @@ Der Bescheid soll:
             api_key=api_key,
             session_id=f"notice-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-5.2")
+        ).with_model("openai", "gpt-4o")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
