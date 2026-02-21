@@ -277,10 +277,10 @@ User requested to improve an existing German municipal CRM application called "K
   - Logo wird in Vorschau und PDF gerendert (feste Größe, oben rechts)
   - PNG/JPG-Format-Erkennung für PDF-Ausgabe ergänzt
   - data-testid für alle interaktiven Elemente im Template Editor ergänzt
-- **Deployment Fixes (Auth/Health)**
-  - Tokens werden jetzt in MongoDB persistiert (stabil über Restarts)
-  - Auth-Endpunkte akzeptieren Authorization Header + Query-Param
-  - Neuer `/health` Endpoint für Deployment-Healthchecks
+- **KI-Anträge: neutrale, rechtlich saubere Struktur**
+  - Prompt und System-Message für Anträge neutralisiert (kein Fremdthema, keine Wertung)
+  - Struktur: Titel → Beschlussvorschlag/Fragestellung → Begründung → Rechtsgrundlage
+  - Bundesland wird (falls vorhanden) in den Rechtsbezug eingebunden
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
