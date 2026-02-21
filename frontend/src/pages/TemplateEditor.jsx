@@ -827,6 +827,7 @@ export default function TemplateEditor() {
                       value={formData.primary_color}
                       onChange={(e) => setFormData({ ...formData, primary_color: e.target.value })}
                       className="h-10 w-full"
+                      data-testid="primary-color-input"
                     />
                   </div>
                 </div>
