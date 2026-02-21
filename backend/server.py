@@ -246,21 +246,6 @@ def raise_llm_error(error: Exception):
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
 
-def create_token(user_id: str) -> str:
-    token = secrets.token_urlsafe(32)
-    tokens[token] = user_id
-    return token
-
-def get_current_user(authorization: str = None):
-    if not authorization:
-        return None
-    token = authorization.replace("Bearer ", "") if authorization.startswith("Bearer ") else authorization
-    user_id = tokens.get(token)
-    if not user_id:
-        return None
-    user = db.users.find_one({"_id": ObjectId(user_id)})
-    return serialize_doc(user) if user else None
-
 @app.post("/api/auth/register")
 async def register(user: UserCreate):
     existing = db.users.find_one({"email": user.email})
