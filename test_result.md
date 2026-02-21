@@ -179,6 +179,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "AI text generation ('Mit KI generieren' button) works correctly. Generated 1823 characters of professional motion text. Backend AI endpoint at /api/ai/generate-text is functioning properly with GPT-5.2 model."
+        - working: true
+          agent: "testing"
+          comment: "2026-02-21: Comprehensive test completed - User registration → Login → Navigate to Motions → Create new motion with title 'Parkbank-Erneuerung im Stadtpark' → AI generation via 'Mit KI generieren' button. Generated 2134 characters. ALL REQUIRED HEADERS VERIFIED: 'Antrag:', 'Beschlussvorschlag', 'Begründung', 'Rechtsgrundlage' all present. NO UNRELATED TERMS: Verified no off-topic content (e.g., 'Beflaggung') appears. AI stays on topic and generates appropriate, professional motion text. Feature working perfectly."
   
   - task: "Organization details member list"
     implemented: true
