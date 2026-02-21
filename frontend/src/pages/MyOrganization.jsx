@@ -534,37 +534,51 @@ export default function MyOrganization() {
 
             <CardTitle className="text-base flex items-center gap-2 pt-2">
               <Mail className="w-5 h-5 text-slate-600" />
-              SMTP Versand
+              E-Mail Versand
             </CardTitle>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>SMTP Host</Label>
-                {isEditing && isAdmin ? (
-                  <Input
-                    value={formData.smtp_host}
-                    onChange={(e) => setFormData({ ...formData, smtp_host: e.target.value })}
-                    placeholder="smtp.example.com"
-                    data-testid="smtp-host-input"
-                  />
-                ) : (
-                  <p className="text-slate-900 mt-1">{organization?.smtp_host || "-"}</p>
-                )}
-              </div>
-              <div>
-                <Label>SMTP Port</Label>
-                {isEditing && isAdmin ? (
-                  <Input
-                    value={formData.smtp_port}
-                    onChange={(e) => setFormData({ ...formData, smtp_port: e.target.value })}
-                    placeholder="587"
-                    data-testid="smtp-port-input"
-                  />
-                ) : (
-                  <p className="text-slate-900 mt-1">{organization?.smtp_port || "-"}</p>
-                )}
+            
+            {/* SendGrid Info Banner */}
+            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 mb-4">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                <div>
+                  <p className="font-medium text-emerald-800">SendGrid aktiv</p>
+                  <p className="text-sm text-emerald-600">E-Mails werden über SendGrid versendet. SMTP-Konfiguration ist optional und nur als Fallback gedacht.</p>
+                </div>
               </div>
             </div>
+
+            <details className="border rounded-lg p-3">
+              <summary className="cursor-pointer font-medium text-slate-700">SMTP Fallback-Konfiguration (optional)</summary>
+              <div className="mt-4 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>SMTP Host</Label>
+                    {isEditing && isAdmin ? (
+                      <Input
+                        value={formData.smtp_host}
+                        onChange={(e) => setFormData({ ...formData, smtp_host: e.target.value })}
+                        placeholder="smtp.example.com"
+                        data-testid="smtp-host-input"
+                      />
+                    ) : (
+                      <p className="text-slate-900 mt-1">{organization?.smtp_host || "-"}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label>SMTP Port</Label>
+                    {isEditing && isAdmin ? (
+                      <Input
+                        value={formData.smtp_port}
+                        onChange={(e) => setFormData({ ...formData, smtp_port: e.target.value })}
+                        placeholder="587"
+                        data-testid="smtp-port-input"
+                      />
+                    ) : (
+                      <p className="text-slate-900 mt-1">{organization?.smtp_port || "-"}</p>
+                    )}
+                  </div>
+                </div>
 
             <div>
               <Label>SMTP Benutzername</Label>
