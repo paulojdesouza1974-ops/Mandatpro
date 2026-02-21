@@ -506,34 +506,55 @@ export default function TemplateEditor() {
 
                 <div>
                   <Label>Logo hochladen</Label>
-                  <div className="flex gap-2 items-center flex-wrap">
-                    <label className="cursor-pointer">
-                      <input
-                        type="file"
-                        onChange={handleLogoUpload}
-                        accept="image/png,image/jpeg,image/svg+xml"
-                        className="hidden"
-                        id="logo-upload-input"
-                      />
-                      <div className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
-                        <Upload className="w-4 h-4 mr-2" /> Logo auswählen
-                      </div>
-                    </label>
+                  <div className="flex gap-4 items-start flex-wrap">
+                    {/* Logo Preview - Clickable to replace */}
+                    {formData.logo_base64 ? (
+                      <label className="cursor-pointer group relative">
+                        <input
+                          type="file"
+                          onChange={handleLogoUpload}
+                          accept="image/png,image/jpeg,image/svg+xml"
+                          className="hidden"
+                        />
+                        <div className="relative border-2 border-dashed border-slate-300 rounded-lg p-2 hover:border-blue-500 transition-colors">
+                          <img 
+                            src={formData.logo_base64} 
+                            alt="Logo" 
+                            className="h-20 object-contain max-w-[200px]" 
+                          />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                            <span className="text-white text-sm font-medium">Klicken zum Ersetzen</span>
+                          </div>
+                        </div>
+                      </label>
+                    ) : (
+                      <label className="cursor-pointer">
+                        <input
+                          type="file"
+                          onChange={handleLogoUpload}
+                          accept="image/png,image/jpeg,image/svg+xml"
+                          className="hidden"
+                          id="logo-upload-input"
+                        />
+                        <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 hover:border-blue-500 transition-colors flex flex-col items-center gap-2">
+                          <Upload className="w-8 h-8 text-slate-400" />
+                          <span className="text-sm text-slate-600">Logo auswählen</span>
+                        </div>
+                      </label>
+                    )}
+                    
                     {formData.logo_base64 && (
-                      <div className="flex items-center gap-2 p-2 border rounded-md bg-slate-50">
-                        <img src={formData.logo_base64} alt="Logo" className="h-12 object-contain max-w-[150px]" />
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => setFormData({ ...formData, logo_base64: "" })}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setFormData({ ...formData, logo_base64: "" })}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" /> Logo entfernen
+                      </Button>
                     )}
                   </div>
-                  <p className="text-xs text-slate-500 mt-1">JPG, PNG oder SVG. Max. 2MB.</p>
+                  <p className="text-xs text-slate-500 mt-2">JPG, PNG oder SVG. Das Logo wird rechts oben im Dokument angezeigt.</p>
                 </div>
               </TabsContent>
 
