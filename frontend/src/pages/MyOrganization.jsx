@@ -610,60 +610,62 @@ export default function MyOrganization() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>Absender E-Mail</Label>
-                {isEditing && isAdmin ? (
-                  <Input
-                    type="email"
-                    value={formData.smtp_from_email}
-                    onChange={(e) => setFormData({ ...formData, smtp_from_email: e.target.value })}
-                    placeholder="noreply@organisation.de"
-                    data-testid="smtp-from-email-input"
-                  />
-                ) : (
-                  <p className="text-slate-900 mt-1">{organization?.smtp_from_email || "-"}</p>
-                )}
-              </div>
-              <div>
-                <Label>Absender Name</Label>
-                {isEditing && isAdmin ? (
-                  <Input
-                    value={formData.smtp_from_name}
-                    onChange={(e) => setFormData({ ...formData, smtp_from_name: e.target.value })}
-                    placeholder="KommunalCRM"
-                    data-testid="smtp-from-name-input"
-                  />
-                ) : (
-                  <p className="text-slate-900 mt-1">{organization?.smtp_from_name || "-"}</p>
-                )}
-              </div>
-            </div>
-
-            {/* SMTP Test Section */}
-            {isAdmin && organization?.smtp_host && !isEditing && (
-              <div className="pt-4 border-t border-slate-100">
-                <Label className="text-sm font-medium">SMTP-Verbindung testen</Label>
-                <div className="flex gap-2 mt-2">
-                  <Input
-                    type="email"
-                    value={smtpTestEmail}
-                    onChange={(e) => setSmtpTestEmail(e.target.value)}
-                    placeholder="test@example.com"
-                    className="flex-1"
-                    data-testid="smtp-test-email-input"
-                  />
-                  <Button 
-                    onClick={handleSmtpTest} 
-                    disabled={smtpTesting}
-                    variant="outline"
-                    data-testid="smtp-test-button"
-                  >
-                    {smtpTesting ? "Teste..." : "Test-E-Mail senden"}
-                  </Button>
+                  <div>
+                    <Label>Absender E-Mail</Label>
+                    {isEditing && isAdmin ? (
+                      <Input
+                        type="email"
+                        value={formData.smtp_from_email}
+                        onChange={(e) => setFormData({ ...formData, smtp_from_email: e.target.value })}
+                        placeholder="noreply@organisation.de"
+                        data-testid="smtp-from-email-input"
+                      />
+                    ) : (
+                      <p className="text-slate-900 mt-1">{organization?.smtp_from_email || "-"}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label>Absender Name</Label>
+                    {isEditing && isAdmin ? (
+                      <Input
+                        value={formData.smtp_from_name}
+                        onChange={(e) => setFormData({ ...formData, smtp_from_name: e.target.value })}
+                        placeholder="KommunalCRM"
+                        data-testid="smtp-from-name-input"
+                      />
+                    ) : (
+                      <p className="text-slate-900 mt-1">{organization?.smtp_from_name || "-"}</p>
+                    )}
+                  </div>
                 </div>
-                <p className="text-xs text-slate-500 mt-1">Sendet eine Test-E-Mail an die angegebene Adresse.</p>
+
+                {/* SMTP Test Section */}
+                {isAdmin && organization?.smtp_host && !isEditing && (
+                  <div className="pt-4 border-t border-slate-100">
+                    <Label className="text-sm font-medium">SMTP-Verbindung testen</Label>
+                    <div className="flex gap-2 mt-2">
+                      <Input
+                        type="email"
+                        value={smtpTestEmail}
+                        onChange={(e) => setSmtpTestEmail(e.target.value)}
+                        placeholder="test@example.com"
+                        className="flex-1"
+                        data-testid="smtp-test-email-input"
+                      />
+                      <Button 
+                        onClick={handleSmtpTest} 
+                        disabled={smtpTesting}
+                        variant="outline"
+                        data-testid="smtp-test-button"
+                      >
+                        {smtpTesting ? "Teste..." : "Test-E-Mail senden"}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1">Sendet eine Test-E-Mail an die angegebene Adresse.</p>
+                  </div>
+                )}
               </div>
-            )}
+            </details>
           </CardContent>
         </Card>
       </div>
