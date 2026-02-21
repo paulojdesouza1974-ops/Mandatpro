@@ -31,6 +31,7 @@ import {
   X,
   CreditCard,
   FileText,
+  CheckCircle2,
 } from "lucide-react";
 
 const ORG_ROLES = [
