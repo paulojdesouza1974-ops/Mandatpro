@@ -160,7 +160,7 @@ Begründung
 [${lengthGuidance} Sachlich, realistisch, ohne politische Wertung. Keine anderen Themen.]
 
 Rechtsgrundlage
-[Allgemeiner, sicherer Rechtsbezug. Keine erfundenen Paragraphen. Wenn unklar: "Kommunalrecht des Landes ${stateName} (z. B. Gemeindeordnung)".]
+[Allgemeiner, sicherer Rechtsbezug. Keine erfundenen Paragraphen. Wenn unklar: "Kommunalrecht ${legalState} (z. B. Gemeindeordnung)".]
 
 WICHTIG:
 - Keine Beispiele anderer Kommunen, keine Fremdthemen.
