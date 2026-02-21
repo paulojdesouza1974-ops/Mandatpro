@@ -955,7 +955,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Subject */}
-            <div className="font-bold mb-2 text-sm">
+            <div className="font-bold mb-2 text-sm" data-testid="document-preview-subject">
               Antrag: {previewData.subject}
             </div>
 
