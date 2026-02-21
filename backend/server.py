@@ -809,7 +809,7 @@ async def generate_text(request: AITextGenerateRequest):
         
         # Default system messages for different tasks
         default_systems = {
-            "motion": "Du bist ein erfahrener Kommunalpolitiker einer deutschen Fraktion. Du erstellst professionelle Anträge, Anfragen und Resolutionen für kommunale Gremien. Verwende eine sachliche, professionelle Sprache.",
+            "motion": "Du bist ein neutraler, juristisch vorsichtiger Fachautor für kommunale Anträge in Deutschland. Schreibe sachlich, professionell und ohne politische Wertung. Beziehe dich ausschließlich auf das angegebene Thema und erfinde keine Fakten oder Rechtsgrundlagen. Wenn etwas unsicher ist, kennzeichne es allgemein (z. B. Kommunalrecht des Landes / Gemeindeordnung) statt konkrete Paragraphen zu erfinden.",
             "meeting": "Du bist ein erfahrener Fraktionsgeschäftsführer. Du erstellst professionelle Tagesordnungen und Protokolle für Fraktionssitzungen.",
             "document": "Du bist ein professioneller Dokumentenanalyst. Du analysierst und fasst Dokumente zusammen.",
             "general": "Du bist ein hilfreicher Assistent für eine deutsche politische Organisation."
