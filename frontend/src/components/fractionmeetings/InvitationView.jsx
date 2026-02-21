@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Printer, Download, X, Sparkles, Save, FileText, ListChecks } from "lucide-react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 

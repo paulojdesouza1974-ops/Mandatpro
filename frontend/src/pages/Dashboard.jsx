@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 import { Users, FileText, CalendarDays, MessageCircle, TrendingUp, Activity } from "lucide-react";
 import StatCard from "@/components/dashboard/StatCard";
 import UpcomingMeetings from "@/components/dashboard/UpcomingMeetings";

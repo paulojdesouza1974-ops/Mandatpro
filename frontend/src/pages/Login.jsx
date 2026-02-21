@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Landmark, Mail, Lock, User, Building2, AlertCircle, Users, CheckCircle } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 
 export default function LoginPage() {
   const { login, register } = useAuth();

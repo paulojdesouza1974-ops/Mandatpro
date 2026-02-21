@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 import PageTransition from "@/components/PageTransition";
 
 const fraktionNavItems = [
@@ -229,7 +229,7 @@ export default function Layout({ children, currentPageName }) {
           {/* Logout Button */}
           <button
             onClick={async () => {
-              const { base44 } = await import("@/api/base44Client");
+              const { base44 } = await import("@/api/apiClient");
               await base44.auth.logout();
               window.location.href = "/login";
             }}

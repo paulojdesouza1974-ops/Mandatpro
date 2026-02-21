@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Save, X, Sparkles, Loader2, Upload, File, Trash2, FileText } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 
 const types = [

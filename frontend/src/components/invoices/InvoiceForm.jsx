@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Plus, Trash2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 
 export default function InvoiceForm({ open, onOpenChange, invoice, onSave, isSaving, users }) {
   const { data: currentUser } = useQuery({

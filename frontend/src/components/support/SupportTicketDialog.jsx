@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Trash2, Upload, X } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 
 export default function SupportTicketDialog({

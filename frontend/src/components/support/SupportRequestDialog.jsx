@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Upload, X } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 
 export default function SupportRequestDialog({ open, onOpenChange, organization, contactEmail, onSuccess }) {
   const [formData, setFormData] = useState({
