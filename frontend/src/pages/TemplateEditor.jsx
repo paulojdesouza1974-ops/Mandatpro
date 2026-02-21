@@ -684,22 +684,23 @@ export default function TemplateEditor() {
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <h4 className="font-medium mb-2">Schnellauswahl Fraktionsmitglieder</h4>
                   <div className="flex flex-wrap gap-2">
-                    {FACTION_MEMBERS.map((member) => (
-                      <Button
-                        key={member.name}
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          if (!formData.signer1_name) {
-                            setFormData({ ...formData, signer1_name: member.name, signer1_title: member.title });
-                          } else if (!formData.signer2_name) {
-                            setFormData({ ...formData, signer2_name: member.name, signer2_title: member.title });
-                          }
-                        }}
-                      >
-                        {member.name}
-                      </Button>
-                    ))}
+                      FACTION_MEMBERS.map((member) = (
+                        Button
+                          key={member.name}
+                          variant="outline"
+                          size="sm"
+                          onClick={() = {
+                            if (!formData.signer1_name) {
+                              setFormData({ ...formData, signer1_name: member.name, signer1_title: member.title });
+                            } else if (!formData.signer2_name) {
+                              setFormData({ ...formData, signer2_name: member.name, signer2_title: member.title });
+                            }
+                          }}
+                          data-testid={`signer-quickselect-${toTestId(member.name)}`}
+                        
+                          {member.name}
+                        /Button
+                      )),
                   </div>
                 </div>
 
