@@ -192,7 +192,7 @@ def store_token(token: str, user_id: str):
         upsert=True,
     )
 
-def get_user_id_from_token(token: str | None):
+def get_user_id_from_token(token: Optional[str]):
     if not token:
         return None
     user_id = tokens.get(token)
