@@ -729,6 +729,7 @@ export default function TemplateEditor() {
                       variant="ghost" 
                       size="sm"
                       onClick={() => setFormData({ ...formData, signer1_name: "", signer1_title: "" })}
+                      data-testid="signer1-clear-button"
                     >
                       <Trash2 className="w-4 h-4 mr-1" /> Leeren
                     </Button>
