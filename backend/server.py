@@ -1436,11 +1436,14 @@ class SendEmailRequest(BaseModel):
 def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_email: str = None, from_name: str = None):
     """Send email using SendGrid API"""
     sendgrid_key = os.environ.get("SENDGRID_API_KEY")
+    logger.info(f"SendGrid key loaded: {sendgrid_key[:25] if sendgrid_key else 'NONE'}...")
+    
     if not sendgrid_key or not SENDGRID_AVAILABLE:
         raise Exception("SendGrid nicht konfiguriert. Bitte SENDGRID_API_KEY in .env setzen.")
     
     # Use provided from_email or default to verified sender
     sender = from_email if from_email and "@" in from_email else "info@mandatpro.de"
+    logger.info(f"SendGrid sender: {sender}")
     
     for recipient in to_list:
         message = Mail(
@@ -1454,7 +1457,7 @@ def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_em
             response = sg.send(message)
             logger.info(f"SendGrid email sent to {recipient}: {response.status_code}")
         except Exception as e:
-            logger.error(f"SendGrid error: {e}")
+            logger.error(f"SendGrid error for {recipient}: {type(e).__name__}: {e}")
             raise
 
 
