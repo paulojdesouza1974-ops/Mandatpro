@@ -542,6 +542,7 @@ export default function TemplateEditor() {
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       placeholder="Kurze Beschreibung"
+                      data-testid="template-description-input"
                     />
                   </div>
                 </div>
