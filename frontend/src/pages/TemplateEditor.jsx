@@ -971,7 +971,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Begründung */}
-            <div className="mb-8 text-sm">
+            <div className="mb-8 text-sm" data-testid="document-preview-begruendung">
               <div className="font-bold mb-2">Begründung</div>
               <div>{previewData.begruendung}</div>
             </div>
