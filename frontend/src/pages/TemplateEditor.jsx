@@ -99,6 +99,13 @@ export default function TemplateEditor() {
     begruendung: "Die deutsche Flagge ist das sichtbare Symbol unserer staatlichen Einheit und unserer freiheitlich-demokratischen Ordnung.",
   });
 
+  const logoSrc = getLogoSrc(formData);
+  const toTestId = (value) =>
+    value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
   const { data: user } = useQuery({
     queryKey: ["currentUser"],
     queryFn: () => base44.auth.me(),
