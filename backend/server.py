@@ -209,7 +209,7 @@ def create_token(user_id: str) -> str:
     store_token(token, user_id)
     return token
 
-def revoke_token(token: str | None):
+def revoke_token(token: Optional[str]):
     if not token:
         return
     tokens.pop(token, None)
