@@ -247,6 +247,12 @@ User requested to improve an existing German municipal CRM application called "K
 - **BugFix:** Tagesordnung-Duplikation in Einladungen behoben
   - InvitationView.jsx zeigt Tagesordnung nur separat wenn kein Einladungstext vorhanden
   - PDF-Generierung bereinigt (keine doppelte Tagesordnung mehr)
+- **SendGrid E-Mail-Integration hinzugefügt** (Alternative zu SMTP)
+  - SendGrid als primäre E-Mail-Methode (wenn API-Key konfiguriert)
+  - SMTP als Fallback
+- **KI-Generierung auf gpt-4o umgestellt** (funktioniert jetzt stabil mit Emergent Key)
+- **Seed-Logik verbessert** - Existierende Organisationen werden nicht mehr überschrieben
+- **base44Client.js umbenannt zu apiClient.js** - Kein Base44-Bezug mehr im Code
 
 ## Known Issues
 - OpenAI API-Key hat aktuell **Quota überschritten** → alle KI-Aufrufe (Text/Scan) geben 429 zurück, bis das Guthaben aufgeladen ist.
