@@ -215,7 +215,7 @@ def revoke_token(token: Optional[str]):
     tokens.pop(token, None)
     db.auth_tokens.delete_one({"token": token})
 
-def get_current_user(token: str | None = None):
+def get_current_user(token: Optional[str] = None):
     if not token:
         return None
     user_id = get_user_id_from_token(token)
