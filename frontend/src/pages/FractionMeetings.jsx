@@ -1052,10 +1052,14 @@ Die Einladung soll:
       
       const pdfBase64 = doc.output("datauristring").split(",")[1];
 
-      // Send email
+      // Send email with authorization token
+      const token = localStorage.getItem("token");
       const response = await fetch("/api/email/send-invitation", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({
           to: recipients,
           subject: `Einladung: ${meeting.title}`,
