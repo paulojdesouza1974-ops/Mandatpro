@@ -910,7 +910,7 @@ export default function TemplateEditor() {
           </div>
 
           {/* Document Preview */}
-          <div className="border rounded-lg p-8 bg-white shadow-inner" style={{ fontFamily: formData.font_family, minHeight: "600px" }}>
+          <div className="border rounded-lg p-8 bg-white shadow-inner" style={{ fontFamily: formData.font_family, minHeight: "600px" }} data-testid="template-preview-document">
             {/* Header with logo and document type box */}
             <div className="flex justify-between items-start mb-6">
               {/* Left: Faction name */}
