@@ -930,7 +930,7 @@ export default function TemplateEditor() {
                 )}
                 
                 {/* Document type box */}
-                <div className="border border-black p-2 text-xs w-48">
+                <div className="border border-black p-2 text-xs w-48" data-testid="document-preview-type-box">
                   <div className="mb-1">{formData.city} den: {previewData.date}</div>
                   <div className="grid grid-cols-2 gap-1 mt-2">
                     {DOCUMENT_TYPES.map((type) => (
