@@ -374,11 +374,12 @@ async def update_me(
     return user_doc
 
 @app.post("/api/auth/logout")
-async def logout(authorization: str = Header(None)):
-    if authorization:
-        token = authorization.replace("Bearer ", "") if authorization.startswith("Bearer ") else authorization
-        if token in tokens:
-            del tokens[token]
+async def logout(
+    authorization: str = Header(None),
+    authorization_query: Optional[str] = Query(None, alias="authorization"),
+):
+    token = extract_token(authorization, authorization_query)
+    revoke_token(token)
     return {"success": True}
 
 # ============ GENERIC CRUD ENDPOINTS ============
