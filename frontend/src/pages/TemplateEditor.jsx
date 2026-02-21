@@ -896,6 +896,7 @@ export default function TemplateEditor() {
               <Input
                 value={previewData.date}
                 onChange={(e) => setPreviewData({ ...previewData, date: e.target.value })}
+                data-testid="preview-date-input"
               />
             </div>
             <div className="md:col-span-2">
