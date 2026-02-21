@@ -96,28 +96,9 @@ export default function LoginPage() {
     setError(null);
     
     try {
-      // First seed demo data
-      await fetch('/api/seed-demo', { method: 'POST' });
-      // Then login
-      await login("demo@kommunalcrm.de", "demo123");
+      await login(loginEmail, loginPassword);
     } catch (err) {
-      setError(err.message || "Demo-Anmeldung fehlgeschlagen");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleFullDemoLogin = async () => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      // First seed comprehensive demo data
-      await fetch('/api/seed-full-demo', { method: 'POST' });
-      // Then login with Verband user
-      await login("demo-verband@kommunalcrm.de", "demo123");
-    } catch (err) {
-      setError(err.message || "Demo-Anmeldung fehlgeschlagen");
+      setError(err.message || "Anmeldung fehlgeschlagen");
     } finally {
       setIsLoading(false);
     }
