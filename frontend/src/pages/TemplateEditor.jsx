@@ -904,6 +904,7 @@ export default function TemplateEditor() {
               <Input
                 value={previewData.subject}
                 onChange={(e) => setPreviewData({ ...previewData, subject: e.target.value })}
+                data-testid="preview-subject-input"
               />
             </div>
           </div>
