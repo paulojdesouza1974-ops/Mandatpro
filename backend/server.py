@@ -1131,8 +1131,13 @@ def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_em
 
 
 @app.post("/api/email/send-invitation")
-async def send_invitation_email(request: SendEmailRequest, authorization: str = Header(None)):
-    user = get_current_user(authorization)
+async def send_invitation_email(
+    request: SendEmailRequest,
+    authorization: str = Header(None),
+    authorization_query: Optional[str] = Query(None, alias="authorization"),
+):
+    token = extract_token(authorization, authorization_query)
+    user = get_current_user(token)
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
 
