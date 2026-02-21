@@ -826,22 +826,35 @@ export default function TemplateEditor() {
 
           {/* Document Preview */}
           <div className="border rounded-lg p-8 bg-white shadow-inner" style={{ fontFamily: formData.font_family, minHeight: "600px" }}>
-            {/* Header with document type box on right */}
-            <div className="flex justify-between items-start mb-8">
-              <div className="font-bold text-sm">{formData.faction_name}</div>
+            {/* Header with logo and document type box */}
+            <div className="flex justify-between items-start mb-6">
+              {/* Left: Faction name */}
+              <div className="font-bold text-sm flex-1">{formData.faction_name}</div>
               
-              {/* Document type box on the right */}
-              <div className="border border-black p-2 text-xs w-48">
-                <div className="mb-1">{formData.city} den: {previewData.date}</div>
-                <div className="grid grid-cols-2 gap-1 mt-2">
-                  {DOCUMENT_TYPES.map((type) => (
-                    <div key={type.id} className="flex items-center gap-1">
-                      <div className="w-3 h-3 border border-black flex items-center justify-center text-[8px]">
-                        {previewData.documentType === type.id ? "X" : ""}
+              {/* Right: Logo + Document type box */}
+              <div className="flex flex-col items-end gap-2">
+                {/* Logo */}
+                {formData.logo_base64 && (
+                  <img 
+                    src={formData.logo_base64} 
+                    alt="Logo" 
+                    className="h-16 object-contain"
+                  />
+                )}
+                
+                {/* Document type box */}
+                <div className="border border-black p-2 text-xs w-48">
+                  <div className="mb-1">{formData.city} den: {previewData.date}</div>
+                  <div className="grid grid-cols-2 gap-1 mt-2">
+                    {DOCUMENT_TYPES.map((type) => (
+                      <div key={type.id} className="flex items-center gap-1">
+                        <div className="w-3 h-3 border border-black flex items-center justify-center text-[8px]">
+                          {previewData.documentType === type.id ? "X" : ""}
+                        </div>
+                        <span className="text-[9px]">{type.label}</span>
                       </div>
-                      <span className="text-[9px]">{type.label}</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
