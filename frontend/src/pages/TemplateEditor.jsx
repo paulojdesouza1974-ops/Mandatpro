@@ -1007,7 +1007,7 @@ export default function TemplateEditor() {
             <Button onClick={handlePrint} data-testid="preview-print-button">
               <Printer className="w-4 h-4 mr-2" /> Drucken
             </Button>
-            <Button onClick={handleDownloadPDF}>
+            <Button onClick={handleDownloadPDF} data-testid="preview-download-pdf-button">
               <Download className="w-4 h-4 mr-2" /> PDF herunterladen
             </Button>
           </DialogFooter>
