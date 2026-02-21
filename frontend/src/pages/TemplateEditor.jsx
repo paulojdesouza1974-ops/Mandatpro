@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/apiClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,10 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Save, Eye, FileText, Plus, Trash2, Copy, Printer, 
-  Download, Settings, Layout, Type, FileImage
+  Download, Settings, Layout, Type, Upload, Users
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
@@ -25,33 +24,47 @@ const DOCUMENT_TYPES = [
   { id: "beschlusskontrolle", label: "Beschlusskontrolle" },
 ];
 
+// Faction members from website
+const FACTION_MEMBERS = [
+  { name: "Bodo Gilz", title: "Fraktionsvorsitzender", email: "bodo.gilz@afd-dormagen.de", kreistag: true },
+  { name: "Niklas Odendahl", title: "1. stv. Fraktionsvorsitzender", email: "niklas.odendahl@afd-dormagen.de", kreistag: true },
+  { name: "Maxim Filimonov", title: "2. stv. Fraktionsvorsitzender", email: "", kreistag: false },
+  { name: "Paulo de Souza", title: "Ratsmitglied", email: "", kreistag: false },
+  { name: "Maria Schiffer", title: "Ratsmitglied", email: "", kreistag: true },
+];
+
 const DEFAULT_TEMPLATE = {
   name: "Neue Vorlage",
   description: "",
   // Header
   faction_name: "AfD Fraktion im Rat der Stadt Dormagen",
-  faction_subtitle: "",
   city: "Dormagen",
   // Recipient
   recipient_name: "Herrn Bürgermeister Erik Lierenfeld",
   recipient_institution: "Neues Rathaus",
   recipient_street: "Paul-Wierich-Platz 2",
   recipient_postal: "41539 Dormagen",
-  // Footer
-  signer1_name: "",
+  // Signers (in document body)
+  signer1_name: "Bodo Gilz",
   signer1_title: "Fraktionsvorsitzender",
-  signer2_name: "",
-  signer2_title: "1.stv. Fraktionsvorsitzender",
+  signer2_name: "Niklas Odendahl",
+  signer2_title: "1. stv. Fraktionsvorsitzender",
+  // Footer (faction info)
+  footer_line1: "AfD Fraktion im Rat der Stadt Dormagen",
+  footer_line2: "Paul-Wierich-Platz 2 | 41539 Dormagen",
+  footer_line3: "kontakt@afd-dormagen.de | www.afd-dormagen.de",
   // Styling
   font_family: "Times New Roman",
   primary_color: "#000000",
   logo_url: "",
+  logo_base64: "",
   is_default: false,
 };
 
 export default function TemplateEditor() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const fileInputRef = useRef(null);
   
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -150,15 +163,26 @@ export default function TemplateEditor() {
   };
 
   const handleSetDefault = async () => {
-    // First unset all defaults
     for (const t of templates) {
       if (t.is_default && t.id !== formData.id) {
         await base44.entities.PrintTemplate.update(t.id, { is_default: false });
       }
     }
-    // Set current as default
     setFormData({ ...formData, is_default: true });
     saveMutation.mutate({ ...formData, is_default: true });
+  };
+
+  // Logo upload handler
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, logo_base64: reader.result });
+        toast({ title: "Logo hochgeladen" });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const generatePDF = () => {
@@ -168,46 +192,74 @@ export default function TemplateEditor() {
       format: "a4",
     });
 
-    const margin = 25;
+    const marginLeft = 25;
+    const marginRight = 25;
     const pageWidth = 210;
-    const contentWidth = pageWidth - 2 * margin;
-    let y = margin;
+    const contentWidth = pageWidth - marginLeft - marginRight;
+    let y = 20;
 
     // Set font
     doc.setFont("times", "normal");
 
-    // Header: Faction name (left) and Date (right)
+    // ========== HEADER ==========
+    // Left: Faction name
     doc.setFontSize(11);
     doc.setFont("times", "bold");
-    doc.text(formData.faction_name || "Fraktion", margin, y);
+    doc.text(formData.faction_name || "Fraktion", marginLeft, y);
     
-    // Date on right
+    // Right side: Document type box with date
+    const boxX = pageWidth - marginRight - 55;
+    const boxY = y - 5;
+    const boxWidth = 55;
+    const boxHeight = 25;
+    
+    // Draw box
+    doc.setLineWidth(0.3);
+    doc.rect(boxX, boxY, boxWidth, boxHeight);
+    
+    // Date inside box
     doc.setFont("times", "normal");
-    const dateText = `${formData.city || "Dormagen"} den: ${previewData.date}`;
-    doc.text(dateText, pageWidth - margin, y, { align: "right" });
-    
-    y += 10;
-
-    // Document type checkboxes
     doc.setFontSize(10);
-    let xPos = margin;
-    DOCUMENT_TYPES.forEach((type) => {
-      const isChecked = previewData.documentType === type.id;
-      // Draw checkbox
-      doc.rect(xPos, y - 3, 3, 3);
-      if (isChecked) {
-        doc.setFont("times", "bold");
-        doc.text("X", xPos + 0.7, y - 0.5);
-        doc.setFont("times", "normal");
-      }
-      doc.text(type.label, xPos + 5, y);
-      xPos += 40;
-    });
+    doc.text(`${formData.city || "Dormagen"} den:`, boxX + 2, boxY + 5);
+    doc.text(previewData.date, boxX + 2, boxY + 10);
     
-    y += 15;
+    // Document type checkboxes inside box
+    doc.setFontSize(8);
+    let checkY = boxY + 15;
+    const checkSize = 2.5;
+    
+    // First row: Einzelantrag, Fraktionsantrag
+    doc.rect(boxX + 2, checkY - 2, checkSize, checkSize);
+    if (previewData.documentType === "einzelantrag") {
+      doc.text("X", boxX + 2.5, checkY);
+    }
+    doc.text("Einzelantrag", boxX + 6, checkY);
+    
+    doc.rect(boxX + 28, checkY - 2, checkSize, checkSize);
+    if (previewData.documentType === "fraktionsantrag") {
+      doc.text("X", boxX + 28.5, checkY);
+    }
+    doc.text("Fraktionsantrag", boxX + 32, checkY);
+    
+    // Second row: Fraktionsanfrage, Beschlusskontrolle
+    checkY += 5;
+    doc.rect(boxX + 2, checkY - 2, checkSize, checkSize);
+    if (previewData.documentType === "fraktionsanfrage") {
+      doc.text("X", boxX + 2.5, checkY);
+    }
+    doc.text("Fraktionsanfrage", boxX + 6, checkY);
+    
+    doc.rect(boxX + 28, checkY - 2, checkSize, checkSize);
+    if (previewData.documentType === "beschlusskontrolle") {
+      doc.text("X", boxX + 28.5, checkY);
+    }
+    doc.text("Beschlusskontr.", boxX + 32, checkY);
+    
+    y += 35;
 
-    // Recipient address
+    // ========== RECIPIENT ==========
     doc.setFontSize(11);
+    doc.setFont("times", "normal");
     const recipientLines = [
       formData.recipient_name,
       formData.recipient_institution,
@@ -216,75 +268,93 @@ export default function TemplateEditor() {
     ].filter(Boolean);
     
     recipientLines.forEach((line) => {
-      doc.text(line, margin, y);
+      doc.text(line, marginLeft, y);
       y += 5;
     });
 
     y += 10;
 
-    // Subject
+    // ========== SUBJECT ==========
     doc.setFont("times", "bold");
     doc.setFontSize(12);
-    doc.text(`Antrag: ${previewData.subject}`, margin, y);
+    const subjectText = `Antrag: ${previewData.subject}`;
+    const subjectLines = doc.splitTextToSize(subjectText, contentWidth);
+    subjectLines.forEach((line) => {
+      doc.text(line, marginLeft, y);
+      y += 5;
+    });
     doc.setFont("times", "normal");
     
-    y += 10;
+    y += 5;
 
     // Meeting reference
     doc.setFontSize(11);
-    doc.text(`Sitzung des Stadtrats vom ${previewData.meetingDate}`, margin, y);
+    doc.text(`Sitzung des Stadtrats vom ${previewData.meetingDate}`, marginLeft, y);
     
-    y += 15;
+    y += 12;
 
-    // Beschlussvorlage
+    // ========== BESCHLUSSVORLAGE ==========
     doc.setFont("times", "bold");
-    doc.text("Beschlussvorlage", margin, y);
+    doc.text("Beschlussvorlage", marginLeft, y);
     doc.setFont("times", "normal");
-    y += 7;
+    y += 6;
     
     const beschlussLines = doc.splitTextToSize(previewData.beschluss, contentWidth);
     beschlussLines.forEach((line) => {
-      doc.text(line, margin, y);
+      doc.text(line, marginLeft, y);
       y += 5;
     });
 
-    y += 10;
+    y += 8;
 
-    // Begründung
+    // ========== BEGRÜNDUNG ==========
     doc.setFont("times", "bold");
-    doc.text("Begründung", margin, y);
+    doc.text("Begründung", marginLeft, y);
     doc.setFont("times", "normal");
-    y += 7;
+    y += 6;
     
     const begruendungLines = doc.splitTextToSize(previewData.begruendung, contentWidth);
     begruendungLines.forEach((line) => {
-      if (y > 260) {
+      if (y > 240) {
         doc.addPage();
-        y = margin;
+        y = 25;
       }
-      doc.text(line, margin, y);
+      doc.text(line, marginLeft, y);
       y += 5;
     });
 
-    // Footer with signature line
-    y = 270;
+    // ========== SIGNATURES (in document body) ==========
+    y += 20;
+    if (y > 240) {
+      doc.addPage();
+      y = 40;
+    }
+    
+    // Signature lines
+    doc.setLineWidth(0.3);
+    doc.line(marginLeft, y, marginLeft + 50, y);
+    doc.line(pageWidth / 2 + 10, y, pageWidth - marginRight, y);
+    
+    y += 5;
+    doc.setFontSize(10);
+    doc.text(formData.signer1_name || "", marginLeft, y);
+    doc.text(formData.signer2_name || "", pageWidth / 2 + 10, y);
+    
+    y += 4;
+    doc.setFontSize(9);
+    doc.text(formData.signer1_title || "", marginLeft, y);
+    doc.text(formData.signer2_title || "", pageWidth / 2 + 10, y);
+
+    // ========== FOOTER (faction info) ==========
+    const footerY = 280;
     doc.setLineWidth(0.5);
-    doc.line(margin, y, pageWidth - margin, y);
-    y += 7;
+    doc.line(marginLeft, footerY - 5, pageWidth - marginRight, footerY - 5);
     
-    // Signers
-    if (formData.signer1_name) {
-      doc.text(formData.signer1_name, margin, y);
-      doc.setFontSize(9);
-      doc.text(formData.signer1_title, margin, y + 4);
-    }
-    
-    if (formData.signer2_name) {
-      doc.setFontSize(11);
-      doc.text(formData.signer2_name, pageWidth / 2, y);
-      doc.setFontSize(9);
-      doc.text(formData.signer2_title, pageWidth / 2, y + 4);
-    }
+    doc.setFontSize(8);
+    doc.setFont("times", "normal");
+    doc.text(formData.footer_line1 || "", marginLeft, footerY);
+    doc.text(formData.footer_line2 || "", marginLeft, footerY + 3);
+    doc.text(formData.footer_line3 || "", marginLeft, footerY + 6);
 
     return doc;
   };
@@ -388,6 +458,7 @@ export default function TemplateEditor() {
               <TabsList className="mb-4">
                 <TabsTrigger value="header"><Layout className="w-4 h-4 mr-1" /> Kopfbereich</TabsTrigger>
                 <TabsTrigger value="recipient"><FileText className="w-4 h-4 mr-1" /> Empfänger</TabsTrigger>
+                <TabsTrigger value="signers"><Users className="w-4 h-4 mr-1" /> Unterzeichner</TabsTrigger>
                 <TabsTrigger value="footer"><Type className="w-4 h-4 mr-1" /> Fußzeile</TabsTrigger>
                 <TabsTrigger value="settings"><Settings className="w-4 h-4 mr-1" /> Einstellungen</TabsTrigger>
               </TabsList>
@@ -435,12 +506,36 @@ export default function TemplateEditor() {
                 </div>
 
                 <div>
-                  <Label>Logo URL (optional)</Label>
-                  <Input
-                    value={formData.logo_url}
-                    onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
-                    placeholder="https://example.com/logo.png"
-                  />
+                  <Label>Logo hochladen</Label>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleLogoUpload}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    <Button 
+                      variant="outline" 
+                      onClick={() => fileInputRef.current?.click()}
+                      type="button"
+                    >
+                      <Upload className="w-4 h-4 mr-2" /> Logo auswählen
+                    </Button>
+                    {formData.logo_base64 && (
+                      <div className="flex items-center gap-2">
+                        <img src={formData.logo_base64} alt="Logo" className="h-10 object-contain" />
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => setFormData({ ...formData, logo_base64: "" })}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1">JPG, PNG oder SVG. Max. 2MB.</p>
                 </div>
               </TabsContent>
 
@@ -488,8 +583,35 @@ export default function TemplateEditor() {
                 </div>
               </TabsContent>
 
-              {/* Footer Tab */}
-              <TabsContent value="footer" className="space-y-4">
+              {/* Signers Tab (in document body) */}
+              <TabsContent value="signers" className="space-y-4">
+                <p className="text-sm text-slate-600">
+                  Unterzeichner erscheinen am Ende des Dokumenttexts (vor der Fußzeile)
+                </p>
+                
+                {/* Quick select from faction members */}
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <h4 className="font-medium mb-2">Schnellauswahl Fraktionsmitglieder</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {FACTION_MEMBERS.map((member) => (
+                      <Button
+                        key={member.name}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          if (!formData.signer1_name) {
+                            setFormData({ ...formData, signer1_name: member.name, signer1_title: member.title });
+                          } else if (!formData.signer2_name) {
+                            setFormData({ ...formData, signer2_name: member.name, signer2_title: member.title });
+                          }
+                        }}
+                      >
+                        {member.name}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
                     <h4 className="font-medium">Unterzeichner 1</h4>
@@ -510,6 +632,13 @@ export default function TemplateEditor() {
                         placeholder="Fraktionsvorsitzender"
                       />
                     </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setFormData({ ...formData, signer1_name: "", signer1_title: "" })}
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" /> Leeren
+                    </Button>
                   </div>
                   <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
                     <h4 className="font-medium">Unterzeichner 2</h4>
@@ -527,9 +656,49 @@ export default function TemplateEditor() {
                       <Input
                         value={formData.signer2_title}
                         onChange={(e) => setFormData({ ...formData, signer2_title: e.target.value })}
-                        placeholder="1.stv. Fraktionsvorsitzender"
+                        placeholder="1. stv. Fraktionsvorsitzender"
                       />
                     </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setFormData({ ...formData, signer2_name: "", signer2_title: "" })}
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" /> Leeren
+                    </Button>
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* Footer Tab (faction info) */}
+              <TabsContent value="footer" className="space-y-4">
+                <p className="text-sm text-slate-600">
+                  Fraktionsinformationen in der Fußzeile des Dokuments
+                </p>
+                <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
+                  <div>
+                    <Label>Zeile 1 (Name)</Label>
+                    <Input
+                      value={formData.footer_line1}
+                      onChange={(e) => setFormData({ ...formData, footer_line1: e.target.value })}
+                      placeholder="AfD Fraktion im Rat der Stadt Dormagen"
+                    />
+                  </div>
+                  <div>
+                    <Label>Zeile 2 (Adresse)</Label>
+                    <Input
+                      value={formData.footer_line2}
+                      onChange={(e) => setFormData({ ...formData, footer_line2: e.target.value })}
+                      placeholder="Paul-Wierich-Platz 2 | 41539 Dormagen"
+                    />
+                  </div>
+                  <div>
+                    <Label>Zeile 3 (Kontakt)</Label>
+                    <Input
+                      value={formData.footer_line3}
+                      onChange={(e) => setFormData({ ...formData, footer_line3: e.target.value })}
+                      placeholder="kontakt@afd-dormagen.de | www.afd-dormagen.de"
+                    />
                   </div>
                 </div>
               </TabsContent>
@@ -637,27 +806,29 @@ export default function TemplateEditor() {
           </div>
 
           {/* Document Preview */}
-          <div className="border rounded-lg p-8 bg-white shadow-inner" style={{ fontFamily: formData.font_family }}>
-            {/* Header */}
-            <div className="flex justify-between items-start mb-6">
-              <div className="font-bold">{formData.faction_name}</div>
-              <div>{formData.city} den: {previewData.date}</div>
-            </div>
-
-            {/* Document Type Checkboxes */}
-            <div className="flex gap-6 mb-6 text-sm">
-              {DOCUMENT_TYPES.map((type) => (
-                <div key={type.id} className="flex items-center gap-1">
-                  <div className="w-4 h-4 border border-black flex items-center justify-center text-xs">
-                    {previewData.documentType === type.id ? "X" : ""}
-                  </div>
-                  <span>{type.label}</span>
+          <div className="border rounded-lg p-8 bg-white shadow-inner" style={{ fontFamily: formData.font_family, minHeight: "600px" }}>
+            {/* Header with document type box on right */}
+            <div className="flex justify-between items-start mb-8">
+              <div className="font-bold text-sm">{formData.faction_name}</div>
+              
+              {/* Document type box on the right */}
+              <div className="border border-black p-2 text-xs w-48">
+                <div className="mb-1">{formData.city} den: {previewData.date}</div>
+                <div className="grid grid-cols-2 gap-1 mt-2">
+                  {DOCUMENT_TYPES.map((type) => (
+                    <div key={type.id} className="flex items-center gap-1">
+                      <div className="w-3 h-3 border border-black flex items-center justify-center text-[8px]">
+                        {previewData.documentType === type.id ? "X" : ""}
+                      </div>
+                      <span className="text-[9px]">{type.label}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
 
             {/* Recipient */}
-            <div className="mb-6 leading-relaxed">
+            <div className="mb-6 text-sm leading-relaxed">
               <div>{formData.recipient_name}</div>
               <div>{formData.recipient_institution}</div>
               <div>{formData.recipient_street}</div>
@@ -665,39 +836,50 @@ export default function TemplateEditor() {
             </div>
 
             {/* Subject */}
-            <div className="font-bold mb-4">
+            <div className="font-bold mb-2 text-sm">
               Antrag: {previewData.subject}
             </div>
 
             {/* Meeting Reference */}
-            <div className="mb-6">
+            <div className="mb-6 text-sm">
               Sitzung des Stadtrats vom {previewData.meetingDate}
             </div>
 
             {/* Beschlussvorlage */}
-            <div className="mb-6">
+            <div className="mb-6 text-sm">
               <div className="font-bold mb-2">Beschlussvorlage</div>
               <div>{previewData.beschluss}</div>
             </div>
 
             {/* Begründung */}
-            <div className="mb-8">
+            <div className="mb-8 text-sm">
               <div className="font-bold mb-2">Begründung</div>
               <div>{previewData.begruendung}</div>
             </div>
 
-            {/* Signature Line */}
-            <div className="border-t border-black pt-4 mt-auto">
+            {/* Signatures (in document body) */}
+            <div className="mt-16 pt-4">
               <div className="flex justify-between">
-                <div>
-                  <div>{formData.signer1_name || "________________"}</div>
-                  <div className="text-sm text-slate-600">{formData.signer1_title}</div>
+                <div className="w-40">
+                  <div className="border-t border-black pt-1">
+                    <div className="text-sm">{formData.signer1_name || "________________"}</div>
+                    <div className="text-xs text-slate-600">{formData.signer1_title}</div>
+                  </div>
                 </div>
-                <div>
-                  <div>{formData.signer2_name || "________________"}</div>
-                  <div className="text-sm text-slate-600">{formData.signer2_title}</div>
+                <div className="w-40">
+                  <div className="border-t border-black pt-1">
+                    <div className="text-sm">{formData.signer2_name || "________________"}</div>
+                    <div className="text-xs text-slate-600">{formData.signer2_title}</div>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            {/* Footer (faction info) */}
+            <div className="mt-auto pt-8 border-t border-black text-[10px] text-slate-600">
+              <div>{formData.footer_line1}</div>
+              <div>{formData.footer_line2}</div>
+              <div>{formData.footer_line3}</div>
             </div>
           </div>
 
