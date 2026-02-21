@@ -507,28 +507,27 @@ export default function TemplateEditor() {
 
                 <div>
                   <Label>Logo hochladen</Label>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleLogoUpload}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                    <Button 
-                      variant="outline" 
-                      onClick={() => fileInputRef.current?.click()}
-                      type="button"
-                    >
-                      <Upload className="w-4 h-4 mr-2" /> Logo auswählen
-                    </Button>
+                  <div className="flex gap-2 items-center flex-wrap">
+                    <label className="cursor-pointer">
+                      <input
+                        type="file"
+                        onChange={handleLogoUpload}
+                        accept="image/png,image/jpeg,image/svg+xml"
+                        className="hidden"
+                        id="logo-upload-input"
+                      />
+                      <div className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                        <Upload className="w-4 h-4 mr-2" /> Logo auswählen
+                      </div>
+                    </label>
                     {formData.logo_base64 && (
-                      <div className="flex items-center gap-2">
-                        <img src={formData.logo_base64} alt="Logo" className="h-10 object-contain" />
+                      <div className="flex items-center gap-2 p-2 border rounded-md bg-slate-50">
+                        <img src={formData.logo_base64} alt="Logo" className="h-12 object-contain max-w-[150px]" />
                         <Button 
                           variant="ghost" 
                           size="sm"
                           onClick={() => setFormData({ ...formData, logo_base64: "" })}
+                          className="text-red-500 hover:text-red-700"
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
