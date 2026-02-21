@@ -658,6 +658,7 @@ export default function TemplateEditor() {
                         value={formData.recipient_street}
                         onChange={(e) => setFormData({ ...formData, recipient_street: e.target.value })}
                         placeholder="Paul-Wierich-Platz 2"
+                        data-testid="recipient-street-input"
                       />
                     </div>
                     <div>
