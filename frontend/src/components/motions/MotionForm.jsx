@@ -130,42 +130,51 @@ export default function MotionForm({ open, onClose, motion, onSave, saving }) {
     if (!form.title) return;
     setGenerating(true);
     const typeLabel = types.find((t) => t.value === form.type)?.label || form.type;
-    const decisionLabel = form.type === "anfrage" ? "Fragestellung" : "Beschlussvorlage";
-    const adminLine = form.type === "anfrage"
-      ? "Die Verwaltung wird um eine schriftliche Beantwortung bis zur nächsten Sitzung gebeten."
-      : "Die Verwaltung wird beauftragt, ein Konzept bis zur nächsten Sitzung des Rates vorzulegen, das Standorte, technische Umsetzung, Kosten sowie Pflege und Ersatz regelt. Dabei sind bestehende Beflaggungsvorschriften von Bund und Land zu beachten.";
+    const decisionHeading = form.type === "anfrage" ? "Fragestellung" : "Beschlussvorschlag";
+    const orgName = currentOrg?.display_name || currentOrg?.name || user?.organization || "Organisation";
+    const stateName = currentOrg?.state || "nicht angegeben";
+    const committeeLine = form.committee ? `Ausschuss/Gremium: ${form.committee}` : "Ausschuss/Gremium: nicht angegeben";
+    const sessionLine = form.session_date ? `Sitzungsdatum: ${form.session_date}` : "Sitzungsdatum: nicht angegeben";
+    const lengthGuidance = "5–12 Sätze je Abschnitt (bei einfachen Anliegen eher 5–8, bei technischen/baulichen Themen eher 8–12).";
+
+    const systemMessage = "Du bist ein neutraler, juristisch vorsichtiger Fachautor für kommunale Anträge in Deutschland. Schreibe sachlich, professionell und ohne politische Wertung. Beziehe dich ausschließlich auf das angegebene Thema und erfinde keine Fakten oder Rechtsgrundlagen. Wenn etwas unsicher ist, kennzeichne es allgemein (z. B. Kommunalrecht des Landes / Gemeindeordnung) statt konkrete Paragraphen zu erfinden.";
 
     try {
-      const prompt = `Formuliere einen kommunalpolitischen ${typeLabel} im Stil unserer Standardvorlage.
+      const prompt = `Erstelle einen kommunalpolitischen ${typeLabel} für eine deutsche Kommune.
+
+Kontext:
+Organisation: ${orgName}
+Bundesland: ${stateName}
+${committeeLine}
+${sessionLine}
+Thema: "${form.title}"
 
 Struktur (bitte exakt mit Überschriften):
 ${typeLabel}: ${form.title}
-${typeLabel}: [Kurzfassung in 6-10 Wörtern]
-
-${decisionLabel}
-[Konkreter Text, 2-4 Sätze]
-${adminLine}
+${decisionHeading}
+[2–4 Sätze, klare Handlungsanweisung bzw. präzise Fragestellung, neutral formuliert]
 
 Begründung
-[3-5 Absätze: Ausgangslage, Problem, Nutzen, ggf. rechtlicher Rahmen]
+[${lengthGuidance} Sachlich, realistisch, ohne politische Wertung. Keine anderen Themen.]
 
-Beispiele aus anderen Kommunen
-[1 Absatz mit 2-3 konkreten Städten/Landkreisen als Referenz]
+Rechtsgrundlage
+[Allgemeiner, sicherer Rechtsbezug. Keine erfundenen Paragraphen. Wenn unklar: "Kommunalrecht des Landes ${stateName} (z. B. Gemeindeordnung)".]
 
 WICHTIG:
+- Keine Beispiele anderer Kommunen, keine Fremdthemen.
 - Keine Empfängeradresse, keine Grußformel, keine Unterschriften.
-- Sachlich, formal, klar strukturiert.
+- Keine Vermutungen, keine Spekulationen.
 - Absätze mit Leerzeile trennen.`;
 
-      const res = await base44.ai.generateText(prompt, 'motion');
+      const res = await base44.ai.generateText(prompt, "motion", systemMessage);
       if (res.success && res.content) {
         setForm((f) => ({ ...f, body: res.content }));
       } else {
-        alert('Fehler bei der KI-Generierung');
+        alert("Fehler bei der KI-Generierung");
       }
     } catch (error) {
-      console.error('AI generation error:', error);
-      alert('Fehler bei der KI-Generierung: ' + error.message);
+      console.error("AI generation error:", error);
+      alert("Fehler bei der KI-Generierung: " + error.message);
     }
     setGenerating(false);
   };
