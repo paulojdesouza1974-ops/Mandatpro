@@ -837,6 +837,7 @@ export default function TemplateEditor() {
                     variant="outline" 
                     onClick={handleDuplicate}
                     disabled={!selectedTemplate}
+                    data-testid="duplicate-template-button"
                   >
                     <Copy className="w-4 h-4 mr-2" /> Duplizieren
                   </Button>
