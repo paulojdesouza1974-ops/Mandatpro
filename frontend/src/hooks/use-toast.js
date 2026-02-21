@@ -125,6 +125,12 @@ function toast({
     },
   })
 
+  // Auto-dismiss after duration (default 4 seconds)
+  const duration = props.duration || TOAST_REMOVE_DELAY
+  setTimeout(() => {
+    dismiss()
+  }, duration)
+
   return {
     id: id,
     dismiss,
