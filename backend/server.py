@@ -1325,7 +1325,7 @@ Verwende die korrekte Protokollstruktur mit:
             api_key=api_key,
             session_id=f"protocol-{datetime.now().timestamp()}",
             system_message=system_message
-        ).with_model("openai", "gpt-5.2")
+        ).with_model("openai", "gpt-4o")
         
         user_message = UserMessage(text=request.prompt)
         response = await chat.send_message(user_message)
