@@ -241,7 +241,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Compact UI test completed - all scenarios passed"
+    - "Motion AI generation with content verification - PASSED"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
