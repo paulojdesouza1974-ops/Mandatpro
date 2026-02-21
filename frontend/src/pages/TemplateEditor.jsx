@@ -200,11 +200,30 @@ export default function TemplateEditor() {
     // Set font
     doc.setFont("times", "normal");
 
+    // ========== LOGO (top right, above document box) ==========
+    let logoHeight = 0;
+    if (formData.logo_base64) {
+      try {
+        // Add logo to top right
+        const logoX = pageWidth - marginRight - 30;
+        const logoY = y - 10;
+        doc.addImage(formData.logo_base64, 'PNG', logoX, logoY, 30, 20);
+        logoHeight = 25;
+      } catch (e) {
+        console.error("Logo konnte nicht geladen werden:", e);
+      }
+    }
+
     // ========== HEADER ==========
     // Left: Faction name
     doc.setFontSize(11);
     doc.setFont("times", "bold");
     doc.text(formData.faction_name || "Fraktion", marginLeft, y);
+    
+    // Move down if logo exists
+    if (logoHeight > 0) {
+      y += logoHeight;
+    }
     
     // Right side: Document type box with date
     const boxX = pageWidth - marginRight - 55;
