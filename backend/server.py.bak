@@ -524,6 +524,329 @@ async def seed_full_demo():
     return {"success": False, "message": "Demo-Modus deaktiviert. Bitte registrieren Sie sich."}
 
 
+@app.post("/api/seed-full-demo")
+async def seed_full_demo():
+    """Seed comprehensive demo data with members, donors, mandate levies, finances, etc."""
+    from datetime import timedelta
+    import random
+    
+    org_name = "demo-verband"
+    now = datetime.now(timezone.utc)
+    
+    # WICHTIG: Nur seeden wenn die Organisation NICHT existiert
+    # Dies schützt echte Nutzerdaten bei Re-Deployments
+    existing_org = db.organizations.find_one({"name": org_name})
+    if existing_org:
+        logger.info(f"Organization '{org_name}' already exists - skipping seed to protect user data")
+        return {"skipped": True, "message": "Organization already exists"}
+    
+    # ========== CREATE DEMO USER ==========
+    demo_user = {
+        "email": "demo-verband@kommunalcrm.de",
+        "password": hash_password("demo123"),
+        "full_name": "Maria Schmidt",
+        "city": "Neustadt",
+        "organization": org_name,
+        "org_type": "verband",  # Verband mode for full features
+        "role": "admin",
+        "created_date": now.isoformat()
+    }
+    db.users.insert_one(demo_user)
+    
+    # ========== CREATE ORGANIZATION ==========
+    demo_org = {
+        "name": org_name,
+        "display_name": "SPD Ortsverband Neustadt",
+        "type": "verband",
+        "city": "Neustadt",
+        "state": "Nordrhein-Westfalen",
+        "address": "Rathausplatz 1, 12345 Neustadt",
+        "phone": "02345 / 123456",
+        "email": "info@spd-neustadt.de",
+        "website": "www.spd-neustadt.de",
+        "founded_year": 1969,
+        "bank_name": "Sparkasse Neustadt",
+        "iban": "DE89 3704 0044 0532 0130 00",
+        "bic": "COBADEFFXXX",
+        "tax_number": "123/456/78901",
+        "created_date": now.isoformat()
+    }
+    db.organizations.insert_one(demo_org)
+    
+    # ========== CREATE MEMBER GROUPS ==========
+    groups = [
+        {"name": "Vorstand", "description": "Vorstandsmitglieder des Ortsvereins", "color": "#dc2626"},
+        {"name": "Mandatsträger", "description": "Gewählte Vertreter in Rat und Kreistag", "color": "#2563eb"},
+        {"name": "Aktive Mitglieder", "description": "Regelmäßig aktive Parteimitglieder", "color": "#16a34a"},
+        {"name": "Jusos", "description": "Jungsozialist*innen unter 35", "color": "#ea580c"},
+        {"name": "AG 60+", "description": "Arbeitsgemeinschaft der Senior*innen", "color": "#7c3aed"},
+        {"name": "Ehrenmitglieder", "description": "Ehrenmitglieder des Ortsvereins", "color": "#ca8a04"},
+    ]
+    group_ids = {}
+    for g in groups:
+        g["organization"] = org_name
+        g["created_date"] = now.isoformat()
+        g["member_ids"] = []
+        result = db.member_groups.insert_one(g)
+        group_ids[g["name"]] = str(result.inserted_id)
+    
+    # ========== CREATE MEMBERS (CONTACTS) ==========
+    members_data = [
+        # Vorstand
+        {"first_name": "Maria", "last_name": "Schmidt", "email": "m.schmidt@spd-neustadt.de", "phone": "0171-1234567", "role": "Vorsitzende", "groups": ["Vorstand", "Aktive Mitglieder"], "fee_paid": True, "member_since": "2010-03-15", "address": "Hauptstr. 12, 12345 Neustadt", "birthday": "1975-06-20", "member_number": "M-001"},
+        {"first_name": "Thomas", "last_name": "Müller", "email": "t.mueller@spd-neustadt.de", "phone": "0172-2345678", "role": "Stellv. Vorsitzender", "groups": ["Vorstand", "Mandatsträger"], "fee_paid": True, "member_since": "2005-01-10", "address": "Bergweg 5, 12345 Neustadt", "birthday": "1968-11-03", "member_number": "M-002", "mandate": "Ratsmitglied"},
+        {"first_name": "Sabine", "last_name": "Weber", "email": "s.weber@spd-neustadt.de", "phone": "0173-3456789", "role": "Kassierer*in", "groups": ["Vorstand"], "fee_paid": True, "member_since": "2012-09-01", "address": "Lindenallee 8, 12345 Neustadt", "birthday": "1980-02-14", "member_number": "M-003"},
+        {"first_name": "Klaus", "last_name": "Fischer", "email": "k.fischer@spd-neustadt.de", "phone": "0174-4567890", "role": "Schriftführer", "groups": ["Vorstand", "AG 60+"], "fee_paid": True, "member_since": "1998-04-20", "address": "Parkstr. 22, 12345 Neustadt", "birthday": "1958-07-30", "member_number": "M-004"},
+        
+        # Mandatsträger
+        {"first_name": "Andrea", "last_name": "Becker", "email": "a.becker@rat-neustadt.de", "phone": "0175-5678901", "role": "Fraktionsvorsitzende", "groups": ["Mandatsträger", "Aktive Mitglieder"], "fee_paid": True, "member_since": "2002-06-15", "address": "Rathausweg 3, 12345 Neustadt", "birthday": "1972-09-18", "member_number": "M-005", "mandate": "Ratsmitglied", "mandate_income": 1850.00},
+        {"first_name": "Michael", "last_name": "Hoffmann", "email": "m.hoffmann@rat-neustadt.de", "phone": "0176-6789012", "groups": ["Mandatsträger"], "fee_paid": True, "member_since": "2008-11-20", "address": "Schulstr. 15, 12345 Neustadt", "birthday": "1965-04-25", "member_number": "M-006", "mandate": "Kreistagsmitglied", "mandate_income": 2200.00},
+        {"first_name": "Petra", "last_name": "Schneider", "email": "p.schneider@rat-neustadt.de", "phone": "0177-7890123", "groups": ["Mandatsträger", "Aktive Mitglieder"], "fee_paid": True, "member_since": "2015-03-01", "address": "Am Markt 7, 12345 Neustadt", "birthday": "1978-12-05", "member_number": "M-007", "mandate": "Ratsmitglied", "mandate_income": 1850.00},
+        {"first_name": "Hans", "last_name": "Meyer", "email": "h.meyer@rat-neustadt.de", "phone": "0178-8901234", "groups": ["Mandatsträger", "AG 60+"], "fee_paid": True, "member_since": "1995-08-10", "address": "Gartenweg 11, 12345 Neustadt", "birthday": "1955-01-15", "member_number": "M-008", "mandate": "Bürgermeister", "mandate_income": 6500.00},
+        
+        # Jusos
+        {"first_name": "Lisa", "last_name": "Wagner", "email": "l.wagner@jusos-neustadt.de", "phone": "0179-9012345", "role": "Juso-Vorsitzende", "groups": ["Jusos", "Aktive Mitglieder"], "fee_paid": True, "member_since": "2020-01-15", "address": "Studentenweg 4, 12345 Neustadt", "birthday": "1998-05-22", "member_number": "M-009"},
+        {"first_name": "Maximilian", "last_name": "Koch", "email": "m.koch@jusos-neustadt.de", "phone": "0160-0123456", "groups": ["Jusos"], "fee_paid": True, "member_since": "2021-09-01", "address": "Unistr. 18, 12345 Neustadt", "birthday": "2000-08-12", "member_number": "M-010"},
+        {"first_name": "Sophie", "last_name": "Braun", "email": "s.braun@email.de", "phone": "0161-1234567", "groups": ["Jusos"], "fee_paid": False, "member_since": "2023-03-20", "address": "Nordstr. 9, 12345 Neustadt", "birthday": "2001-11-30", "member_number": "M-011"},
+        
+        # AG 60+
+        {"first_name": "Gerhard", "last_name": "Richter", "email": "g.richter@email.de", "phone": "02345-111222", "role": "AG 60+ Sprecher", "groups": ["AG 60+"], "fee_paid": True, "member_since": "1985-02-28", "address": "Seniorenring 1, 12345 Neustadt", "birthday": "1948-06-10", "member_number": "M-012"},
+        {"first_name": "Helga", "last_name": "Krause", "email": "h.krause@email.de", "phone": "02345-222333", "groups": ["AG 60+"], "fee_paid": True, "member_since": "1990-07-15", "address": "Rentnerweg 5, 12345 Neustadt", "birthday": "1950-03-25", "member_number": "M-013"},
+        {"first_name": "Werner", "last_name": "Schulz", "email": "w.schulz@email.de", "phone": "02345-333444", "groups": ["AG 60+", "Ehrenmitglieder"], "fee_paid": True, "member_since": "1975-11-01", "address": "Alte Gasse 3, 12345 Neustadt", "birthday": "1945-09-08", "member_number": "M-014"},
+        
+        # Aktive Mitglieder
+        {"first_name": "Julia", "last_name": "Hartmann", "email": "j.hartmann@email.de", "phone": "0162-2345678", "groups": ["Aktive Mitglieder"], "fee_paid": True, "member_since": "2018-04-10", "address": "Waldstr. 20, 12345 Neustadt", "birthday": "1988-07-14", "member_number": "M-015"},
+        {"first_name": "Stefan", "last_name": "Wolf", "email": "s.wolf@email.de", "phone": "0163-3456789", "groups": ["Aktive Mitglieder"], "fee_paid": True, "member_since": "2016-12-05", "address": "Bachweg 12, 12345 Neustadt", "birthday": "1982-10-22", "member_number": "M-016"},
+        {"first_name": "Martina", "last_name": "Neumann", "email": "m.neumann@email.de", "phone": "0164-4567890", "groups": ["Aktive Mitglieder"], "fee_paid": False, "member_since": "2022-08-01", "address": "Friedensplatz 6, 12345 Neustadt", "birthday": "1991-04-03", "member_number": "M-017"},
+        {"first_name": "Frank", "last_name": "Schwarz", "email": "f.schwarz@email.de", "phone": "0165-5678901", "groups": ["Aktive Mitglieder"], "fee_paid": True, "member_since": "2014-05-20", "address": "Industriestr. 45, 12345 Neustadt", "birthday": "1976-01-28", "member_number": "M-018"},
+        
+        # Weitere Mitglieder (weniger aktiv)
+        {"first_name": "Ursula", "last_name": "König", "email": "u.koenig@email.de", "phone": "02345-444555", "groups": [], "fee_paid": True, "member_since": "2000-10-10", "address": "Seitenstr. 8, 12345 Neustadt", "birthday": "1960-12-18", "member_number": "M-019"},
+        {"first_name": "Dieter", "last_name": "Lang", "email": "d.lang@email.de", "phone": "02345-555666", "groups": [], "fee_paid": False, "member_since": "2019-02-14", "address": "Neuweg 22, 12345 Neustadt", "birthday": "1973-08-05", "member_number": "M-020"},
+        {"first_name": "Birgit", "last_name": "Peters", "email": "b.peters@email.de", "phone": "0166-6789012", "groups": [], "fee_paid": True, "member_since": "2017-06-30", "address": "Feldstr. 14, 12345 Neustadt", "birthday": "1985-02-10", "member_number": "M-021"},
+        {"first_name": "Rolf", "last_name": "Zimmermann", "email": "r.zimmermann@email.de", "phone": "02345-666777", "groups": [], "fee_paid": True, "member_since": "2011-09-25", "address": "Wiesengrund 3, 12345 Neustadt", "birthday": "1970-05-15", "member_number": "M-022"},
+    ]
+    
+    member_ids = []
+    for m in members_data:
+        member_groups = m.pop("groups", [])
+        m["organization"] = org_name
+        m["status"] = "aktiv"
+        m["type"] = "mitglied"
+        m["created_date"] = now.isoformat()
+        result = db.contacts.insert_one(m)
+        mid = str(result.inserted_id)
+        member_ids.append(mid)
+        
+        # Add member to groups
+        for gname in member_groups:
+            if gname in group_ids:
+                db.member_groups.update_one(
+                    {"_id": ObjectId(group_ids[gname])},
+                    {"$push": {"member_ids": mid}}
+                )
+    
+    # ========== CREATE DONORS (SPENDER) ==========
+    donors_data = [
+        {"first_name": "Heinrich", "last_name": "Großmann", "email": "h.grossmann@firma.de", "phone": "02345-888999", "company": "Großmann GmbH", "donation_total": 5000.00, "last_donation": "2025-12-01", "address": "Industriepark 10, 12345 Neustadt"},
+        {"first_name": "Erika", "last_name": "Spendefroh", "email": "e.spendefroh@email.de", "phone": "0167-7890123", "donation_total": 2500.00, "last_donation": "2025-11-15", "address": "Großbürgerweg 5, 12345 Neustadt"},
+        {"first_name": "Gewerkschaft", "last_name": "ver.di Bezirk", "email": "bezirk@verdi.de", "phone": "02345-999000", "company": "ver.di", "donation_total": 3000.00, "last_donation": "2025-10-20", "address": "Gewerkschaftshaus, 12345 Neustadt"},
+    ]
+    
+    for d in donors_data:
+        d["organization"] = org_name
+        d["status"] = "aktiv"
+        d["type"] = "spender"
+        d["created_date"] = now.isoformat()
+        db.contacts.insert_one(d)
+    
+    # ========== CREATE LEVY RULES (ABGABENREGELN) ==========
+    levy_rules = [
+        {"name": "Standard-Mandatsabgabe", "description": "20% der Aufwandsentschädigung", "percentage": 20.0, "mandate_type": "Ratsmitglied", "min_amount": 50.0, "active": True},
+        {"name": "Kreistag-Abgabe", "description": "18% der Aufwandsentschädigung", "percentage": 18.0, "mandate_type": "Kreistagsmitglied", "min_amount": 75.0, "active": True},
+        {"name": "Bürgermeister-Abgabe", "description": "15% des Gehalts", "percentage": 15.0, "mandate_type": "Bürgermeister", "min_amount": 500.0, "active": True},
+    ]
+    
+    for lr in levy_rules:
+        lr["organization"] = org_name
+        lr["created_date"] = now.isoformat()
+        db.levy_rules.insert_one(lr)
+    
+    # ========== CREATE MANDATE LEVIES (MANDATSTRÄGERABGABEN) ==========
+    # Get mandatsträger from members
+    mandatstraeger = [m for m in members_data if m.get("mandate")]
+    
+    for month_offset in range(12):  # Last 12 months
+        levy_date = now - timedelta(days=30 * month_offset)
+        for mt in mandatstraeger:
+            if mt.get("mandate_income"):
+                income = mt["mandate_income"]
+                if mt["mandate"] == "Bürgermeister":
+                    rate = 15.0
+                elif mt["mandate"] == "Kreistagsmitglied":
+                    rate = 18.0
+                else:
+                    rate = 20.0
+                
+                amount = round(income * rate / 100, 2)
+                paid = random.random() > 0.15  # 85% are paid
+                
+                levy = {
+                    "organization": org_name,
+                    "contact_name": f"{mt['first_name']} {mt['last_name']}",
+                    "member_number": mt["member_number"],
+                    "mandate_type": mt["mandate"].lower().replace(" ", ""),  # e.g., "ratsmitglied"
+                    "mandate_body": "Stadt Neustadt" if mt["mandate"] != "Kreistagsmitglied" else "Kreis Neustadt",
+                    "period_month": levy_date.strftime("%Y-%m"),
+                    "gross_income": income,
+                    "levy_rate": rate,
+                    "deductions": 0,
+                    "final_levy": amount,
+                    "status": "bezahlt" if paid else "offen",
+                    "payment_date": levy_date.strftime("%Y-%m-%d") if paid else None,
+                    "created_date": levy_date.isoformat()
+                }
+                db.mandate_levies.insert_one(levy)
+    
+    # ========== CREATE INCOMES (EINNAHMEN) ==========
+    
+    incomes_data = []
+    for month_offset in range(12):
+        income_date = now - timedelta(days=30 * month_offset)
+        
+        # Mitgliedsbeiträge (monatlich)
+        incomes_data.append({
+            "title": f"Mitgliedsbeiträge {income_date.strftime('%B %Y')}",
+            "category": "Mitgliedsbeiträge",
+            "account_number": "4100",
+            "amount": round(random.uniform(800, 1200), 2),
+            "date": income_date.isoformat(),
+            "payer": "Sammelüberweisung Mitglieder",
+            "reference": f"MB-{income_date.strftime('%Y%m')}",
+            "tax_rate": 0,
+        })
+        
+        # Mandatsträgerabgaben (monatlich)
+        incomes_data.append({
+            "title": f"Mandatsträgerabgaben {income_date.strftime('%B %Y')}",
+            "category": "Mandatsträgerabgaben",
+            "account_number": "4120",
+            "amount": round(random.uniform(2500, 3500), 2),
+            "date": income_date.isoformat(),
+            "payer": "Mandatsträger",
+            "reference": f"MTA-{income_date.strftime('%Y%m')}",
+            "tax_rate": 0,
+        })
+    
+    # Einzelspenden
+    incomes_data.extend([
+        {"title": "Spende Heinrich Großmann", "category": "Spenden juristische Personen", "account_number": "4111", "amount": 5000.00, "date": (now - timedelta(days=45)).isoformat(), "payer": "Großmann GmbH", "reference": "SP-2025-001", "tax_rate": 0},
+        {"title": "Spende Erika Spendefroh", "category": "Spenden natürliche Personen", "account_number": "4110", "amount": 2500.00, "date": (now - timedelta(days=60)).isoformat(), "payer": "Erika Spendefroh", "reference": "SP-2025-002", "tax_rate": 0},
+        {"title": "Spende ver.di Bezirk", "category": "Spenden juristische Personen", "account_number": "4111", "amount": 3000.00, "date": (now - timedelta(days=90)).isoformat(), "payer": "ver.di Bezirk", "reference": "SP-2025-003", "tax_rate": 0},
+        {"title": "Erlös Sommerfest 2025", "category": "Veranstaltungserlöse", "account_number": "4130", "amount": 1850.00, "date": (now - timedelta(days=180)).isoformat(), "payer": "Barzahlung", "reference": "VER-2025-001", "tax_rate": 0},
+        {"title": "Staatlicher Zuschuss Q4", "category": "Staatliche Zuschüsse", "account_number": "4140", "amount": 8500.00, "date": (now - timedelta(days=30)).isoformat(), "payer": "Land NRW", "reference": "STZ-2025-Q4", "tax_rate": 0},
+    ])
+    
+    for inc in incomes_data:
+        inc["organization"] = org_name
+        inc["status"] = "gebucht"
+        inc["created_date"] = now.isoformat()
+        db.incomes.insert_one(inc)
+    
+    # ========== CREATE EXPENSES (AUSGABEN) ==========
+    expenses_data = [
+        {"title": "Miete Geschäftsstelle Januar", "category": "Raumkosten", "account_number": "6310", "amount": 450.00, "net_amount": 378.15, "tax_amount": 71.85, "tax_rate": 19, "date": (now - timedelta(days=30)).isoformat(), "vendor": "Hausverwaltung Neustadt", "reference": "M-2025-01"},
+        {"title": "Miete Geschäftsstelle Dezember", "category": "Raumkosten", "account_number": "6310", "amount": 450.00, "net_amount": 378.15, "tax_amount": 71.85, "tax_rate": 19, "date": (now - timedelta(days=60)).isoformat(), "vendor": "Hausverwaltung Neustadt", "reference": "M-2024-12"},
+        {"title": "Druck Wahlkampfflyer", "category": "Werbekosten", "account_number": "6600", "amount": 1250.00, "net_amount": 1050.42, "tax_amount": 199.58, "tax_rate": 19, "date": (now - timedelta(days=45)).isoformat(), "vendor": "Druckerei Schmidt", "reference": "DR-2025-001"},
+        {"title": "Catering Mitgliederversammlung", "category": "Veranstaltungskosten", "account_number": "6820", "amount": 385.00, "net_amount": 359.81, "tax_amount": 25.19, "tax_rate": 7, "date": (now - timedelta(days=20)).isoformat(), "vendor": "Partyservice Lecker", "reference": "CA-2025-001"},
+        {"title": "Büromaterial", "category": "Bürobedarf", "account_number": "6815", "amount": 125.50, "net_amount": 105.46, "tax_amount": 20.04, "tax_rate": 19, "date": (now - timedelta(days=15)).isoformat(), "vendor": "Büro-Fuchs GmbH", "reference": "BM-2025-001"},
+        {"title": "Website Hosting Jahresgebühr", "category": "EDV-Kosten", "account_number": "6580", "amount": 180.00, "net_amount": 151.26, "tax_amount": 28.74, "tax_rate": 19, "date": (now - timedelta(days=10)).isoformat(), "vendor": "Webhosting24", "reference": "WEB-2025"},
+        {"title": "Telefonkosten Dezember", "category": "Kommunikationskosten", "account_number": "6805", "amount": 45.90, "net_amount": 38.57, "tax_amount": 7.33, "tax_rate": 19, "date": (now - timedelta(days=35)).isoformat(), "vendor": "Telekom", "reference": "TEL-2024-12"},
+        {"title": "Fahrtkosten Delegiertenkonferenz", "category": "Reisekosten", "account_number": "6670", "amount": 312.50, "net_amount": 262.61, "tax_amount": 49.89, "tax_rate": 19, "date": (now - timedelta(days=50)).isoformat(), "vendor": "Deutsche Bahn", "reference": "FK-2025-001"},
+        {"title": "Veranstaltungstechnik Sommerfest", "category": "Veranstaltungskosten", "account_number": "6820", "amount": 580.00, "net_amount": 487.39, "tax_amount": 92.61, "tax_rate": 19, "date": (now - timedelta(days=180)).isoformat(), "vendor": "Event-Technik Müller", "reference": "VT-2025-001"},
+        {"title": "Versicherung Vereinshaftpflicht", "category": "Versicherungen", "account_number": "6400", "amount": 285.00, "net_amount": 285.00, "tax_amount": 0, "tax_rate": 0, "date": (now - timedelta(days=100)).isoformat(), "vendor": "Allianz Versicherung", "reference": "VERS-2025"},
+    ]
+    
+    for exp in expenses_data:
+        exp["organization"] = org_name
+        exp["status"] = "bezahlt"
+        exp["created_date"] = now.isoformat()
+        db.expenses.insert_one(exp)
+    
+    # ========== CREATE MEETINGS (SITZUNGEN) ==========
+    meetings_data = [
+        {"title": "Vorstandssitzung", "date": (now + timedelta(days=7)).isoformat(), "end_date": (now + timedelta(days=7, hours=2)).isoformat(), "location": "Geschäftsstelle", "type": "vorstand", "status": "geplant", "description": "Monatliche Vorstandssitzung"},
+        {"title": "Mitgliederversammlung", "date": (now + timedelta(days=30)).isoformat(), "end_date": (now + timedelta(days=30, hours=3)).isoformat(), "location": "Bürgerhaus Neustadt", "type": "mitgliederversammlung", "status": "geplant", "description": "Ordentliche Jahreshauptversammlung mit Vorstandswahlen"},
+        {"title": "AG 60+ Treffen", "date": (now + timedelta(days=14)).isoformat(), "end_date": (now + timedelta(days=14, hours=2)).isoformat(), "location": "Seniorentreff", "type": "arbeitsgruppe", "status": "geplant", "description": "Monatliches Treffen der AG 60+"},
+        {"title": "Juso-Plenum", "date": (now + timedelta(days=10)).isoformat(), "end_date": (now + timedelta(days=10, hours=2)).isoformat(), "location": "Jugendhaus", "type": "arbeitsgruppe", "status": "geplant", "description": "Offenes Plenum der Jusos"},
+        {"title": "Wahlkampfplanung", "date": (now + timedelta(days=21)).isoformat(), "end_date": (now + timedelta(days=21, hours=3)).isoformat(), "location": "Geschäftsstelle", "type": "sonstiges", "status": "geplant", "description": "Strategieplanung für Kommunalwahl 2026"},
+    ]
+    
+    for meet in meetings_data:
+        meet["organization"] = org_name
+        meet["created_date"] = now.isoformat()
+        db.meetings.insert_one(meet)
+    
+    # ========== CREATE TASKS (AUFGABEN) ==========
+    tasks_data = [
+        {"title": "Jahresabschluss vorbereiten", "description": "Alle Belege für Steuerberater zusammenstellen", "status": "in_bearbeitung", "priority": "hoch", "due_date": (now + timedelta(days=14)).isoformat(), "assigned_to": "Sabine Weber"},
+        {"title": "Mitgliedsbeiträge einziehen", "description": "Mahnungen für ausstehende Beiträge versenden", "status": "offen", "priority": "mittel", "due_date": (now + timedelta(days=7)).isoformat(), "assigned_to": "Sabine Weber"},
+        {"title": "Einladung MV versenden", "description": "Einladungen zur Mitgliederversammlung per Post und E-Mail", "status": "offen", "priority": "hoch", "due_date": (now + timedelta(days=5)).isoformat(), "assigned_to": "Klaus Fischer"},
+        {"title": "Wahlkampfmaterial bestellen", "description": "Flyer, Plakate und Kugelschreiber für Kommunalwahl", "status": "offen", "priority": "mittel", "due_date": (now + timedelta(days=30)).isoformat(), "assigned_to": "Maria Schmidt"},
+        {"title": "Homepage aktualisieren", "description": "Termine und Pressemitteilungen aktualisieren", "status": "in_bearbeitung", "priority": "niedrig", "due_date": (now + timedelta(days=3)).isoformat(), "assigned_to": "Lisa Wagner"},
+        {"title": "Raumreservierung Sommerfest", "description": "Stadtpark für Sommerfest 2026 reservieren", "status": "erledigt", "priority": "mittel", "due_date": (now - timedelta(days=10)).isoformat(), "assigned_to": "Thomas Müller"},
+    ]
+    
+    for task in tasks_data:
+        task["organization"] = org_name
+        task["created_date"] = now.isoformat()
+        db.tasks.insert_one(task)
+    
+    # ========== CREATE CAMPAIGNS (KAMPAGNEN) ==========
+    campaigns_data = [
+        {"name": "Kommunalwahl 2026", "description": "Wahlkampagne für die Kommunalwahl im September 2026", "start_date": (now + timedelta(days=60)).isoformat(), "end_date": (now + timedelta(days=240)).isoformat(), "budget": 15000.00, "status": "planung"},
+        {"name": "Sommerfest 2026", "description": "Jährliches Sommerfest des Ortsvereins", "start_date": (now + timedelta(days=150)).isoformat(), "end_date": (now + timedelta(days=151)).isoformat(), "budget": 2500.00, "status": "planung"},
+        {"name": "Mitgliederwerbung Q1", "description": "Kampagne zur Gewinnung neuer Mitglieder", "start_date": now.isoformat(), "end_date": (now + timedelta(days=90)).isoformat(), "budget": 1000.00, "status": "aktiv"},
+    ]
+    
+    for camp in campaigns_data:
+        camp["organization"] = org_name
+        camp["created_date"] = now.isoformat()
+        db.campaigns.insert_one(camp)
+    
+    # ========== CREATE DOCUMENTS (DOKUMENTE) ==========
+    documents_data = [
+        {"title": "Satzung SPD Ortsverband Neustadt", "type": "satzung", "content": "Satzung des SPD Ortsvereins Neustadt, beschlossen auf der MV am 15.03.2020"},
+        {"title": "Geschäftsordnung Vorstand", "type": "geschaeftsordnung", "content": "Geschäftsordnung für die Arbeit des Vorstands"},
+        {"title": "Protokoll MV 2024", "type": "protokoll", "content": "Protokoll der Mitgliederversammlung vom 18.11.2024"},
+        {"title": "Haushaltsplan 2025", "type": "finanzen", "content": "Beschlossener Haushaltsplan für das Jahr 2025"},
+        {"title": "Datenschutzkonzept", "type": "datenschutz", "content": "Datenschutzkonzept gemäß DSGVO"},
+    ]
+    
+    for doc in documents_data:
+        doc["organization"] = org_name
+        doc["created_date"] = now.isoformat()
+        db.documents.insert_one(doc)
+    
+    # ========== SUMMARY ==========
+    summary = {
+        "organization": org_name,
+        "display_name": "SPD Ortsverband Neustadt",
+        "members_created": len(members_data),
+        "donors_created": len(donors_data),
+        "mandate_levies_created": len(mandatstraeger) * 12,
+        "incomes_created": len(incomes_data),
+        "expenses_created": len(expenses_data),
+        "meetings_created": len(meetings_data),
+        "tasks_created": len(tasks_data),
+        "campaigns_created": len(campaigns_data),
+        "documents_created": len(documents_data),
+        "login_email": "demo-verband@kommunalcrm.de",
+        "login_password": "demo123"
+    }
+    
+    return {"success": True, "message": "Umfangreiche Demo-Daten erstellt", "summary": summary}
+
 # ============ GLOBAL SEARCH ============
 
 @app.get("/api/search")
