@@ -947,7 +947,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Recipient */}
-            <div className="mb-6 text-sm leading-relaxed">
+            <div className="mb-6 text-sm leading-relaxed" data-testid="document-preview-recipient">
               <div>{formData.recipient_name}</div>
               <div>{formData.recipient_institution}</div>
               <div>{formData.recipient_street}</div>
