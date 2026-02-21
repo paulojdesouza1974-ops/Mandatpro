@@ -442,7 +442,7 @@ export default function TemplateEditor() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="template-editor-page">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
