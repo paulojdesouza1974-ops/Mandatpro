@@ -706,36 +706,65 @@ export default function TemplateEditor() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
-                  <div>
-                    <Label>Zeile 1 (Name)</Label>
-                    <Input
-                      value={formData.footer_line1}
-                      onChange={(e) => setFormData({ ...formData, footer_line1: e.target.value })}
-                      placeholder="AfD Fraktion im Rat der Stadt Dormagen"
-                      data-testid="footer-line1-input"
-                    />
+                    <h4 className="font-medium">Unterzeichner 1</h4>
+                    <div>
+                      <Label>Name</Label>
+                      <Input
+                        value={formData.signer1_name}
+                        onChange={(e) => setFormData({ ...formData, signer1_name: e.target.value })}
+                        placeholder="Name eingeben"
+                        data-testid="signer1-name-input"
+                      />
+                    </div>
+                    <div>
+                      <Label>Funktion</Label>
+                      <Input
+                        value={formData.signer1_title}
+                        onChange={(e) => setFormData({ ...formData, signer1_title: e.target.value })}
+                        placeholder="Fraktionsvorsitzender"
+                        data-testid="signer1-title-input"
+                      />
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setFormData({ ...formData, signer1_name: "", signer1_title: "" })}
+                      data-testid="signer1-clear-button"
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" /> Leeren
+                    </Button>
                   </div>
-                  <div>
-                    <Label>Zeile 2 (Adresse)</Label>
-                    <Input
-                      value={formData.footer_line2}
-                      onChange={(e) => setFormData({ ...formData, footer_line2: e.target.value })}
-                      placeholder="Paul-Wierich-Platz 2 | 41539 Dormagen"
-                      data-testid="footer-line2-input"
-                    />
-                  </div>
-                  <div>
-                    <Label>Zeile 3 (Kontakt)</Label>
-                    <Input
-                      value={formData.footer_line3}
-                      onChange={(e) => setFormData({ ...formData, footer_line3: e.target.value })}
-                      placeholder="kontakt@afd-dormagen.de | www.afd-dormagen.de"
-                      data-testid="footer-line3-input"
-                    />
+                  <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
+                    <h4 className="font-medium">Unterzeichner 2</h4>
+                    <div>
+                      <Label>Name</Label>
+                      <Input
+                        value={formData.signer2_name}
+                        onChange={(e) => setFormData({ ...formData, signer2_name: e.target.value })}
+                        placeholder="Name eingeben"
+                        data-testid="signer2-name-input"
+                      />
+                    </div>
+                    <div>
+                      <Label>Funktion</Label>
+                      <Input
+                        value={formData.signer2_title}
+                        onChange={(e) => setFormData({ ...formData, signer2_title: e.target.value })}
+                        placeholder="1. stv. Fraktionsvorsitzender"
+                        data-testid="signer2-title-input"
+                      />
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setFormData({ ...formData, signer2_name: "", signer2_title: "" })}
+                      data-testid="signer2-clear-button"
+                    >
+                      <Trash2 className="w-4 h-4 mr-1" /> Leeren
+                    </Button>
                   </div>
                 </div>
               </TabsContent>
-
               {/* Footer Tab (faction info) */}
               <TabsContent value="footer" className="space-y-4">
                 <p className="text-sm text-slate-600">
