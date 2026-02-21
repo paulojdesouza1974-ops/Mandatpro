@@ -1449,8 +1449,9 @@ def send_email_via_sendgrid(to_list: List[str], subject: str, body: str, from_em
     display_name = from_name if from_name else "KommunalCRM"
     
     for recipient in to_list:
+        # Use tuple format for from_email to include display name
         message = Mail(
-            from_email=sender,
+            from_email=(sender, display_name),
             to_emails=recipient,
             subject=subject,
             html_content=f"<pre style='font-family: Arial, sans-serif;'>{body}</pre>"
