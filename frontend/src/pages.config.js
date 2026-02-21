@@ -58,7 +58,6 @@ import Dashboard from './pages/Dashboard';
 import Documents from './pages/Documents';
 import FractionAccounting from './pages/FractionAccounting';
 import FractionMeetings from './pages/FractionMeetings';
-import FractionMeetingTemplates from './pages/FractionMeetingTemplates';
 import Imprint from './pages/Imprint';
 import Invoices from './pages/Invoices';
 import MandateLevy from './pages/MandateLevy';
@@ -66,7 +65,6 @@ import Meetings from './pages/Meetings';
 import Motions from './pages/Motions';
 import OrganizationDetails from './pages/OrganizationDetails';
 import Organizations from './pages/Organizations';
-import PrintTemplates from './pages/PrintTemplates';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
@@ -94,7 +92,6 @@ export const PAGES = {
     "Documents": Documents,
     "FractionAccounting": FractionAccounting,
     "FractionMeetings": FractionMeetings,
-    "FractionMeetingTemplates": FractionMeetingTemplates,
     "Imprint": Imprint,
     "Invoices": Invoices,
     "MandateLevy": MandateLevy,
@@ -103,7 +100,6 @@ export const PAGES = {
     "MyOrganization": MyOrganization,
     "OrganizationDetails": OrganizationDetails,
     "Organizations": Organizations,
-    "PrintTemplates": PrintTemplates,
     "Privacy": Privacy,
     "Terms": Terms,
     "Profile": Profile,
