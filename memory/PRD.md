@@ -279,7 +279,7 @@ User requested to improve an existing German municipal CRM application called "K
 - **Verband:** AfD Stadtverband Dormagen
 
 ## Known Issues
-- Keine kritischen Bugs bekannt
+- Druckausgabe/Word-Export im neuen Template-Editor noch zu verifizieren (P1).
 
 ## Feature Status
 | Feature | Status | Notizen |
