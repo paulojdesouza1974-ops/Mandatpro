@@ -370,32 +370,6 @@ export default function LoginPage() {
                 </form>
               </TabsContent>
             </Tabs>
-
-            <div className="mt-6 pt-4 border-t border-slate-200 space-y-3">
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={handleDemoLogin}
-                disabled={isLoading}
-                data-testid="demo-login"
-              >
-                <Landmark className="w-4 h-4 mr-2" />
-                Demo: Fraktion (einfach)
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                onClick={handleFullDemoLogin}
-                disabled={isLoading}
-                data-testid="full-demo-login"
-              >
-                <Users className="w-4 h-4 mr-2" />
-                Demo: Verband (mit allen Daten)
-              </Button>
-              <p className="text-xs text-slate-400 text-center">
-                Erkunden Sie alle Funktionen mit Demo-Daten
-              </p>
-            </div>
           </CardContent>
         </Card>
 
