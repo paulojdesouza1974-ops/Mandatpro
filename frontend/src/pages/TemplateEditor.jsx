@@ -649,6 +649,7 @@ export default function TemplateEditor() {
                         value={formData.recipient_institution}
                         onChange={(e) => setFormData({ ...formData, recipient_institution: e.target.value })}
                         placeholder="Neues Rathaus"
+                        data-testid="recipient-institution-input"
                       />
                     </div>
                     <div>
