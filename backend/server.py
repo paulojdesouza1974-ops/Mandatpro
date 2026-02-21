@@ -508,77 +508,20 @@ async def update_user_role(user_id: str, request: RoleUpdateRequest):
 async def health():
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-# Seed demo data endpoint
+# Seed endpoints disabled - production mode
+# Original seed-demo and seed-full-demo endpoints are no longer needed
+# Users should register directly with their organizations
+
 @app.post("/api/seed-demo")
 async def seed_demo():
-    """Seed basic demo data for quick login including faction finances"""
-    from datetime import timedelta
-    import random
-    
-    org_name = "demo-org"
-    now = datetime.now(timezone.utc)
-    
-    # Create demo user if not exists
-    if not db.users.find_one({"email": "demo@kommunalcrm.de"}):
-        demo_user = {
-            "email": "demo@kommunalcrm.de",
-            "password": hash_password("demo123"),
-            "full_name": "Max Mustermann",
-            "city": "Musterstadt",
-            "organization": org_name,
-            "org_type": "fraktion",
-            "role": "admin",
-            "created_date": now.isoformat()
-        }
-        db.users.insert_one(demo_user)
-    
-    # Create demo organization if not exists
-    if not db.organizations.find_one({"name": org_name}):
-        demo_org = {
-            "name": org_name,
-            "display_name": "SPD Fraktion Musterstadt",
-            "type": "fraktion",
-            "city": "Musterstadt",
-            "state": "Bayern",
-            "created_date": now.isoformat()
-        }
-        db.organizations.insert_one(demo_org)
-    
-    # Seed faction finances if not exists
-    if db.incomes.count_documents({"organization": org_name, "type": "fraction"}) == 0:
-        # Add faction income (Zuwendungen)
-        faction_incomes = [
-            {"title": "Fraktionszuwendung Q1/2026", "category": "zuwendung_stadt", "amount": 12500.00, "date": (now - timedelta(days=60)).isoformat(), "reference": "BV-2026-001", "notes": "Quartalszuwendung Stadt"},
-            {"title": "Fraktionszuwendung Q4/2025", "category": "zuwendung_stadt", "amount": 12500.00, "date": (now - timedelta(days=150)).isoformat(), "reference": "BV-2025-004", "notes": "Quartalszuwendung Stadt"},
-            {"title": "Kreiszuwendung 2025", "category": "zuwendung_kreis", "amount": 3500.00, "date": (now - timedelta(days=120)).isoformat(), "reference": "KT-2025-FZ", "notes": "Jährliche Kreiszuwendung"},
-            {"title": "Fraktionszuwendung Q3/2025", "category": "zuwendung_stadt", "amount": 12500.00, "date": (now - timedelta(days=240)).isoformat(), "reference": "BV-2025-003", "notes": "Quartalszuwendung Stadt"},
-        ]
-        for inc in faction_incomes:
-            inc["organization"] = org_name
-            inc["type"] = "fraction"
-            inc["created_date"] = now.isoformat()
-            db.incomes.insert_one(inc)
-        
-        # Add faction expenses
-        faction_expenses = [
-            {"title": "Gehalt Fraktionsgeschäftsführer Januar", "category": "personal", "amount": 3800.00, "date": (now - timedelta(days=30)).isoformat(), "reference": "GH-2026-01", "notes": "Monatl. Gehalt inkl. AG-Anteile"},
-            {"title": "Gehalt Fraktionsgeschäftsführer Dezember", "category": "personal", "amount": 3800.00, "date": (now - timedelta(days=60)).isoformat(), "reference": "GH-2025-12", "notes": "Monatl. Gehalt inkl. AG-Anteile"},
-            {"title": "Miete Fraktionsbüro Februar", "category": "miete", "amount": 650.00, "date": (now - timedelta(days=15)).isoformat(), "reference": "MI-2026-02", "notes": "Inkl. Nebenkosten"},
-            {"title": "Miete Fraktionsbüro Januar", "category": "miete", "amount": 650.00, "date": (now - timedelta(days=45)).isoformat(), "reference": "MI-2026-01", "notes": "Inkl. Nebenkosten"},
-            {"title": "Miete Fraktionsbüro Dezember", "category": "miete", "amount": 650.00, "date": (now - timedelta(days=75)).isoformat(), "reference": "MI-2025-12", "notes": "Inkl. Nebenkosten"},
-            {"title": "Telefonkosten Q1", "category": "verwaltung", "amount": 185.00, "date": (now - timedelta(days=20)).isoformat(), "reference": "TEL-2026-Q1", "notes": "Festnetz + Mobilfunk"},
-            {"title": "Porto & Versand", "category": "verwaltung", "amount": 45.50, "date": (now - timedelta(days=10)).isoformat(), "reference": "PO-2026-02", "notes": "Einladungen MV"},
-            {"title": "Druckkosten Flyer", "category": "verwaltung", "amount": 380.00, "date": (now - timedelta(days=35)).isoformat(), "reference": "DR-2026-001", "notes": "500 Flyer Bürgerinfo"},
-            {"title": "Bürobedarf", "category": "bueromaterial", "amount": 125.00, "date": (now - timedelta(days=25)).isoformat(), "reference": "BM-2026-01", "notes": "Papier, Toner, Stifte"},
-            {"title": "IT-Wartung", "category": "verwaltung", "amount": 95.00, "date": (now - timedelta(days=50)).isoformat(), "reference": "IT-2026-01", "notes": "Monatliche Pauschale"},
-        ]
-        for exp in faction_expenses:
-            exp["organization"] = org_name
-            exp["type"] = "fraction"
-            exp["created_date"] = now.isoformat()
-            db.expenses.insert_one(exp)
-    
-    return {"success": True, "message": "Demo data seeded"}
+    """DEPRECATED - Demo functionality removed"""
+    return {"success": False, "message": "Demo-Modus deaktiviert. Bitte registrieren Sie sich."}
+
+
+@app.post("/api/seed-full-demo")
+async def seed_full_demo():
+    """DEPRECATED - Demo functionality removed"""
+    return {"success": False, "message": "Demo-Modus deaktiviert. Bitte registrieren Sie sich."}
 
 
 @app.post("/api/seed-full-demo")
