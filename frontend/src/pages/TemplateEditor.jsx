@@ -845,6 +845,7 @@ export default function TemplateEditor() {
                     variant="outline" 
                     onClick={handleSetDefault}
                     disabled={formData.is_default}
+                    data-testid="set-default-template-button"
                   >
                     Als Standard setzen
                   </Button>
