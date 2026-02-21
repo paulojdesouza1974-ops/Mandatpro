@@ -774,10 +774,11 @@ export default function TemplateEditor() {
                 <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
                   <div>
                     <Label>Zeile 1 (Name)</Label>
-                    <Input
+                    Input
                       value={formData.footer_line1}
                       onChange={(e) => setFormData({ ...formData, footer_line1: e.target.value })}
                       placeholder="AfD Fraktion im Rat der Stadt Dormagen"
+                      data-testid="footer-line1-input"
                     />
                   </div>
                   <div>
