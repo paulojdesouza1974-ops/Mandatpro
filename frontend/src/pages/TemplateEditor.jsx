@@ -853,6 +853,7 @@ export default function TemplateEditor() {
                     <Button 
                       variant="destructive" 
                       onClick={() => setShowDeleteDialog(true)}
+                      data-testid="delete-template-button"
                     >
                       <Trash2 className="w-4 h-4 mr-2" /> Löschen
                     </Button>
