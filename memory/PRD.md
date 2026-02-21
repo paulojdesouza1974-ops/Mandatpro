@@ -260,7 +260,23 @@ User requested to improve an existing German municipal CRM application called "K
   - Fix: `send_email_via_sendgrid()` verwendet jetzt immer `info@mandatpro.de` als verifizierten Sender
   - Organisation's `from_name` wird für Anzeigenamen verwendet
   - Alle E-Mail-Funktionen (Einladungen, Support-Tickets) funktionieren jetzt
+- **BugFix: "Not authenticated" Fehler bei E-Mail-Versand**
+  - `FractionMeetings.jsx`: Authorization-Header zur `/api/email/send-invitation` Anfrage hinzugefügt
+  - Debug-Logging hinzugefügt für Fehlersuche
+- **UI Update: "Meine Organisation" Seite**
+  - Neues "SendGrid aktiv" Banner zeigt aktiven E-Mail-Dienst
+  - SMTP-Konfiguration in einklappbarem "SMTP Fallback-Konfiguration (optional)" Element
+- **Demo-Modus entfernt**
+  - Demo-Login-Buttons von Login-Seite entfernt
+  - Seed-Endpoints deaktiviert (`/api/seed-demo`, `/api/seed-full-demo`)
+  - App ist jetzt für Produktionsbetrieb mit echten Organisationen:
+    - "AfD Fraktion im Rat der Stadt Dormagen" (Fraktion)
+    - "AfD Stadtverband Dormagen" (Verband)
 - **Testing:** Backend 100% (13/13 Tests), Frontend 100% - alle Features verifiziert
+
+## Organisationen
+- **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
+- **Verband:** AfD Stadtverband Dormagen
 
 ## Known Issues
 - Keine kritischen Bugs bekannt
