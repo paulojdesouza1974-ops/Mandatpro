@@ -965,7 +965,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Beschlussvorlage */}
-            <div className="mb-6 text-sm">
+            <div className="mb-6 text-sm" data-testid="document-preview-beschluss">
               <div className="font-bold mb-2">Beschlussvorlage</div>
               <div>{previewData.beschluss}</div>
             </div>
