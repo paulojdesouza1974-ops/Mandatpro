@@ -995,7 +995,7 @@ export default function TemplateEditor() {
             </div>
 
             {/* Footer (faction info) */}
-            <div className="mt-auto pt-8 border-t border-black text-[10px] text-slate-600">
+            <div className="mt-auto pt-8 border-t border-black text-[10px] text-slate-600" data-testid="document-preview-footer">
               <div>{formData.footer_line1}</div>
               <div>{formData.footer_line2}</div>
               <div>{formData.footer_line3}</div>
