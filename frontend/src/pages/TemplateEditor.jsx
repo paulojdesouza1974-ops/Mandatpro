@@ -1003,7 +1003,7 @@ export default function TemplateEditor() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowPreview(false)}>Schließen</Button>
+            <Button variant="outline" onClick={() => setShowPreview(false)} data-testid="preview-close-button">Schließen</Button>
             <Button onClick={handlePrint}>
               <Printer className="w-4 h-4 mr-2" /> Drucken
             </Button>
