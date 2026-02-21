@@ -590,18 +590,12 @@ async def seed_full_demo():
     org_name = "demo-verband"
     now = datetime.now(timezone.utc)
     
-    # Clear existing demo data
-    collections_to_clear = [
-        "contacts", "member_groups", "mandate_levies", "levy_rules",
-        "incomes", "expenses", "meetings", "motions", "tasks",
-        "campaigns", "communications", "documents", "fraction_meetings"
-    ]
-    for col in collections_to_clear:
-        db[col].delete_many({"organization": org_name})
-    
-    # Delete existing demo user and org
-    db.users.delete_many({"organization": org_name})
-    db.organizations.delete_many({"name": org_name})
+    # WICHTIG: Nur seeden wenn die Organisation NICHT existiert
+    # Dies schützt echte Nutzerdaten bei Re-Deployments
+    existing_org = db.organizations.find_one({"name": org_name})
+    if existing_org:
+        logger.info(f"Organization '{org_name}' already exists - skipping seed to protect user data")
+        return {"skipped": True, "message": "Organization already exists"}
     
     # ========== CREATE DEMO USER ==========
     demo_user = {
