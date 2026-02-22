@@ -182,6 +182,45 @@ frontend:
         - working: true
           agent: "testing"
           comment: "2026-02-21: Comprehensive test completed - User registration → Login → Navigate to Motions → Create new motion with title 'Parkbank-Erneuerung im Stadtpark' → AI generation via 'Mit KI generieren' button. Generated 2134 characters. ALL REQUIRED HEADERS VERIFIED: 'Antrag:', 'Beschlussvorschlag', 'Begründung', 'Rechtsgrundlage' all present. NO UNRELATED TERMS: Verified no off-topic content (e.g., 'Beflaggung') appears. AI stays on topic and generates appropriate, professional motion text. Feature working perfectly."
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Complete Anträge (Motions) area UI test passed. Registered new user → Navigated to /Motions → Verified left list + right editor layout → Created motion 'Parkbank-Erneuerung im Stadtpark' with Bauausschuss committee → AI generation produced 1754 characters of professional text with proper structure. AI text generation working flawlessly."
+  
+  - task: "Motion Quality Check functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Motions.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Quality Check ('Qualitäts-Check' button) fully functional. Clicked button after AI text generation, received detailed quality assessment (883 characters) covering: Themenbezug (OK), Neutralität (OK), Rechtliche Vorsicht (OK), and Empfehlungen. Result box displays correctly at data-testid='motion-quality-result'. Backend AI quality check endpoint working properly."
+  
+  - task: "Motion Print View with Header and Dokumenttyp-Box"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/motions/MotionPrintView.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Print view ('Druckansicht') fully functional. Opened print dialog after saving motion. Header visible showing 'Fraktion' on left. Dokumenttyp-Box clearly displayed on right with date (den: 22.02.2026) and four document type checkboxes (Einzelantrag, Fraktionsantrag [X], Fraktionsanfrage, Beschlusskontrolle). Print body content (1796 characters) displays correctly. Template selector, PDF export, and print buttons all visible. Print view working perfectly."
+  
+  - task: "Motions page layout (left list + right editor)"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Motions.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Motions page layout verified successfully. Left panel displays 'Anträge' section with search input (data-testid='motions-search-input') and status filter. Right panel shows motion editor with all form fields (title, committee, session date, status, priority, AI generation buttons). Layout is clean and professional with proper spacing. Navigation sidebar visible on far left. Grid layout working correctly with lg:grid-cols-4 structure."
   
   - task: "Organization details member list"
     implemented: true
