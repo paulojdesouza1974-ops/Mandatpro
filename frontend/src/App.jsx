@@ -33,6 +33,7 @@ const AuthenticatedApp = () => {
     return (
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/ResetPassword" element={<ResetPasswordPage />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     );
