@@ -119,6 +119,14 @@
             </p>
         </a>
         <script>
+            if (window.__isEmergentHost) {
+                var badge = document.getElementById('emergent-badge');
+                if (badge) {
+                    badge.style.display = 'inline-flex';
+                }
+            }
+        </script>
+        <script>
             !(function (t, e) {
                 var o, n, p, r;
                 e.__SV ||
