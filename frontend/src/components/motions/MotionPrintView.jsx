@@ -302,11 +302,8 @@ export default function MotionPrintView({ motion, open, onClose }) {
         </div>
 
         <div
-          className="motion-print-content bg-white p-12 relative"
-          style={{
-            fontFamily: selectedTemplate?.font_family || 'Times New Roman',
-            color: selectedTemplate?.primary_color || '#000000',
-          }}
+          className="motion-print-content bg-white relative"
+          style={{ background: "#fff" }}
           data-testid="motion-print-content"
         >
           <table className="w-full" style={{ borderCollapse: "collapse" }} data-testid="motion-print-table">
