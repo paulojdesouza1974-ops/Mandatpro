@@ -132,11 +132,78 @@ export default function MotionPrintView({ motion, open, onClose }) {
         padding: 0 !important;
         width: 100% !important;
         box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #222;
+        background: #fff;
+      }
+      #motion-print-root .header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      #motion-print-root .header-logo {
+        width: 120px;
+        height: auto;
+      }
+      #motion-print-root .header-title {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #0072c6;
+      }
+      #motion-print-root .header-subtitle {
+        font-size: 1em;
+        color: #333;
+        font-style: italic;
       }
       #motion-print-root table {
-        width: 100%;
         border-collapse: collapse;
+        width: 100%;
+        margin: 20px 0;
         page-break-inside: auto;
+      }
+      #motion-print-root .doc-type-table {
+        margin: 0;
+        width: 260px;
+      }
+      #motion-print-root th,
+      #motion-print-root td {
+        border: 1px solid #bbb;
+        padding: 8px 12px;
+        text-align: left;
+        font-size: 1em;
+      }
+      #motion-print-root th {
+        background: #f2f2f2;
+        font-weight: bold;
+      }
+      #motion-print-root .section-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin: 24px 0 8px 0;
+        color: #0072c6;
+      }
+      #motion-print-root .bold {
+        font-weight: bold;
+      }
+      #motion-print-root .italic {
+        font-style: italic;
+      }
+      #motion-print-root .signature-table {
+        margin-top: 40px;
+        width: 60%;
+      }
+      #motion-print-root .signature-table th {
+        font-size: 1em;
+        font-weight: normal;
+        text-align: left;
+        border: none;
+        background: none;
+      }
+      #motion-print-root .footer {
+        margin-top: 40px;
+        font-size: 0.95em;
+        color: #666;
       }
       #motion-print-root td {
         page-break-inside: auto;
