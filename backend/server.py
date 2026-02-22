@@ -351,6 +351,22 @@ async def login(credentials: UserLogin):
     del user_doc["password"]
     return {"token": token, "user": user_doc}
 
+@app.post("/api/auth/reset-password")
+async def reset_password(request: PasswordResetRequest):
+    normalized_email = request.email.strip().lower()
+    user = db.users.find_one({"email": normalized_email})
+    if not user:
+        user = db.users.find_one({"email": {"$regex": f"^\\s*{re.escape(normalized_email)}\\s*$", "$options": "i"}})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    new_hash = hash_password(request.new_password)
+    db.users.update_one(
+        {"_id": user["_id"]},
+        {"$set": {"password": new_hash, "email": normalized_email, "updated_date": datetime.now(timezone.utc).isoformat()}}
+    )
+    return {"success": True}
+
 @app.get("/api/auth/me")
 async def get_me(
     authorization: str = Header(None),
