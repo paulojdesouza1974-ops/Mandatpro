@@ -44,6 +44,7 @@ const fraktionNavItems = [
   { name: "Druckvorlagen", icon: FileText, page: "TemplateEditor" },
   { name: "Nutzerverwaltung", icon: UserIcon, page: "UserManagement", adminOnly: true },
   { name: "App-Einstellungen", icon: Settings, page: "AppSettings", adminOnly: true },
+  { name: "Admin-Konsole", icon: ShieldCheck, page: "Admin", ownerOnly: true },
   { name: "Support", icon: MessageCircle, page: "Support", supportOnly: true },
 ];
 
@@ -60,6 +61,7 @@ const verbandNavItems = [
   { name: "Meine Organisation", icon: Landmark, page: "MyOrganization" },
   { name: "Nutzerverwaltung", icon: UserIcon, page: "UserManagement", adminOnly: true },
   { name: "App-Einstellungen", icon: Settings, page: "AppSettings", adminOnly: true },
+  { name: "Admin-Konsole", icon: ShieldCheck, page: "Admin", ownerOnly: true },
   { name: "Support", icon: MessageCircle, page: "Support", supportOnly: true },
 ];
 
