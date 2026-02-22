@@ -93,7 +93,70 @@ export default function MotionPrintView({ motion, open, onClose }) {
   };
 
   const handlePrint = () => {
+    const printContent = document.querySelector('.motion-print-content');
+    if (!printContent) {
+      alert("Druckansicht ist nicht verfügbar.");
+      return;
+    }
+
+    const existingWrapper = document.getElementById('motion-print-root');
+    if (existingWrapper) {
+      existingWrapper.remove();
+    }
+
+    const printWrapper = document.createElement('div');
+    printWrapper.id = 'motion-print-root';
+    const clone = printContent.cloneNode(true);
+    printWrapper.appendChild(clone);
+    document.body.appendChild(printWrapper);
+
+    const existingStyle = document.getElementById('motion-print-style');
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+
+    const style = document.createElement('style');
+    style.id = 'motion-print-style';
+    style.innerHTML = `
+      #motion-print-root {
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        width: 210mm;
+      }
+      @media print {
+        body * {
+          visibility: hidden !important;
+        }
+        #motion-print-root,
+        #motion-print-root * {
+          visibility: visible !important;
+        }
+        #motion-print-root {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          padding: 2cm 2.5cm;
+          background: white;
+        }
+        @page {
+          margin: 2cm 2.5cm;
+          size: A4;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const cleanup = () => {
+      printWrapper.remove();
+      style.remove();
+      window.removeEventListener('afterprint', cleanup);
+    };
+
+    window.addEventListener('afterprint', cleanup);
     window.print();
+    setTimeout(cleanup, 1500);
   };
 
   const handleExportPDF = async () => {
