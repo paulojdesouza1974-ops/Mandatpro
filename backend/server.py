@@ -304,7 +304,7 @@ async def login(credentials: UserLogin):
     normalized_email = credentials.email.strip().lower()
     user = db.users.find_one({"email": normalized_email})
     if not user:
-        user = db.users.find_one({"email": {"$regex": f"^{re.escape(normalized_email)}$", "$options": "i"}})
+        user = db.users.find_one({"email": {"$regex": f"^\\s*{re.escape(normalized_email)}\\s*$", "$options": "i"}})
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
