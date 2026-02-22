@@ -136,6 +136,15 @@ export default function MotionPrintView({ motion, open, onClose }) {
       #motion-print-root table {
         width: 100%;
         border-collapse: collapse;
+        page-break-inside: auto;
+      }
+      #motion-print-root td {
+        page-break-inside: auto;
+        break-inside: auto;
+      }
+      #motion-print-root .motion-print-body-area {
+        page-break-inside: auto;
+        break-inside: auto;
       }
       #motion-print-root thead {
         display: table-header-group;
