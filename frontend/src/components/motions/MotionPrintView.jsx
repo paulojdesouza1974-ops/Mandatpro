@@ -246,34 +246,41 @@ export default function MotionPrintView({ motion, open, onClose }) {
             <thead style={{ display: "table-header-group" }}>
               <tr>
                 <td className="pb-6">
-                  <div className="flex justify-between items-start motion-print-header" data-testid="motion-print-header">
-                    <div className="font-bold text-sm flex-1">
-                      <div>{headerName}</div>
-                      {headerCity && <div className="italic text-xs">{headerCity}</div>}
+                  <div className="header motion-print-header" data-testid="motion-print-header">
+                    {logoSrc && (
+                      <img
+                        src={logoSrc}
+                        alt="Logo"
+                        className="header-logo"
+                        data-testid="motion-print-logo"
+                      />
+                    )}
+                    <div>
+                      <div className="header-title">{headerName}</div>
+                      {headerCity && <div className="header-subtitle">{headerCity}</div>}
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                      {logoSrc && (
-                        <img
-                          src={logoSrc}
-                          alt="Logo"
-                          className="object-contain"
-                          style={{ width: LOGO_DIMENSIONS.widthPx, height: LOGO_DIMENSIONS.heightPx }}
-                          data-testid="motion-print-logo"
-                        />
-                      )}
-                      <div className="border border-black p-2 text-xs w-48" data-testid="motion-print-type-box">
-                        <div className="mb-1">{headerCity || ""} den: {format(new Date(motionDate), "dd.MM.yyyy", { locale: de })}</div>
-                        <div className="grid grid-cols-2 gap-1 mt-2">
+                    <div className="doc-type-wrapper" style={{ marginLeft: "auto" }}>
+                      <table className="doc-type-table" data-testid="motion-print-type-box">
+                        <thead>
+                          <tr>
+                            <th colSpan={2}>Dokumenttyp</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="bold">Datum</td>
+                            <td>{headerCity || ""} den: {format(new Date(motionDate), "dd.MM.yyyy", { locale: de })}</td>
+                          </tr>
                           {DOCUMENT_TYPES.map((type) => (
-                            <div key={type.id} className="flex items-center gap-1">
-                              <div className="w-3 h-3 border border-black flex items-center justify-center text-[8px]">
+                            <tr key={type.id}>
+                              <td className="bold" style={{ width: "24px" }}>
                                 {documentType === type.id ? "X" : ""}
-                              </div>
-                              <span className="text-[9px]">{type.label}</span>
-                            </div>
+                              </td>
+                              <td>{type.label}</td>
+                            </tr>
                           ))}
-                        </div>
-                      </div>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </td>
