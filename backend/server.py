@@ -281,7 +281,7 @@ async def register(user: UserCreate):
         db.organizations.insert_one(org_doc)
 
     user_doc = {
-        "email": user.email,
+        "email": normalized_email,
         "password": hash_password(user.password),
         "full_name": user.full_name,
         "city": user.city,
