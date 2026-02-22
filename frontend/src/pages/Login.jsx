@@ -448,7 +448,7 @@ export default function LoginPage() {
                       Abbrechen
                     </Button>
                     <Button type="submit" disabled={resetLoading} data-testid="reset-submit-button">
-                      {resetLoading ? "Aktualisiert..." : "Passwort aktualisieren"}
+                      {resetLoading ? "Sendet..." : "Reset-Link senden"}
                     </Button>
                   </DialogFooter>
                 </form>
