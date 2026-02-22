@@ -64,7 +64,11 @@ export default function SupportRequestDialog({ open, onOpenChange, organization,
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.subject || !formData.description) {
-      alert("Bitte Betreff und Beschreibung ausfüllen.");
+      toast({
+        title: "Pflichtfelder fehlen",
+        description: "Bitte Betreff und Beschreibung ausfüllen.",
+        variant: "destructive",
+      });
       return;
     }
 
