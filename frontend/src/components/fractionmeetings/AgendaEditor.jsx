@@ -142,6 +142,7 @@ export default function AgendaEditor({ items = [], onChange }) {
               className={`flex items-center gap-2 bg-white border rounded-lg px-3 py-2 group transition-all ${
                 isFirst ? "border-slate-300 bg-slate-50/60" : "ml-4 border-slate-200"
               } ${dragIndex === idx ? "opacity-50 border-blue-400" : "hover:border-slate-300"}`}
+              data-testid={`agenda-item-${idx}`}
             >
               <GripVertical className="w-4 h-4 text-slate-300 cursor-grab shrink-0" />
               <span className={`text-xs font-bold shrink-0 w-14 ${isFirst ? "text-slate-600" : "text-slate-400"}`}>
