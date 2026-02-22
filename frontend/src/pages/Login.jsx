@@ -237,6 +237,23 @@ export default function LoginPage() {
                   >
                     {isLoading ? "Wird angemeldet..." : "Anmelden"}
                   </Button>
+
+                  <div className="text-center">
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-slate-500"
+                      onClick={() => {
+                        setShowResetDialog(true);
+                        setResetEmail(loginEmail || "");
+                        setResetError(null);
+                        setResetSuccess(null);
+                      }}
+                      data-testid="reset-password-link"
+                    >
+                      Passwort vergessen?
+                    </Button>
+                  </div>
                 </form>
               </TabsContent>
               
