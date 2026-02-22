@@ -414,6 +414,83 @@ export default function LoginPage() {
                 </form>
               </TabsContent>
             </Tabs>
+
+            <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
+              <DialogContent data-testid="reset-dialog">
+                <DialogHeader>
+                  <DialogTitle>Passwort zurücksetzen</DialogTitle>
+                  <DialogDescription>
+                    Geben Sie Ihre E-Mail-Adresse und ein neues Passwort ein.
+                  </DialogDescription>
+                </DialogHeader>
+
+                {resetError && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700" data-testid="reset-error-message">
+                    {resetError}
+                  </div>
+                )}
+
+                {resetSuccess && (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-700" data-testid="reset-success-message">
+                    {resetSuccess}
+                  </div>
+                )}
+
+                <form onSubmit={handleResetPassword} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-email">E-Mail</Label>
+                    <Input
+                      id="reset-email"
+                      type="email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      placeholder="name@beispiel.de"
+                      required
+                      data-testid="reset-email-input"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-password">Neues Passwort</Label>
+                    <Input
+                      id="reset-password"
+                      type="password"
+                      value={resetPassword}
+                      onChange={(e) => setResetPassword(e.target.value)}
+                      required
+                      data-testid="reset-password-input"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-password-confirm">Neues Passwort bestätigen</Label>
+                    <Input
+                      id="reset-password-confirm"
+                      type="password"
+                      value={resetPasswordConfirm}
+                      onChange={(e) => setResetPasswordConfirm(e.target.value)}
+                      required
+                      data-testid="reset-password-confirm-input"
+                    />
+                  </div>
+
+                  <DialogFooter className="gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setShowResetDialog(false)}
+                      data-testid="reset-cancel-button"
+                    >
+                      Abbrechen
+                    </Button>
+                    <Button type="submit" disabled={resetLoading} data-testid="reset-submit-button">
+                      {resetLoading ? "Aktualisiert..." : "Passwort aktualisieren"}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+
           </CardContent>
         </Card>
 
