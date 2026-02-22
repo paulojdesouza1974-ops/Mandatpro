@@ -56,6 +56,7 @@ export default function TemplateCanvas({ elements, setElements, selectedId, setS
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      data-testid="template-canvas-wrapper"
     >
       <div
         style={{
