@@ -454,20 +454,40 @@ Bitte klicken Sie auf diesen Link, um Ihr Passwort zurückzusetzen:
 Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren."""
 
 
-    send_email_via_sendgrid(
-        to_list=[normalized_email],
-        subject="Passwort zurücksetzen",
-        body=body,
-    )
+    try:
+        send_email_via_sendgrid(
+            to_list=[normalized_email],
+            subject="Passwort zurücksetzen",
+            body=body,
+        )
+        status = "sent"
+        message = "Reset-Link wurde per E-Mail versendet."
+    except Exception as exc:
+        status = "failed"
+        message = f"E-Mail Versand fehlgeschlagen: {exc}"
+
+    db.email_logs.insert_one({
+        "to": [normalized_email],
+        "subject": "Passwort zurücksetzen",
+        "body_preview": body[:200],
+        "has_attachment": False,
+        "attachment_filename": None,
+        "sent_at": datetime.now(timezone.utc).isoformat(),
+        "status": status,
+        "organization": user.get("organization"),
+    })
 
     log_system_event(
         "password_reset_requested",
         f"Passwort-Reset angefordert für {normalized_email}",
-        {"email": normalized_email},
+        {"email": normalized_email, "status": status},
         user_id=str(user["_id"]),
     )
 
-    return {"success": True, "message": "Reset-Link wurde per E-Mail versendet."}
+    if status == "failed":
+        raise HTTPException(status_code=500, detail=message)
+
+    return {"success": True, "message": message}
 
 
 @app.post("/api/auth/confirm-password-reset")
