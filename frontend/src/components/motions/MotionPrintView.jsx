@@ -107,6 +107,10 @@ export default function MotionPrintView({ motion, open, onClose }) {
     const printWrapper = document.createElement('div');
     printWrapper.id = 'motion-print-root';
     const clone = printContent.cloneNode(true);
+    clone.style.padding = '0';
+    clone.style.margin = '0';
+    clone.style.width = '100%';
+    clone.style.boxSizing = 'border-box';
     printWrapper.appendChild(clone);
     document.body.appendChild(printWrapper);
 
