@@ -331,7 +331,7 @@ export default function MotionPrintView({ motion, open, onClose }) {
                 <td className="align-top">
                   <div className="motion-print-body-area">
                     {recipientLines.length > 0 && (
-                      <div className="mb-8 text-sm leading-relaxed" data-testid="motion-print-recipient">
+                      <div className="mb-8 text-sm leading-relaxed avoid-break" data-testid="motion-print-recipient">
                         {recipientLines.map((line, idx) => (
                           <div key={idx}>{line}</div>
                         ))}
