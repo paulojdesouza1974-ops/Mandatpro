@@ -446,16 +446,13 @@ async def request_password_reset(request: PasswordResetRequest):
     raw_token = create_password_reset_token(str(user["_id"]))
     reset_link = f"{get_frontend_url()}/ResetPassword?token={raw_token}"
 
-    body = (
-        "Sie haben eine Passwort-Zurücksetzung angefordert.
+    body = f"""Sie haben eine Passwort-Zurücksetzung angefordert.
 
-"
-        f"Bitte klicken Sie auf diesen Link, um Ihr Passwort zurückzusetzen:
+Bitte klicken Sie auf diesen Link, um Ihr Passwort zurückzusetzen:
 {reset_link}
 
-"
-        "Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren."
-    )
+Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren."""
+
 
     send_email_via_sendgrid(
         to_list=[normalized_email],
