@@ -41,7 +41,7 @@
         -->
         <script>
             // Only load visual edit scripts when inside an iframe
-            if (window.self !== window.top) {
+            if (window.__isEmergentHost && window.self !== window.top) {
                 // Load debug monitor script
                 var debugMonitorScript = document.createElement('script');
                 debugMonitorScript.src = 'https://assets.emergent.sh/scripts/debug-monitor.js';
