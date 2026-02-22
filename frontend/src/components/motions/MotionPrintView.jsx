@@ -128,6 +128,11 @@ export default function MotionPrintView({ motion, open, onClose }) {
         top: 0;
         width: 210mm;
       }
+      #motion-print-root .motion-print-content {
+        padding: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box;
+      }
       @media print {
         body * {
           visibility: hidden !important;
