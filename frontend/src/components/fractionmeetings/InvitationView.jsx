@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Printer, Download, X, Sparkles, Save, FileText, ListChecks } from "lucide-react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { base44 } from "@/api/apiClient";
+import { base44 } from "@/api/base44Client";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -108,9 +108,11 @@ WICHTIG:
 - Formuliere Abstimmungsergebnisse klar (einstimmig/mehrheitlich)
 - Halte den Ton formal und präzise`;
 
-      const response = await base44.ai.generateProtocol(prompt);
+      const response = await base44.integrations.Core.InvokeLLM({
+        prompt: prompt,
+      });
 
-      setProtocol(response.content || "");
+      setProtocol(response);
     } catch (error) {
       console.error('Fehler beim Generieren:', error);
       alert('Fehler beim Generieren des Protokolls');
@@ -143,9 +145,11 @@ ${protocol}
 
 Halte die Zusammenfassung kurz und auf das Wesentliche fokussiert (max. 300 Wörter).`;
 
-      const response = await base44.ai.generateText(prompt, "meeting");
+      const response = await base44.integrations.Core.InvokeLLM({
+        prompt: prompt,
+      });
 
-      setProtocol(protocol + '\n\n---\n\nZUSAMMENFASSUNG:\n\n' + (response.content || ""));
+      setProtocol(protocol + '\n\n---\n\nZUSAMMENFASSUNG:\n\n' + response);
     } catch (error) {
       console.error('Fehler beim Zusammenfassen:', error);
       alert('Fehler beim Zusammenfassen des Protokolls');
@@ -171,9 +175,11 @@ Format für jeden Beschluss:
 
 Liste ALLE beschlossenen Anträge, Entscheidungen und Abstimmungen auf.`;
 
-      const response = await base44.ai.generateText(prompt, "meeting");
+      const response = await base44.integrations.Core.InvokeLLM({
+        prompt: prompt,
+      });
 
-      setProtocol(protocol + '\n\n---\n\nWICHTIGE BESCHLÜSSE:\n\n' + (response.content || ""));
+      setProtocol(protocol + '\n\n---\n\nWICHTIGE BESCHLÜSSE:\n\n' + response);
     } catch (error) {
       console.error('Fehler beim Extrahieren:', error);
       alert('Fehler beim Extrahieren der Beschlüsse');
@@ -228,7 +234,7 @@ ${protocol.replace(/\n/g, '<br>')}
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto" data-testid="invitation-view-dialog">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="print:hidden">
             Einladung: {meeting.title}
@@ -237,20 +243,20 @@ ${protocol.replace(/\n/g, '<br>')}
 
         <Tabs defaultValue="invitation" className="w-full print:hidden">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="invitation" data-testid="invitation-tab-trigger">Einladung</TabsTrigger>
-            <TabsTrigger value="protocol" data-testid="protocol-tab-trigger">Protokoll</TabsTrigger>
+            <TabsTrigger value="invitation">Einladung</TabsTrigger>
+            <TabsTrigger value="protocol">Protokoll</TabsTrigger>
           </TabsList>
 
           <TabsContent value="invitation">
             <div className="flex justify-end gap-2 mb-4 print:hidden">
-              <Button variant="outline" size="sm" onClick={onClose} data-testid="invitation-close-button">
+              <Button variant="outline" size="sm" onClick={onClose}>
                 <X className="w-4 h-4 mr-1" /> Schließen
               </Button>
-              <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline" data-testid="invitation-export-pdf-button">
+              <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline">
                 <Download className="w-4 h-4 mr-1" /> 
                 {exporting ? "Exportiere..." : "PDF"}
               </Button>
-              <Button size="sm" onClick={handlePrint} className="bg-slate-900" data-testid="invitation-print-button">
+              <Button size="sm" onClick={handlePrint} className="bg-slate-900">
                 <Printer className="w-4 h-4 mr-1" /> Drucken
               </Button>
             </div>
@@ -269,18 +275,22 @@ ${protocol.replace(/\n/g, '<br>')}
               </div>
 
               {meeting.invitation_text && (
-                <div className="mb-8 whitespace-pre-wrap leading-relaxed">
-                  {meeting.invitation_text}
-                </div>
-              )}
-
-              {/* Only show agenda separately if no invitation text exists */}
-              {!meeting.invitation_text && meeting.agenda && (
-                <div className="mb-8">
-                  <h2 className="text-lg font-semibold text-slate-900 mb-3">Tagesordnung:</h2>
-                  <div className="whitespace-pre-wrap bg-slate-50 p-4 rounded-lg">
-                    {meeting.agenda}
-                  </div>
+                <div className="mb-8 leading-relaxed">
+                  {meeting.invitation_text.split('\n').map((paragraph, idx) => {
+                    // Erkennt TOP-Zeilen und formatiert sie
+                    if (paragraph.match(/^\s*TOP\s+\d+[\.:]/)) {
+                      return (
+                        <div key={idx} className="mt-3 font-semibold text-slate-800 pl-4">
+                          {paragraph.trim()}
+                        </div>
+                      );
+                    }
+                    return (
+                      <p key={idx} className="mb-2">
+                        {paragraph}
+                      </p>
+                    );
+                  })}
                 </div>
               )}
 
@@ -309,7 +319,6 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={generateProtocol}
                     disabled={generatingProtocol}
-                    data-testid="protocol-generate-button"
                   >
                     <Sparkles className="w-3 h-3 mr-1" />
                     {generatingProtocol ? "Generiere..." : "Neu generieren"}
@@ -319,7 +328,6 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={summarizeProtocol}
                     disabled={summarizing || !protocol}
-                    data-testid="protocol-summarize-button"
                   >
                     <FileText className="w-3 h-3 mr-1" />
                     {summarizing ? "Fasst zusammen..." : "Zusammenfassen"}
@@ -329,7 +337,6 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={extractDecisions}
                     disabled={extracting || !protocol}
-                    data-testid="protocol-extract-decisions-button"
                   >
                     <ListChecks className="w-3 h-3 mr-1" />
                     {extracting ? "Extrahiert..." : "Beschlüsse"}
@@ -339,7 +346,6 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={exportProtocolWord}
                     disabled={exporting || !protocol}
-                    data-testid="protocol-export-word-button"
                   >
                     <Download className="w-3 h-3 mr-1" />
                     {exporting ? "Exportiert..." : "Word"}
@@ -348,7 +354,6 @@ ${protocol.replace(/\n/g, '<br>')}
                     size="sm"
                     onClick={saveProtocol}
                     disabled={!protocol}
-                    data-testid="protocol-save-button"
                   >
                     <Save className="w-3 h-3 mr-1" />
                     Speichern
@@ -362,7 +367,6 @@ ${protocol.replace(/\n/g, '<br>')}
                 placeholder="Protokoll der Sitzung... (oder mit KI generieren lassen)"
                 rows={20}
                 className="font-mono text-sm"
-                data-testid="protocol-textarea"
               />
 
               {meeting.protocol && (
