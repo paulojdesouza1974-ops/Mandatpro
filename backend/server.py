@@ -326,6 +326,7 @@ async def login(credentials: UserLogin):
             {"_id": user["_id"]},
             {"$set": {"email": normalized_email, "updated_date": datetime.now(timezone.utc).isoformat()}}
         )
+        user["email"] = normalized_email
 
     token = create_token(str(user["_id"]))
     user_doc = serialize_doc(user)
