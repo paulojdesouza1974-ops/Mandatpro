@@ -36,7 +36,7 @@ export default function ElementToolbox({ onAdd }) {
   };
 
   return (
-    <div className="p-4 border-b">
+    <div className="p-4 border-b" data-testid="template-toolbox">
       <p className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wide">Elemente</p>
       <div className="grid grid-cols-2 gap-2">
         {TOOLS.map(tool => (
