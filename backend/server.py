@@ -300,10 +300,30 @@ async def register(user: UserCreate):
 
 @app.post("/api/auth/login")
 async def login(credentials: UserLogin):
-    user = db.users.find_one({"email": credentials.email})
-    if not user or user["password"] != hash_password(credentials.password):
+    normalized_email = credentials.email.strip().lower()
+    user = db.users.find_one({"email": normalized_email})
+    if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
+
+    expected_hash = hash_password(credentials.password)
+    stored_password = user.get("password")
+
+    if stored_password != expected_hash:
+        # Legacy fallback: accept plaintext stored passwords and migrate to hash
+        if stored_password == credentials.password:
+            db.users.update_one(
+                {"_id": user["_id"]},
+                {"$set": {"password": expected_hash, "updated_date": datetime.now(timezone.utc).isoformat()}}
+            )
+        else:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    if user.get("email") != normalized_email:
+        db.users.update_one(
+            {"_id": user["_id"]},
+            {"$set": {"email": normalized_email, "updated_date": datetime.now(timezone.utc).isoformat()}}
+        )
+
     token = create_token(str(user["_id"]))
     user_doc = serialize_doc(user)
     del user_doc["password"]
