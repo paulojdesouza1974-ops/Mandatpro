@@ -408,7 +408,7 @@ export default function LoginPage() {
                 <DialogHeader>
                   <DialogTitle>Passwort zurücksetzen</DialogTitle>
                   <DialogDescription>
-                    Geben Sie Ihre E-Mail-Adresse und ein neues Passwort ein.
+                    Wir senden Ihnen einen sicheren Reset-Link per E-Mail.
                   </DialogDescription>
                 </DialogHeader>
 
