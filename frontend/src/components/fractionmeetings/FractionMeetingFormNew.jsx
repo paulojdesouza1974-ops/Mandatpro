@@ -179,7 +179,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
           <div>
             <Label>Status</Label>
             <Select value={formData.status} onValueChange={(v) => update("status", v)}>
-              <SelectTrigger>
+              <SelectTrigger data-testid="meeting-form-status">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
