@@ -195,7 +195,7 @@ export default function MotionPrintView({ motion, open, onClose }) {
     setExporting(true);
     toast({
       title: "PDF-Export",
-      description: "Bitte im Druckdialog "Als PDF speichern" wählen.",
+      description: 'Bitte im Druckdialog "Als PDF speichern" wählen.',
     });
     handlePrint();
     setExporting(false);
