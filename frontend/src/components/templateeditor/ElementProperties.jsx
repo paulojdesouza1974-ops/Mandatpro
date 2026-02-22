@@ -41,7 +41,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
         <div className="grid grid-cols-2 gap-2 mt-1">
           <div>
             <Label className="text-[10px]">X</Label>
-            <Input type="number" value={Math.round(element.x)} onChange={e => update('x', +e.target.value)} className="h-7 text-xs" />
+            <Input type="number" value={Math.round(element.x)} onChange={e => update('x', +e.target.value)} className="h-7 text-xs" data-testid="template-element-x-input" />
           </div>
           <div>
             <Label className="text-[10px]">Y</Label>
