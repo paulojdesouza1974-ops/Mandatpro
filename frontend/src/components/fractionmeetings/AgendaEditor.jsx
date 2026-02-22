@@ -89,7 +89,7 @@ export default function AgendaEditor({ items = [], onChange }) {
   );
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" data-testid="agenda-editor">
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-slate-700">Tagesordnungspunkte (TOPs)</p>
         <label className="cursor-pointer">
