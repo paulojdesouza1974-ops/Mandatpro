@@ -275,6 +275,42 @@ frontend:
         - working: true
           agent: "testing"
           comment: "2026-02-22: Password reset feature tested successfully with complete end-to-end flow. Test sequence: 1) Opened app (Login page) ✓ → 2) Registered new user (test-reset-2ztyvo@kommunalcrm-test.de) with initial password 'InitialPass123' ✓ → 3) Logged out successfully ✓ → 4) Clicked 'Passwort vergessen?' link and password reset dialog opened ✓ → 5) Filled reset form with email, new password 'NewSecurePass456', and password confirmation ✓ → 6) Submitted form and received success message 'Passwort aktualisiert. Bitte melden Sie sich jetzt an.' ✓ → 7) Filled login form with email and NEW password ✓ → 8) Successfully logged in with new password and dashboard appeared ✓. Backend endpoint /api/auth/reset-password returned 200 OK. Backend logs confirm: registration (200), password reset (200), login with new password (200), dashboard data loaded (200). All UI elements working correctly: reset dialog (data-testid='reset-dialog'), email input (data-testid='reset-email-input'), password inputs (data-testid='reset-password-input', 'reset-password-confirm-input'), submit button (data-testid='reset-submit-button'). Form validation working (email format, password length >= 6, password matching). Screenshots captured: 01-reset-dialog-opened.png, 02-reset-form-filled.png, 03-login-with-new-password.png, 04-successful-login-dashboard.png showing dashboard with 'Willkommen zurück, Test' greeting. NO CRITICAL ISSUES. Password reset feature is fully functional and working perfectly."
+  
+  - task: "Admin Console page access and functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Admin.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Admin Console page (/admin) tested successfully with admin owner login (admin.owner@test.com). Page is accessible and displays correctly with heading 'Admin-Konsole'. All 6 tabs are present and functional: Übersicht, Nutzer, Organisationen, Support-Tickets, E-Mail-Logs, System-Logs. Overview tab displays 4 stat cards with correct data: Nutzer (22), Organisationen (9), Tickets (1), E-Mails (19). Access control working correctly - only app owner can access this page. Screenshot: 03-admin-console-overview.png. NO CRITICAL ISSUES. Admin console is fully functional."
+  
+  - task: "Support Console page access and functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Support.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Support Console page (/support) tested successfully with admin owner login (admin.owner@test.com). Page is accessible and displays correctly with heading 'Support-Konsole'. All 6 tabs are present and functional: Übersicht, Nutzer, Organisationen, Support-Tickets, E-Mail-Logs, System-Logs. Same interface as Admin Console (uses AdminConsoleView component with mode='support'). Access control working correctly - app owner and support users can access this page. Screenshot: 05-support-console-overview.png. NO CRITICAL ISSUES. Support console is fully functional."
+  
+  - task: "Reset Password page with token functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/ResetPassword.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Reset Password page (/resetpassword?token=kZ3G2tw1kOSbsuJStwhcBw) tested successfully. Page loads correctly with heading 'Passwort zurücksetzen' and description 'Neues Passwort vergeben.' Form fields present: 'Neues Passwort' (data-testid='reset-password-input') and 'Neues Passwort bestätigen' (data-testid='reset-password-confirm-input'). Filled both fields with 'Admin1234' and submitted form. SUCCESS: Received green success message 'Passwort aktualisiert. Bitte melden Sie sich jetzt an.' Form validation working (password length >= 6, password matching). Backend endpoint /api/auth/confirm-password-reset working correctly with token parameter. Screenshots: 06-reset-password-page.png (initial page), 07-reset-password-filled.png (with filled form), 08-reset-password-result.png (success message). 'Zurück zum Login' link present. NO CRITICAL ISSUES. Password reset with token is fully functional."
 
 backend:
   - task: "AI text generation endpoint"
