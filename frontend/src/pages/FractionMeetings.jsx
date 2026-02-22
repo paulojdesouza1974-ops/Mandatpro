@@ -92,7 +92,7 @@ export default function FractionMeetings() {
           <h1 className="text-2xl font-bold text-slate-900">Fraktionssitzungen</h1>
           <p className="text-slate-500 text-sm mt-1">{meetings.length} Sitzung(en) insgesamt</p>
         </div>
-        <Button onClick={() => setShowForm(true)} className="bg-slate-900 hover:bg-slate-800">
+        <Button onClick={() => setShowForm(true)} className="bg-slate-900 hover:bg-slate-800" data-testid="meeting-new-button">
           <Plus className="w-4 h-4 mr-2" />
           Neue Sitzung
         </Button>
