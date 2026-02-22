@@ -220,6 +220,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
               onChange={(e) => update("invitation_text", e.target.value)}
               placeholder="Einladungstext für E-Mail..."
               rows={6}
+              data-testid="meeting-invitation-text"
             />
           </div>
 
