@@ -184,72 +184,12 @@ export default function MotionPrintView({ motion, open, onClose }) {
 
   const handleExportPDF = async () => {
     setExporting(true);
-    try {
-      const printContent = document.querySelector('.motion-print-content');
-      if (!printContent) {
-        throw new Error('Druckinhalt nicht gefunden');
-      }
-
-      const headerEl = printContent.querySelector('.motion-print-header');
-      const bodyEl = printContent.querySelector('.motion-print-body-area');
-      const footerEl = printContent.querySelector('.motion-print-footer');
-
-      const canvasOptions = {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-      };
-
-      const headerCanvas = headerEl ? await html2canvas(headerEl, canvasOptions) : null;
-      const bodyCanvas = bodyEl ? await html2canvas(bodyEl, canvasOptions) : null;
-      const footerCanvas = footerEl ? await html2canvas(footerEl, canvasOptions) : null;
-
-      if (!bodyCanvas) {
-        throw new Error('Druckinhalt nicht gefunden');
-      }
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const marginX = 25;
-      const marginY = 20;
-      const contentWidth = pageWidth - marginX * 2;
-
-      const headerHeight = headerCanvas ? (headerCanvas.height * contentWidth) / headerCanvas.width : 0;
-      const footerHeight = footerCanvas ? (footerCanvas.height * contentWidth) / footerCanvas.width : 0;
-      const bodyImgHeight = (bodyCanvas.height * contentWidth) / bodyCanvas.width;
-      const availableHeight = Math.max(pageHeight - marginY * 2 - headerHeight - footerHeight, pageHeight - marginY * 2);
-
-      const headerImg = headerCanvas ? headerCanvas.toDataURL('image/png') : null;
-      const bodyImg = bodyCanvas.toDataURL('image/png');
-      const footerImg = footerCanvas ? footerCanvas.toDataURL('image/png') : null;
-
-      let position = 0;
-      let page = 0;
-      while (position < bodyImgHeight - 1) {
-        if (page > 0) {
-          pdf.addPage();
-        }
-        if (headerImg) {
-          pdf.addImage(headerImg, 'PNG', marginX, marginY, contentWidth, headerHeight);
-        }
-        if (footerImg) {
-          pdf.addImage(footerImg, 'PNG', marginX, pageHeight - marginY - footerHeight, contentWidth, footerHeight);
-        }
-        const bodyY = marginY + headerHeight;
-        pdf.addImage(bodyImg, 'PNG', marginX, bodyY - position, contentWidth, bodyImgHeight);
-        position += availableHeight;
-        page += 1;
-      }
-
-      pdf.save(`${motion.title?.replace(/[^a-z0-9]/gi, '_') || 'antrag'}_${format(new Date(), 'yyyy-MM-dd')}.pdf`);
-    } catch (error) {
-      console.error('PDF Export Fehler:', error);
-      alert('Fehler beim Exportieren als PDF');
-    } finally {
-      setExporting(false);
-    }
+    toast({
+      title: "PDF-Export",
+      description: "Bitte im Druckdialog "Als PDF speichern" wählen.",
+    });
+    handlePrint();
+    setExporting(false);
   };
 
   return (
