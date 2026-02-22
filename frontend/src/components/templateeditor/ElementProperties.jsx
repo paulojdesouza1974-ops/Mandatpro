@@ -30,7 +30,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
     <div className="p-4 space-y-4 overflow-y-auto">
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-slate-700 capitalize">{element.type}-Element</span>
-        <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={onDelete}>
+        <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={onDelete} data-testid="template-element-delete">
           <Trash2 className="w-4 h-4" />
         </Button>
       </div>
