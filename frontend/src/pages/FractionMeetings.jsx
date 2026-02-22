@@ -142,26 +142,26 @@ export default function FractionMeetings() {
                   </div>
                   <div className="flex flex-wrap gap-3 text-sm text-slate-500">
                     {meeting.date && (
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1" data-testid={`meeting-date-${meeting.id}`}>
                         <CalendarDays className="w-3.5 h-3.5" />
                         {format(new Date(meeting.date), "dd. MMMM yyyy, HH:mm", { locale: de })} Uhr
                       </span>
                     )}
                     {meeting.location && (
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1" data-testid={`meeting-location-${meeting.id}`}>
                         <MapPin className="w-3.5 h-3.5" />
                         {meeting.location}
                       </span>
                     )}
                     {meeting.attendees?.length > 0 && (
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1" data-testid={`meeting-attendees-${meeting.id}`}>
                         <Users className="w-3.5 h-3.5" />
                         {meeting.attendees.length} Teilnehmer
                       </span>
                     )}
                   </div>
                   {meeting.agenda_items?.length > 0 && (
-                    <p className="text-xs text-slate-400 mt-1">{meeting.agenda_items.length} TOPs</p>
+                    <p className="text-xs text-slate-400 mt-1" data-testid={`meeting-agenda-count-${meeting.id}`}>{meeting.agenda_items.length} TOPs</p>
                   )}
                 </div>
                 <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 mt-1 shrink-0 transition-colors" />
