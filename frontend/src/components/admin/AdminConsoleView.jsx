@@ -48,7 +48,8 @@ export default function AdminConsoleView({ mode = "owner" }) {
     queryFn: () => base44.entities.AppSettings.list(),
   });
 
-  const isAppOwner = appSettings[0]?.app_owner_email?.toLowerCase() === user?.email?.toLowerCase();
+  // Calculate access rights only when data is loaded
+  const isAppOwner = user && appSettings[0] ? appSettings[0].app_owner_email?.toLowerCase() === user.email?.toLowerCase() : false;
   const isSupportUser = isAppOwner || user?.role === "support";
   const hasAccess = (mode === "owner" && isAppOwner) || (mode === "support" && isSupportUser);
 
