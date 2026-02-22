@@ -162,6 +162,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
                 type="datetime-local"
                 value={formData.date ? formData.date.slice(0, 16) : ""}
                 onChange={(e) => update("date", e.target.value ? new Date(e.target.value).toISOString() : "")}
+                data-testid="meeting-form-date"
               />
             </div>
             <div>
