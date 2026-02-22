@@ -369,11 +369,21 @@ export default function MotionPrintView({ motion, open, onClose }) {
                     )}
 
                     <div className="space-y-4 text-sm" data-testid="motion-print-body">
-                      {paragraphs.map((paragraph, idx) => (
-                        <p key={idx} className="whitespace-pre-wrap leading-relaxed">
-                          {paragraph}
-                        </p>
-                      ))}
+                      {paragraphs.map((paragraph, idx) => {
+                        const trimmed = paragraph.trim();
+                        if (isSectionTitle(trimmed)) {
+                          return (
+                            <div key={idx} className="section-title">
+                              {trimmed}
+                            </div>
+                          );
+                        }
+                        return (
+                          <p key={idx} className="whitespace-pre-wrap leading-relaxed">
+                            {paragraph}
+                          </p>
+                        );
+                      })}
                     </div>
 
                     {signatureEntries.length > 0 && (
