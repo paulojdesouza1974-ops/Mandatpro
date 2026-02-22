@@ -80,10 +80,10 @@ export default function ElementProperties({ element, setElements, onDelete }) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Arial">Arial</SelectItem>
-                <SelectItem value="Times New Roman">Times New Roman</SelectItem>
-                <SelectItem value="Georgia">Georgia</SelectItem>
-                <SelectItem value="Calibri">Calibri</SelectItem>
+                <SelectItem value="Arial" data-testid="template-element-font-arial">Arial</SelectItem>
+                <SelectItem value="Times New Roman" data-testid="template-element-font-times">Times New Roman</SelectItem>
+                <SelectItem value="Georgia" data-testid="template-element-font-georgia">Georgia</SelectItem>
+                <SelectItem value="Calibri" data-testid="template-element-font-calibri">Calibri</SelectItem>
               </SelectContent>
             </Select>
           </div>
