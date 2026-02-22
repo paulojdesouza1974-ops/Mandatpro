@@ -159,7 +159,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
       {element.type === 'docbox' && (
         <div>
           <Label className="text-xs">Schriftgröße</Label>
-          <Input type="number" value={element.fontSize || 10} onChange={e => update('fontSize', +e.target.value)} className="h-8 mt-1 text-xs" />
+          <Input type="number" value={element.fontSize || 10} onChange={e => update('fontSize', +e.target.value)} className="h-8 mt-1 text-xs" data-testid="template-element-docbox-font-size" />
         </div>
       )}
     </div>
