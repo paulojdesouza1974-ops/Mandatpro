@@ -314,9 +314,9 @@ User requested to improve an existing German municipal CRM application called "K
   - Einladungstext per KI (generate-invitation)
   - Dokumentanalyse im Agenda-Upload ist **MOCKED**
 - **data-testid** für neue Komponenten ergänzt
-- **On-Prem Bereinigung (Emergent-spezifische Assets)**
-  - Emergent-Skripte/Badge/Analytics nur noch auf emergent*-Hosts geladen
-  - Vite `allowedHosts` auf `all` gesetzt für On-Prem Dev-Server
+- **On-Prem Requirements**
+  - Neue `requirements.onprem.txt` mit minimalen Runtime-Abhängigkeiten
+  - Schwere Dev/AI/Analyzer-Pakete bleiben in `requirements.txt` (nur falls benötigt)
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
