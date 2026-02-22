@@ -40,12 +40,12 @@ export default function AdminConsoleView({ mode = "owner" }) {
 
   const { data: user } = useQuery({
     queryKey: ["currentUser"],
-    queryFn: () =e base44.auth.me(),
+    queryFn: () => base44.auth.me(),
   });
 
   const { data: appSettings = [] } = useQuery({
     queryKey: ["appSettings"],
-    queryFn: () =e base44.entities.AppSettings.list(),
+    queryFn: () => base44.entities.AppSettings.list(),
   });
 
   const isAppOwner = appSettings[0]?.app_owner_email?.toLowerCase() === user?.email?.toLowerCase();
@@ -65,27 +65,27 @@ export default function AdminConsoleView({ mode = "owner" }) {
 
   const { data: users = [] } = useQuery({
     queryKey: ["adminUsers"],
-    queryFn: () =e base44.entities.User.list("-created_date"),
+    queryFn: () => base44.entities.User.list("-created_date"),
   });
 
   const { data: organizations = [] } = useQuery({
     queryKey: ["adminOrganizations"],
-    queryFn: () =e base44.entities.Organization.list("-created_date"),
+    queryFn: () => base44.entities.Organization.list("-created_date"),
   });
 
   const { data: tickets = [] } = useQuery({
     queryKey: ["adminSupportTickets"],
-    queryFn: () =e base44.entities.SupportTicket.list("-created_date"),
+    queryFn: () => base44.entities.SupportTicket.list("-created_date"),
   });
 
   const { data: emailLogs = [] } = useQuery({
     queryKey: ["adminEmailLogs"],
-    queryFn: () =e base44.entities.EmailLog.list("-sent_at"),
+    queryFn: () => base44.entities.EmailLog.list("-sent_at"),
   });
 
   const { data: systemLogs = [] } = useQuery({
     queryKey: ["adminSystemLogs"],
-    queryFn: () =e base44.entities.SystemLog.list("-created_date"),
+    queryFn: () => base44.entities.SystemLog.list("-created_date"),
   });
 
   const updateUserMutation = useMutation({
