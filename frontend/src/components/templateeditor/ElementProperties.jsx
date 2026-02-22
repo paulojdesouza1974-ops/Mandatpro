@@ -146,7 +146,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
         <div className="flex gap-2 items-end">
           <div className="flex-1">
             <Label className="text-xs">Stärke (px)</Label>
-            <Input type="number" value={element.lineWidth || 1} onChange={e => update('lineWidth', +e.target.value)} className="h-8 mt-1 text-xs" min={1} max={10} />
+            <Input type="number" value={element.lineWidth || 1} onChange={e => update('lineWidth', +e.target.value)} className="h-8 mt-1 text-xs" min={1} max={10} data-testid="template-element-line-width" />
           </div>
           <div>
             <Label className="text-xs">Farbe</Label>
