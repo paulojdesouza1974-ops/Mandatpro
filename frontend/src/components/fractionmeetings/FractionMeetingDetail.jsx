@@ -166,15 +166,12 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
       const dateStr = meeting.date ? format(new Date(meeting.date), "dd. MMMM yyyy, HH:mm", { locale: de }) + ' Uhr' : '';
       const body = `${meeting.invitation_text}\n\nDatum: ${dateStr}\nOrt: ${meeting.location || ''}\n\nTagesordnung:\n${agendaText}`;
 
-      await Promise.all(
-        meeting.attendees.map(email =>
-          base44.integrations.Core.SendEmail({
-            to: email,
-            subject: `Einladung: ${meeting.title}`,
-            body,
-          })
-        )
-      );
+      await base44.email.sendInvitation({
+        to: meeting.attendees,
+        subject: `Einladung: ${meeting.title}`,
+        body,
+        organization: meeting.organization,
+      });
       onUpdate({ ...meeting, status: "einladung_versendet", invitation_sent_date: new Date().toISOString() });
       alert(`Einladung an ${meeting.attendees.length} Teilnehmer gesendet.`);
     } catch (err) {
