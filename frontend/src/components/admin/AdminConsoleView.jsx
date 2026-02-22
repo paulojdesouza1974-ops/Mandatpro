@@ -50,8 +50,41 @@ export default function AdminConsoleView({ mode = "owner" }) {
 
   const isAppOwner = appSettings[0]?.app_owner_email?.toLowerCase() === user?.email?.toLowerCase();
   const isSupportUser = isAppOwner || user?.role === "support";
+  const hasAccess = (mode === "owner" && isAppOwner) || (mode === "support" && isSupportUser);
 
-  if ((mode === "owner" && !isAppOwner) || (mode === "support" && !isSupportUser)) {
+  // Call all hooks unconditionally to avoid React Hooks error
+  const { data: users = [] } = useQuery({
+    queryKey: ["adminUsers"],
+    queryFn: () => base44.entities.User.list("-created_date"),
+    enabled: hasAccess,
+  });
+
+  const { data: organizations = [] } = useQuery({
+    queryKey: ["adminOrganizations"],
+    queryFn: () => base44.entities.Organization.list("-created_date"),
+    enabled: hasAccess,
+  });
+
+  const { data: tickets = [] } = useQuery({
+    queryKey: ["adminSupportTickets"],
+    queryFn: () => base44.entities.SupportTicket.list("-created_date"),
+    enabled: hasAccess,
+  });
+
+  const { data: emailLogs = [] } = useQuery({
+    queryKey: ["adminEmailLogs"],
+    queryFn: () => base44.entities.EmailLog.list("-sent_at"),
+    enabled: hasAccess,
+  });
+
+  const { data: systemLogs = [] } = useQuery({
+    queryKey: ["adminSystemLogs"],
+    queryFn: () => base44.entities.SystemLog.list("-created_date"),
+    enabled: hasAccess,
+  });
+
+  // Show access denied message if user doesn't have access
+  if (!hasAccess) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] p-6" data-testid="admin-no-access">
         <Card className="max-w-md p-8 text-center">
@@ -62,31 +95,6 @@ export default function AdminConsoleView({ mode = "owner" }) {
       </div>
     );
   }
-
-  const { data: users = [] } = useQuery({
-    queryKey: ["adminUsers"],
-    queryFn: () => base44.entities.User.list("-created_date"),
-  });
-
-  const { data: organizations = [] } = useQuery({
-    queryKey: ["adminOrganizations"],
-    queryFn: () => base44.entities.Organization.list("-created_date"),
-  });
-
-  const { data: tickets = [] } = useQuery({
-    queryKey: ["adminSupportTickets"],
-    queryFn: () => base44.entities.SupportTicket.list("-created_date"),
-  });
-
-  const { data: emailLogs = [] } = useQuery({
-    queryKey: ["adminEmailLogs"],
-    queryFn: () => base44.entities.EmailLog.list("-sent_at"),
-  });
-
-  const { data: systemLogs = [] } = useQuery({
-    queryKey: ["adminSystemLogs"],
-    queryFn: () => base44.entities.SystemLog.list("-created_date"),
-  });
 
   const updateUserMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.User.update(id, data),
