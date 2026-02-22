@@ -160,7 +160,25 @@ export default function TemplateEditor() {
     },
   });
 
+  const validateTemplate = () => {
+    const missing = [];
+    if (!formData.name?.trim()) missing.push("Name");
+    if (!formData.faction_name?.trim()) missing.push("Fraktionsname");
+    if (!formData.recipient_name?.trim()) missing.push("Empfängername");
+
+    if (missing.length > 0) {
+      toast({
+        title: "Pflichtfelder fehlen",
+        description: `Bitte ergänzen: ${missing.join(", ")}`,
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSave = () => {
+    if (!validateTemplate()) return;
     saveMutation.mutate(formData);
   };
 
