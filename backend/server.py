@@ -248,7 +248,8 @@ def hash_password(password: str) -> str:
 
 @app.post("/api/auth/register")
 async def register(user: UserCreate):
-    existing = db.users.find_one({"email": user.email})
+    normalized_email = user.email.strip().lower()
+    existing = db.users.find_one({"email": normalized_email})
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
 
