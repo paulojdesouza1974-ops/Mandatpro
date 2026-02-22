@@ -235,78 +235,98 @@ export default function MotionPrintView({ motion, open, onClose }) {
           }}
           data-testid="motion-print-content"
         >
-          <div className="flex justify-between items-start mb-8" data-testid="motion-print-header">
-            <div className="font-bold text-sm flex-1">
-              <div>{headerName}</div>
-              {headerCity && <div className="italic text-xs">{headerCity}</div>}
-            </div>
-            <div className="flex flex-col items-end gap-2">
-              {logoSrc && (
-                <img
-                  src={logoSrc}
-                  alt="Logo"
-                  className="object-contain"
-                  style={{ width: LOGO_DIMENSIONS.widthPx, height: LOGO_DIMENSIONS.heightPx }}
-                  data-testid="motion-print-logo"
-                />
-              )}
-              <div className="border border-black p-2 text-xs w-48" data-testid="motion-print-type-box">
-                <div className="mb-1">{headerCity || ""} den: {format(new Date(motionDate), "dd.MM.yyyy", { locale: de })}</div>
-                <div className="grid grid-cols-2 gap-1 mt-2">
-                  {DOCUMENT_TYPES.map((type) => (
-                    <div key={type.id} className="flex items-center gap-1">
-                      <div className="w-3 h-3 border border-black flex items-center justify-center text-[8px]">
-                        {documentType === type.id ? "X" : ""}
-                      </div>
-                      <span className="text-[9px]">{type.label}</span>
+          <table className="w-full" style={{ borderCollapse: "collapse" }} data-testid="motion-print-table">
+            <thead style={{ display: "table-header-group" }}>
+              <tr>
+                <td className="pb-6">
+                  <div className="flex justify-between items-start motion-print-header" data-testid="motion-print-header">
+                    <div className="font-bold text-sm flex-1">
+                      <div>{headerName}</div>
+                      {headerCity && <div className="italic text-xs">{headerCity}</div>}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+                    <div className="flex flex-col items-end gap-2">
+                      {logoSrc && (
+                        <img
+                          src={logoSrc}
+                          alt="Logo"
+                          className="object-contain"
+                          style={{ width: LOGO_DIMENSIONS.widthPx, height: LOGO_DIMENSIONS.heightPx }}
+                          data-testid="motion-print-logo"
+                        />
+                      )}
+                      <div className="border border-black p-2 text-xs w-48" data-testid="motion-print-type-box">
+                        <div className="mb-1">{headerCity || ""} den: {format(new Date(motionDate), "dd.MM.yyyy", { locale: de })}</div>
+                        <div className="grid grid-cols-2 gap-1 mt-2">
+                          {DOCUMENT_TYPES.map((type) => (
+                            <div key={type.id} className="flex items-center gap-1">
+                              <div className="w-3 h-3 border border-black flex items-center justify-center text-[8px]">
+                                {documentType === type.id ? "X" : ""}
+                              </div>
+                              <span className="text-[9px]">{type.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="align-top">
+                  <div className="motion-print-body-area">
+                    {recipientLines.length > 0 && (
+                      <div className="mb-8 text-sm leading-relaxed" data-testid="motion-print-recipient">
+                        {recipientLines.map((line, idx) => (
+                          <div key={idx}>{line}</div>
+                        ))}
+                      </div>
+                    )}
 
-          {recipientLines.length > 0 && (
-            <div className="mb-8 text-sm leading-relaxed" data-testid="motion-print-recipient">
-              {recipientLines.map((line, idx) => (
-                <div key={idx}>{line}</div>
-              ))}
-            </div>
-          )}
+                    <div className="space-y-4 text-sm" data-testid="motion-print-body">
+                      {paragraphs.map((paragraph, idx) => (
+                        <p key={idx} className="whitespace-pre-wrap leading-relaxed">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
 
-          <div className="space-y-4 text-sm" data-testid="motion-print-body">
-            {paragraphs.map((paragraph, idx) => (
-              <p key={idx} className="whitespace-pre-wrap leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-
-          {signatureEntries.length > 0 && (
-            <div className="mt-16 grid grid-cols-2 gap-10" data-testid="motion-print-signatures">
-              {signatureEntries.map((signature, idx) => (
-                <div key={idx}>
-                  <div className="border-t border-black w-48 mb-2"></div>
-                  <p className="font-semibold">{signature.name}</p>
-                  {signature.role && (
-                    <p className="text-xs italic">{getRoleLabel(signature.role)}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {(selectedTemplate?.footer_line1 || selectedTemplate?.footer_line2 || selectedTemplate?.footer_line3) && (
-            <div
-              className="absolute bottom-0 left-0 right-0 text-center p-4 text-xs border-t"
-              style={{ borderColor: selectedTemplate?.primary_color || '#000000' }}
-              data-testid="motion-print-footer"
-            >
-              <div>{selectedTemplate?.footer_line1}</div>
-              <div>{selectedTemplate?.footer_line2}</div>
-              <div>{selectedTemplate?.footer_line3}</div>
-            </div>
-          )}
+                    {signatureEntries.length > 0 && (
+                      <div className="mt-16 grid grid-cols-2 gap-10 avoid-break" data-testid="motion-print-signatures">
+                        {signatureEntries.map((signature, idx) => (
+                          <div key={idx}>
+                            <div className="border-t border-black w-48 mb-2"></div>
+                            <p className="font-semibold">{signature.name}</p>
+                            {signature.role && (
+                              <p className="text-xs italic">{getRoleLabel(signature.role)}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            {(selectedTemplate?.footer_line1 || selectedTemplate?.footer_line2 || selectedTemplate?.footer_line3) && (
+              <tfoot style={{ display: "table-footer-group" }}>
+                <tr>
+                  <td className="pt-6">
+                    <div
+                      className="motion-print-footer text-center text-xs border-t pt-4"
+                      style={{ borderColor: selectedTemplate?.primary_color || '#000000' }}
+                      data-testid="motion-print-footer"
+                    >
+                      <div>{selectedTemplate?.footer_line1}</div>
+                      <div>{selectedTemplate?.footer_line2}</div>
+                      <div>{selectedTemplate?.footer_line3}</div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            )}
+          </table>
         </div>
         
       </DialogContent>
