@@ -303,14 +303,14 @@ backend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.5"
-  test_sequence: 6
+  version: "1.6"
+  test_sequence: 7
   run_ui: true
   last_test_date: "2026-02-22"
 
 test_plan:
   current_focus:
-    - "User Registration → Logout → Login flow - PASSED"
+    - "Password Reset functionality - PASSED"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
