@@ -294,9 +294,9 @@ User requested to improve an existing German municipal CRM application called "K
   - Alte Klartext-Passwörter werden beim Login automatisch auf Hash migriert
 ## Recent Updates (2026-02-22)
 - **Passwort-Reset (E-Mail-Link)**
-- **Druckvorlagen (neuer Editor aus ZIP)**
-  - Drag&Drop-Elemente (Text, Bild, Linie, Antragsbox, Empfänger)
-  - Speichern in PrintTemplates + Custom CSS
+- **On-Prem Bereinigung (Emergent-spezifische Assets)**
+  - Emergent-Skripte/Badge/Analytics nur noch auf emergent*-Hosts geladen
+  - Vite `allowedHosts` auf `all` gesetzt für On-Prem Dev-Server
 - **Fraktionssitzungen (ZIP-Übernahme)**
   - Neue Meeting-Formulare/Detailansicht + Live-Protokoll
   - Einladungstext per KI (generate-invitation)
