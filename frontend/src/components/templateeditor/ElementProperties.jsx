@@ -103,7 +103,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
           <div>
             <Label className="text-xs">Formatierung</Label>
             <div className="flex gap-1 mt-1">
-              <Button size="sm" variant={element.bold ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('bold', !element.bold)}>
+              <Button size="sm" variant={element.bold ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('bold', !element.bold)} data-testid="template-element-bold">
                 <Bold className="w-3 h-3" />
               </Button>
               <Button size="sm" variant={element.italic ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('italic', !element.italic)}>
