@@ -23,6 +23,7 @@ from pathlib import Path
 from pymongo import MongoClient
 import secrets
 import hashlib
+import re
 
 # SendGrid import
 try:
@@ -302,6 +303,8 @@ async def register(user: UserCreate):
 async def login(credentials: UserLogin):
     normalized_email = credentials.email.strip().lower()
     user = db.users.find_one({"email": normalized_email})
+    if not user:
+        user = db.users.find_one({"email": {"$regex": f"^{re.escape(normalized_email)}$", "$options": "i"}})
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
