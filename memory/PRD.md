@@ -292,6 +292,9 @@ User requested to improve an existing German municipal CRM application called "K
 - **Login-Fix (Case-Insensitive + Legacy-Passwörter)**
   - Login akzeptiert E-Mails unabhängig von Groß/Kleinschreibung
   - Alte Klartext-Passwörter werden beim Login automatisch auf Hash migriert
+- **Passwort-Reset**
+  - Neuer Reset-Dialog im Login + `/api/auth/reset-password`
+  - Setzt Passwort anhand E-Mail zurück (ohne Login)
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
