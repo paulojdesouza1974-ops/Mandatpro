@@ -153,6 +153,7 @@ export default function AgendaEditor({ items = [], onChange }) {
                 value={item.title}
                 onChange={(e) => updateTitle(idx, e.target.value)}
                 className="border-0 shadow-none h-7 px-0 text-sm focus-visible:ring-0"
+                data-testid={`agenda-item-input-${idx}`}
               />
               <button
                 type="button"
