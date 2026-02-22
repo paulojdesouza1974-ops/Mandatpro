@@ -84,19 +84,6 @@ export default function AdminConsoleView({ mode = "owner" }) {
     enabled: hasAccess,
   });
 
-  // Show access denied message if user doesn't have access
-  if (!hasAccess) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh] p-6" data-testid="admin-no-access">
-        <Card className="max-w-md p-8 text-center">
-          <ShieldCheck className="w-16 h-16 mx-auto text-slate-300 mb-4" />
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">Kein Zugriff</h2>
-          <p className="text-slate-500">Diese Seite ist nur für App-Eigentümer oder Support-Team zugänglich.</p>
-        </Card>
-      </div>
-    );
-  }
-
   const updateUserMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.User.update(id, data),
     onSuccess: () => {
@@ -157,6 +144,18 @@ export default function AdminConsoleView({ mode = "owner" }) {
       (log.message || "").toLowerCase().includes(term)
     );
   }, [systemLogs, logSearch]);
+
+  if (!hasAccess) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh] p-6" data-testid="admin-no-access">
+        <Card className="max-w-md p-8 text-center">
+          <ShieldCheck className="w-16 h-16 mx-auto text-slate-300 mb-4" />
+          <h2 className="text-xl font-semibold text-slate-900 mb-2">Kein Zugriff</h2>
+          <p className="text-slate-500">Diese Seite ist nur für App-Eigentümer oder Support-Team zugänglich.</p>
+        </Card>
+      </div>
+    );
+  }
 
   const stats = {
     users: users.length,
