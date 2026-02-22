@@ -318,5 +318,5 @@ User requested to improve an existing German municipal CRM application called "K
 | Meeting Management | ✅ Working | CRUD + Einladungen + Protokolle |
 | Member Management | ✅ Working | Rollen-Dropdown für Admins |
 | Template Editor | ✅ Working | Logo in Vorschau/PDF + Header/Footer Support vorhanden |
-| Support Tickets | ✅ Working | E-Mail-Benachrichtigung möglich |
-| Data Persistence | ✅ Working | Seed-Logik nicht-destruktiv |
+| Admin-Konsole | ✅ Working | Owner/Support Zugriff + Logs |
+| Passwort-Reset | ✅ Working | E-Mail-Link /ResetPassword` |
