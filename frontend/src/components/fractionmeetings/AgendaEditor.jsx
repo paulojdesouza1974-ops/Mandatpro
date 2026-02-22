@@ -93,7 +93,13 @@ export default function AgendaEditor({ items = [], onChange }) {
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-slate-700">Tagesordnungspunkte (TOPs)</p>
         <label className="cursor-pointer">
-          <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleFileUpload} />
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx"
+            className="hidden"
+            onChange={handleFileUpload}
+            data-testid="agenda-upload-input"
+          />
           <Button type="button" size="sm" variant="outline" disabled={uploading} asChild>
             <span>
               {uploading
