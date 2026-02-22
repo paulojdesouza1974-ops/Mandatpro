@@ -242,26 +242,26 @@ ${protocol.replace(/\n/g, '<br>')}
         </DialogHeader>
 
         <Tabs defaultValue="invitation" className="w-full print:hidden">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="invitation">Einladung</TabsTrigger>
-            <TabsTrigger value="protocol">Protokoll</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2" data-testid="invitation-tabs">
+            <TabsTrigger value="invitation" data-testid="invitation-tab-invitation">Einladung</TabsTrigger>
+            <TabsTrigger value="protocol" data-testid="invitation-tab-protocol">Protokoll</TabsTrigger>
           </TabsList>
 
           <TabsContent value="invitation">
             <div className="flex justify-end gap-2 mb-4 print:hidden">
-              <Button variant="outline" size="sm" onClick={onClose}>
+              <Button variant="outline" size="sm" onClick={onClose} data-testid="invitation-close">
                 <X className="w-4 h-4 mr-1" /> Schließen
               </Button>
-              <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline">
+              <Button size="sm" onClick={handleExportPDF} disabled={exporting} variant="outline" data-testid="invitation-export-pdf">
                 <Download className="w-4 h-4 mr-1" /> 
                 {exporting ? "Exportiere..." : "PDF"}
               </Button>
-              <Button size="sm" onClick={handlePrint} className="bg-slate-900">
+              <Button size="sm" onClick={handlePrint} className="bg-slate-900" data-testid="invitation-print">
                 <Printer className="w-4 h-4 mr-1" /> Drucken
               </Button>
             </div>
 
-            <div className="invitation-print-content bg-white p-8 border rounded-lg">
+            <div className="invitation-print-content bg-white p-8 border rounded-lg" data-testid="invitation-print-content">
               <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-slate-900 mb-2">
                   Einladung zur Fraktionssitzung
@@ -319,6 +319,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={generateProtocol}
                     disabled={generatingProtocol}
+                    data-testid="invitation-protocol-generate"
                   >
                     <Sparkles className="w-3 h-3 mr-1" />
                     {generatingProtocol ? "Generiere..." : "Neu generieren"}
@@ -328,6 +329,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={summarizeProtocol}
                     disabled={summarizing || !protocol}
+                    data-testid="invitation-protocol-summarize"
                   >
                     <FileText className="w-3 h-3 mr-1" />
                     {summarizing ? "Fasst zusammen..." : "Zusammenfassen"}
@@ -337,6 +339,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={extractDecisions}
                     disabled={extracting || !protocol}
+                    data-testid="invitation-protocol-extract"
                   >
                     <ListChecks className="w-3 h-3 mr-1" />
                     {extracting ? "Extrahiert..." : "Beschlüsse"}
@@ -346,6 +349,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     variant="outline"
                     onClick={exportProtocolWord}
                     disabled={exporting || !protocol}
+                    data-testid="invitation-protocol-export"
                   >
                     <Download className="w-3 h-3 mr-1" />
                     {exporting ? "Exportiert..." : "Word"}
@@ -354,6 +358,7 @@ ${protocol.replace(/\n/g, '<br>')}
                     size="sm"
                     onClick={saveProtocol}
                     disabled={!protocol}
+                    data-testid="invitation-protocol-save"
                   >
                     <Save className="w-3 h-3 mr-1" />
                     Speichern
@@ -367,6 +372,7 @@ ${protocol.replace(/\n/g, '<br>')}
                 placeholder="Protokoll der Sitzung... (oder mit KI generieren lassen)"
                 rows={20}
                 className="font-mono text-sm"
+                data-testid="invitation-protocol-textarea"
               />
 
               {meeting.protocol && (
