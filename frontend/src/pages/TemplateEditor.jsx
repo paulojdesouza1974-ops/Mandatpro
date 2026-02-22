@@ -146,9 +146,9 @@ export default function TemplateEditor() {
             <SelectValue placeholder="Vorlage wählen" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="new">+ Neue Vorlage</SelectItem>
+            <SelectItem value="new" data-testid="template-option-new">+ Neue Vorlage</SelectItem>
             {templates.map(t => (
-              <SelectItem key={t.id} value={t.id}>
+              <SelectItem key={t.id} value={t.id} data-testid={`template-option-${t.id}`}>
                 {t.name} {t.is_default ? '⭐' : ''}
               </SelectItem>
             ))}
