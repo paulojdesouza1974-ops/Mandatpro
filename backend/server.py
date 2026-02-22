@@ -254,8 +254,8 @@ async def register(user: UserCreate):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     email_domain = None
-    if user.email and "@" in user.email:
-        email_domain = user.email.split("@")[-1].lower()
+    if normalized_email and "@" in normalized_email:
+        email_domain = normalized_email.split("@")[-1].lower()
 
     existing_org_by_domain = db.organizations.find_one({"email_domain": email_domain}) if email_domain else None
 
