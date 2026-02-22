@@ -408,7 +408,7 @@ export default function MotionPrintView({ motion, open, onClose }) {
                 <tr>
                   <td className="pt-6">
                     <div
-                      className="motion-print-footer text-center text-xs border-t pt-4"
+                      className="motion-print-footer footer text-center border-t pt-4"
                       style={{ borderColor: selectedTemplate?.primary_color || '#000000' }}
                       data-testid="motion-print-footer"
                     >
