@@ -227,6 +227,7 @@ function CanvasElement({ element, isSelected, onMouseDown, setElements, scale })
             zIndex: 20,
             ...handlePos[dir],
           }}
+          data-testid={`template-element-${element.id}-resize-${dir}`}
         />
       ))}
     </div>
