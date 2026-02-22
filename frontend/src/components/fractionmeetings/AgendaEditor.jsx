@@ -44,29 +44,19 @@ export default function AgendaEditor({ items = [], onChange }) {
     if (!file) return;
     setUploading(true);
     try {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      const result = await base44.integrations.Core.ExtractDataFromUploadedFile({
-        file_url,
-        json_schema: {
-          type: "object",
-          properties: {
-            title: { type: "string", description: "Titel des Antrags oder der Anfrage" },
-            type: { type: "string", description: "Art: Antrag oder Anfrage" },
-            date: { type: "string", description: "Datum im Format TT.MM.JJJJ falls vorhanden" },
-            summary: { type: "string", description: "Kurze Zusammenfassung in einem Satz (max. 15 Wörter)" },
-          }
-        }
+      const { file_url } = await base44.files.upload(file);
+      rebuild([...middle, { title: `Dokument: ${file.name}`, type: "motion", file_url }]);
+      toast({
+        title: "Dokument hinzugefügt",
+        description: "Dokumentanalyse ist aktuell MOCKED.",
       });
-
-      if (result.status === "success" && result.output) {
-        const doc = Array.isArray(result.output) ? result.output[0] : result.output;
-        const topTitle = `${doc.type || "Antrag"}: ${doc.title || doc.summary}${doc.date ? ` (${doc.date})` : ""}`;
-        rebuild([...middle, { title: topTitle, type: "motion", file_url }]);
-      } else {
-        rebuild([...middle, { title: `Dokument: ${file.name}`, type: "motion", file_url }]);
-      }
     } catch (err) {
       console.error(err);
+      toast({
+        title: "Upload fehlgeschlagen",
+        description: err.message || "Dokument konnte nicht hochgeladen werden.",
+        variant: "destructive",
+      });
     } finally {
       setUploading(false);
       e.target.value = "";
