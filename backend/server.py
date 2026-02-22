@@ -434,21 +434,81 @@ async def login(credentials: UserLogin):
     del user_doc["password"]
     return {"token": token, "user": user_doc}
 
-@app.post("/api/auth/reset-password")
-async def reset_password(request: PasswordResetRequest):
-    normalized_email = request.email.strip().lower()
-    user = db.users.find_one({"email": normalized_email})
+@app.post("/api/auth/request-password-reset")
+async def request_password_reset(request: PasswordResetRequest):
+    user, normalized_email = find_user_by_email(request.email)
     if not user:
-        user = db.users.find_one({"email": {"$regex": f"^\\s*{re.escape(normalized_email)}\\s*$", "$options": "i"}})
+        user = ensure_app_owner_user(normalized_email)
+
+    if not user:
+        return {"success": True, "message": "Falls das Konto existiert, wurde eine E-Mail gesendet."}
+
+    raw_token = create_password_reset_token(str(user["_id"]))
+    reset_link = f"{get_frontend_url()}/ResetPassword?token={raw_token}"
+
+    body = (
+        "Sie haben eine Passwort-Zurücksetzung angefordert.
+
+"
+        f"Bitte klicken Sie auf diesen Link, um Ihr Passwort zurückzusetzen:
+{reset_link}
+
+"
+        "Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren."
+    )
+
+    send_email_via_sendgrid(
+        to_list=[normalized_email],
+        subject="Passwort zurücksetzen",
+        body=body,
+    )
+
+    log_system_event(
+        "password_reset_requested",
+        f"Passwort-Reset angefordert für {normalized_email}",
+        {"email": normalized_email},
+        user_id=str(user["_id"]),
+    )
+
+    return {"success": True, "message": "Reset-Link wurde per E-Mail versendet."}
+
+
+@app.post("/api/auth/confirm-password-reset")
+async def confirm_password_reset(request: PasswordResetConfirm):
+    token_hash = hashlib.sha256(request.token.encode()).hexdigest()
+    token_doc = db.password_reset_tokens.find_one({"token_hash": token_hash})
+    if not token_doc:
+        raise HTTPException(status_code=400, detail="Ungültiger oder abgelaufener Token")
+
+    expires_at = datetime.fromisoformat(token_doc["expires_at"])
+    if expires_at < datetime.now(timezone.utc):
+        db.password_reset_tokens.delete_one({"_id": token_doc["_id"]})
+        raise HTTPException(status_code=400, detail="Ungültiger oder abgelaufener Token")
+
+    user = db.users.find_one({"_id": ObjectId(token_doc["user_id"])})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
     new_hash = hash_password(request.new_password)
     db.users.update_one(
         {"_id": user["_id"]},
-        {"$set": {"password": new_hash, "email": normalized_email, "updated_date": datetime.now(timezone.utc).isoformat()}}
+        {"$set": {"password": new_hash, "updated_date": datetime.now(timezone.utc).isoformat()}}
     )
+    db.password_reset_tokens.delete_many({"user_id": token_doc["user_id"]})
+
+    log_system_event(
+        "password_reset_confirmed",
+        f"Passwort-Reset bestätigt für {user.get('email')}",
+        {"email": user.get("email")},
+        user_id=str(user["_id"]),
+    )
+
     return {"success": True}
+
+
+@app.post("/api/auth/reset-password")
+async def reset_password_legacy(request: PasswordResetConfirm):
+    return await confirm_password_reset(request)
 
 @app.get("/api/auth/me")
 async def get_me(
