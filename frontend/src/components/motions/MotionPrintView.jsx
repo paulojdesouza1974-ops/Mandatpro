@@ -186,19 +186,59 @@ export default function MotionPrintView({ motion, open, onClose }) {
     setExporting(true);
     try {
       const printContent = document.querySelector('.motion-print-content');
-      const canvas = await html2canvas(printContent, {
+      if (!printContent) {
+        throw new Error('Druckinhalt nicht gefunden');
+      }
+
+      const headerEl = printContent.querySelector('.motion-print-header');
+      const bodyEl = printContent.querySelector('.motion-print-body-area');
+      const footerEl = printContent.querySelector('.motion-print-footer');
+
+      const canvasOptions = {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
-      });
+        backgroundColor: '#ffffff',
+      };
 
-      const imgData = canvas.toDataURL('image/png');
+      const headerCanvas = headerEl ? await html2canvas(headerEl, canvasOptions) : null;
+      const bodyCanvas = bodyEl ? await html2canvas(bodyEl, canvasOptions) : null;
+      const footerCanvas = footerEl ? await html2canvas(footerEl, canvasOptions) : null;
+
+      if (!bodyCanvas) {
+        throw new Error('Druckinhalt nicht gefunden');
+      }
+
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      const headerHeight = headerCanvas ? (headerCanvas.height * pageWidth) / headerCanvas.width : 0;
+      const footerHeight = footerCanvas ? (footerCanvas.height * pageWidth) / footerCanvas.width : 0;
+      const bodyImgHeight = (bodyCanvas.height * pageWidth) / bodyCanvas.width;
+      const availableHeight = Math.max(pageHeight - headerHeight - footerHeight, pageHeight);
+
+      const headerImg = headerCanvas ? headerCanvas.toDataURL('image/png') : null;
+      const bodyImg = bodyCanvas.toDataURL('image/png');
+      const footerImg = footerCanvas ? footerCanvas.toDataURL('image/png') : null;
+
+      let position = 0;
+      let page = 0;
+      while (position < bodyImgHeight - 1) {
+        if (page > 0) {
+          pdf.addPage();
+        }
+        if (headerImg) {
+          pdf.addImage(headerImg, 'PNG', 0, 0, pageWidth, headerHeight);
+        }
+        if (footerImg) {
+          pdf.addImage(footerImg, 'PNG', 0, pageHeight - footerHeight, pageWidth, footerHeight);
+        }
+        pdf.addImage(bodyImg, 'PNG', 0, headerHeight - position, pageWidth, bodyImgHeight);
+        position += availableHeight;
+        page += 1;
+      }
+
       pdf.save(`${motion.title?.replace(/[^a-z0-9]/gi, '_') || 'antrag'}_${format(new Date(), 'yyyy-MM-dd')}.pdf`);
     } catch (error) {
       console.error('PDF Export Fehler:', error);
