@@ -183,7 +183,7 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="fraction-meeting-detail">
       {/* Header */}
       <div className="flex items-start gap-4">
         <Button variant="ghost" size="icon" onClick={onBack} className="shrink-0 mt-1">
