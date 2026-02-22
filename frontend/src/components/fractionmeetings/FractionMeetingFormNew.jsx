@@ -103,8 +103,8 @@ export default function FractionMeetingFormNew({ meeting, onSave, onClose, savin
 
       const agendaText = agendaLines.join('\n');
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `Erstelle eine vollständige, professionelle Einladung für eine Fraktionssitzung.
+      const response = await base44.ai.generateInvitation(
+        `Erstelle eine vollständige, professionelle Einladung für eine Fraktionssitzung.
 
 Titel: ${formData.title}
 Datum: ${formData.date ? new Date(formData.date).toLocaleString('de-DE') : ''}
@@ -117,9 +117,11 @@ ${agendaText}
 3. Abschließende Grußformel
 
 Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht separat. Kein separater "Tagesordnung:"-Block nötig, sondern fließend im Text.`,
-      });
+      );
 
-      update('invitation_text', response);
+      if (response?.content) {
+        update('invitation_text', response.content);
+      }
     } catch (error) {
       console.error(error);
     } finally {
