@@ -299,44 +299,7 @@ export default function MotionPrintView({ motion, open, onClose }) {
             </div>
           )}
         </div>
-
-        <style>{`
-          @media print {
-            @page {
-              margin: 2cm 2.5cm;
-              size: A4;
-            }
-
-            html, body {
-              margin: 0;
-              padding: 0;
-              width: 210mm;
-              height: 297mm;
-            }
-
-            body > * {
-              visibility: hidden;
-            }
-
-            .motion-print-content,
-            .motion-print-content * {
-              visibility: visible;
-            }
-
-            .motion-print-content {
-              position: absolute;
-              left: 0;
-              top: 0;
-              width: 100%;
-              padding: 2cm 2.5cm;
-              background: white;
-            }
-
-            .print\:hidden {
-              display: none !important;
-            }
-          }
-        `}</style>
+        
       </DialogContent>
     </Dialog>
   );
