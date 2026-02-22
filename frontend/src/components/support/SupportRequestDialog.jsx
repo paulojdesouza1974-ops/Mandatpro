@@ -23,6 +23,7 @@ import { Upload, X } from "lucide-react";
 import { base44 } from "@/api/apiClient";
 
 export default function SupportRequestDialog({ open, onOpenChange, organization, contactEmail, onSuccess }) {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     subject: "",
     description: "",
