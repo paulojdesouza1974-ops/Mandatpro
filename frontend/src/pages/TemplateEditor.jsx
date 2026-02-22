@@ -168,11 +168,11 @@ export default function TemplateEditor() {
 
         {/* Zoom */}
         <div className="flex items-center gap-1 bg-slate-100 rounded-md px-2 py-1">
-          <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => setZoom(z => Math.max(30, z - 10))}>
+          <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => setZoom(z => Math.max(30, z - 10))} data-testid="template-zoom-out">
             <ZoomOut className="w-3 h-3" />
           </Button>
-          <span className="text-xs w-10 text-center">{zoom}%</span>
-          <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => setZoom(z => Math.min(150, z + 10))}>
+          <span className="text-xs w-10 text-center" data-testid="template-zoom-level">{zoom}%</span>
+          <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => setZoom(z => Math.min(150, z + 10))} data-testid="template-zoom-in">
             <ZoomIn className="w-3 h-3" />
           </Button>
         </div>
