@@ -100,6 +100,43 @@ export default function LoginPage() {
     }
   };
 
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setResetLoading(true);
+    setResetError(null);
+    setResetSuccess(null);
+    setError(null);
+
+    if (!resetEmail.includes('@')) {
+      setResetError('Bitte geben Sie eine gültige E-Mail-Adresse ein');
+      setResetLoading(false);
+      return;
+    }
+    if (resetPassword.length < 6) {
+      setResetError('Das Passwort muss mindestens 6 Zeichen lang sein');
+      setResetLoading(false);
+      return;
+    }
+    if (resetPassword != resetPasswordConfirm) {
+      setResetError('Die Passwörter stimmen nicht überein');
+      setResetLoading(false);
+      return;
+    }
+
+    try {
+      await base44.auth.resetPassword(resetEmail, resetPassword);
+      setResetSuccess('Passwort aktualisiert. Bitte melden Sie sich jetzt an.');
+      setSuccess('Passwort aktualisiert. Bitte melden Sie sich jetzt an.');
+      setLoginEmail(resetEmail);
+      setShowResetDialog(false);
+    } catch (err) {
+      setResetError(err.message || 'Passwort-Reset fehlgeschlagen');
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+
   const handleDemoLogin = async () => {
     setIsLoading(true);
     setError(null);
