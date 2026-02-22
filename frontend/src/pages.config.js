@@ -49,6 +49,7 @@
  */
 import Accounting from './pages/Accounting';
 import AdminOrganizations from './pages/AdminOrganizations';
+import Admin from './pages/Admin';
 import AppSettings from './pages/AppSettings';
 import CampaignDetails from './pages/CampaignDetails';
 import Campaigns from './pages/Campaigns';
@@ -84,6 +85,7 @@ import __Layout from './Layout.jsx';
 export const PAGES = {
     "Accounting": Accounting,
     "AdminOrganizations": AdminOrganizations,
+    "Admin": Admin,
     "AppSettings": AppSettings,
     "CampaignDetails": CampaignDetails,
     "Campaigns": Campaigns,
