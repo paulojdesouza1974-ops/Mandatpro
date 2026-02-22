@@ -45,7 +45,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
           </div>
           <div>
             <Label className="text-[10px]">Y</Label>
-            <Input type="number" value={Math.round(element.y)} onChange={e => update('y', +e.target.value)} className="h-7 text-xs" />
+            <Input type="number" value={Math.round(element.y)} onChange={e => update('y', +e.target.value)} className="h-7 text-xs" data-testid="template-element-y-input" />
           </div>
           <div>
             <Label className="text-[10px]">Breite</Label>
