@@ -209,6 +209,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
                 variant="outline"
                 onClick={generateInvitation}
                 disabled={!formData.title || generatingInvitation}
+                data-testid="meeting-generate-invitation"
               >
                 <Sparkles className="w-3 h-3 mr-1" />
                 {generatingInvitation ? "Generiere..." : "Mit KI generieren"}
