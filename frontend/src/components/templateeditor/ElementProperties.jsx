@@ -76,7 +76,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
           <div>
             <Label className="text-xs">Schriftart</Label>
             <Select value={element.fontFamily || 'Arial'} onValueChange={v => update('fontFamily', v)}>
-              <SelectTrigger className="h-8 mt-1 text-xs">
+              <SelectTrigger className="h-8 mt-1 text-xs" data-testid="template-element-font-family">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
