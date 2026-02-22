@@ -237,7 +237,7 @@ def find_user_by_email(email: str):
     normalized = email.strip().lower()
     user = db.users.find_one({"email": normalized})
     if not user:
-        user = db.users.find_one({"email": {"$regex": f"^\s*{re.escape(normalized)}\s*$", "$options": "i"}})
+        user = db.users.find_one({"email": {"$regex": rf"^\s*{re.escape(normalized)}\s*$", "$options": "i"}})
     return user, normalized
 
 
