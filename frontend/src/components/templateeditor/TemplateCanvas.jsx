@@ -211,6 +211,7 @@ function CanvasElement({ element, isSelected, onMouseDown, setElements, scale })
         zIndex: isSelected ? 10 : 1,
         boxSizing: 'border-box',
       }}
+      data-testid={`template-element-${element.id}`}
     >
       {renderContent()}
 
