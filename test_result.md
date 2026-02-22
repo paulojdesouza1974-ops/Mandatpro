@@ -283,7 +283,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Complete Anträge area UI testing - PASSED"
+    - "Motion print button functionality test - PASSED"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
