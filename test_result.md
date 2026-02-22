@@ -291,14 +291,14 @@ backend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.4"
-  test_sequence: 5
+  version: "1.5"
+  test_sequence: 6
   run_ui: true
   last_test_date: "2026-02-22"
 
 test_plan:
   current_focus:
-    - "Motion print view layout verification - PASSED"
+    - "User Registration → Logout → Login flow - PASSED"
   stuck_tasks: []
   test_all: true
   test_priority: "completed"
@@ -306,6 +306,8 @@ test_plan:
 agent_communication:
     - agent: "testing"
       message: "Completed comprehensive E2E UI testing for KommunalCRM. All 4 requested test scenarios passed successfully: 1) Demo login, 2) Motion AI generation, 3) Organization member list, 4) Template logo upload. Application is functioning correctly with no critical issues found."
+    - agent: "testing"
+      message: "2026-02-22: USER REGISTRATION → LOGOUT → LOGIN FLOW TEST COMPLETED SUCCESSFULLY ✅. User requested testing of complete authentication flow: 1) App öffnen, 2) Neuen Nutzer registrieren, 3) Abmelden, 4) Mit denselben Daten erneut einloggen, 5) Prüfen ob Login erfolgreich ist (Dashboard sichtbar), 6) Screenshot vom erfolgreichen Login. TEST RESULTS: ALL STEPS PASSED ✓. Registered new user 'Maria Müller' (test-login-4tsivi@kommunalcrm-test.de) with organization 'SPD Fraktion Teststadt 4tsivi' as Fraktion type → Dashboard appeared with greeting 'Willkommen zurück, Maria' → Logout successful → Re-login with same credentials successful → Dashboard visible again with user's name. Authentication system working perfectly. Registration form validates all fields correctly (name, email, organization, org type, password matching). 4 screenshots captured showing complete flow: registration success, logout state, login form filled, successful re-login dashboard. No critical issues found (only 4 minor font loading errors that don't affect functionality)."
     - agent: "testing"
       message: "2026-02-20: Completed compact UI test with 5 scenarios as requested. All tests PASSED: 1) Login via 'Demo: Verband (mit allen Daten)' ✓, 2) Search page with 'demo' query showing results ✓, 3) MyOrganization SMTP Versand section visible ✓, 4) Support page 'Kein Zugriff' message for demo user ✓, 5) Meetings 'Erinnerung senden' button present in meeting dialog ✓. No critical issues found. Application is fully functional."
     - agent: "testing"
