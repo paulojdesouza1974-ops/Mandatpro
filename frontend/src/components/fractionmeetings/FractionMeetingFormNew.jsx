@@ -241,7 +241,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
                 {formData.attendees.map((email, idx) => (
                   <div key={idx} className="bg-slate-100 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                     {email}
-                    <button type="button" onClick={() => removeAttendee(email)} className="text-slate-400 hover:text-slate-600">×</button>
+                    <button type="button" onClick={() => removeAttendee(email)} className="text-slate-400 hover:text-slate-600" data-testid={`meeting-attendee-remove-${idx}`}>×</button>
                   </div>
                 ))}
               </div>
