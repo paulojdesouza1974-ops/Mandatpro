@@ -48,6 +48,7 @@ const AuthenticatedApp = () => {
         </LayoutWrapper>
       } />
       <Route path="/login" element={<Navigate to="/" replace />} />
+      <Route path="/ResetPassword" element={<ResetPasswordPage />} />
       {Object.entries(Pages).map(([path, Page]) => (
         <Route
           key={path}
