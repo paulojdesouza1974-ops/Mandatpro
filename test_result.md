@@ -251,6 +251,18 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Logo upload in TemplateEditor works correctly. File upload successfully uploads image to /api/uploads/, sets logo_url field, and displays preview in template. Backend file upload endpoint at /api/files/upload is functioning properly."
+  
+  - task: "User Registration → Logout → Login flow"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Login.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Complete user authentication flow tested successfully. Test sequence: 1) Opened app → 2) Registered new user (Maria Müller, test-login-4tsivi@kommunalcrm-test.de, SPD Fraktion Teststadt 4tsivi, organization type: Fraktion) → 3) Verified dashboard appears after registration with 'Willkommen zurück, Maria' greeting → 4) Clicked 'Abmelden' button and successfully logged out → 5) Redirected to login page → 6) Re-logged in with same credentials (email: test-login-4tsivi@kommunalcrm-test.de, password filled) → 7) Verified dashboard appears after login showing user's name. ALL STEPS PASSED ✅. Registration form validation working correctly (name, email, organization, org type selection, password matching). Authentication flow is robust and complete. Screenshots: 01-registration-success-dashboard.png, 02-after-logout-login-page.png, 03-login-form-filled.png, 04-successful-login-dashboard.png. No critical errors found (only 4 minor font loading errors which don't affect functionality)."
 
 backend:
   - task: "AI text generation endpoint"
