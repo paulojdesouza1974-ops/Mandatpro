@@ -177,7 +177,7 @@ export default function AgendaEditor({ items = [], onChange }) {
             className="text-sm"
             data-testid="agenda-new-item-input"
           />
-          <Button type="button" size="sm" variant="outline" onClick={addItem} disabled={!newTitle.trim()}>
+          <Button type="button" size="sm" variant="outline" onClick={addItem} disabled={!newTitle.trim()} data-testid="agenda-add-item-button">
             <Plus className="w-4 h-4" />
           </Button>
         </div>
