@@ -116,7 +116,7 @@ export default function FractionMeetings() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20 text-slate-400">
+        <div className="text-center py-20 text-slate-400" data-testid="meeting-empty-state">
           <CalendarDays className="w-12 h-12 mx-auto mb-3 opacity-30" />
           <p className="font-medium">Keine Sitzungen gefunden</p>
           <p className="text-sm mt-1">Erstellen Sie Ihre erste Fraktionssitzung</p>
