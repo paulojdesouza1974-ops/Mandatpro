@@ -268,15 +268,15 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
             <Button variant="outline" size="sm" onClick={exportInvitationPDF} disabled={exporting} data-testid="meeting-invitation-pdf">
               <Download className="w-4 h-4 mr-1" /> {exporting ? "..." : "PDF"}
             </Button>
-            <Button variant="outline" size="sm" onClick={() => window.print()}>
+            <Button variant="outline" size="sm" onClick={() => window.print()} data-testid="meeting-invitation-print">
               <Printer className="w-4 h-4 mr-1" /> Drucken
             </Button>
-            <Button size="sm" onClick={sendInvitation} disabled={sendingInvite} className="bg-slate-900">
+            <Button size="sm" onClick={sendInvitation} disabled={sendingInvite} className="bg-slate-900" data-testid="meeting-invitation-send">
               <Mail className="w-4 h-4 mr-1" /> {sendingInvite ? "Sende..." : "Einladung versenden"}
             </Button>
           </div>
 
-          <div className="invitation-print-content bg-white border rounded-xl p-8">
+          <div className="invitation-print-content bg-white border rounded-xl p-8" data-testid="meeting-invitation-preview">
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold text-slate-900 mb-2">Einladung zur Fraktionssitzung</h1>
               {meeting.date && (
@@ -310,7 +310,7 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
                 <h3 className="text-lg font-semibold">Live-Protokoll</h3>
                 <p className="text-xs text-slate-400">Abstimmungen und Notizen direkt während der Sitzung erfassen</p>
               </div>
-              <Button size="sm" onClick={handleSaveLive}>
+              <Button size="sm" onClick={handleSaveLive} data-testid="meeting-live-save">
                 <Save className="w-3 h-3 mr-1" /> Speichern
               </Button>
             </div>
@@ -329,7 +329,7 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
             <div className="flex flex-wrap justify-between items-center gap-2">
               <h3 className="text-lg font-semibold">Protokoll</h3>
               <div className="flex flex-wrap gap-2">
-                <Button size="sm" variant="outline" onClick={generateProtocol} disabled={generating}>
+                <Button size="sm" variant="outline" onClick={generateProtocol} disabled={generating} data-testid="meeting-protocol-generate">
                   <Sparkles className="w-3 h-3 mr-1" />
                   {generating ? "Generiere..." : "KI Protokoll"}
                 </Button>
