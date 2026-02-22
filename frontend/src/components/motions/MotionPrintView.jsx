@@ -2,13 +2,12 @@ import React, { useMemo, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import { Printer, X, Download } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/apiClient";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 const DOCUMENT_TYPES = [
   { id: "einzelantrag", label: "Einzelantrag" },
