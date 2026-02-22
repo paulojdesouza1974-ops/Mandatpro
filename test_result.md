@@ -263,6 +263,18 @@ frontend:
         - working: true
           agent: "testing"
           comment: "2026-02-22: Complete user authentication flow tested successfully. Test sequence: 1) Opened app → 2) Registered new user (Maria Müller, test-login-4tsivi@kommunalcrm-test.de, SPD Fraktion Teststadt 4tsivi, organization type: Fraktion) → 3) Verified dashboard appears after registration with 'Willkommen zurück, Maria' greeting → 4) Clicked 'Abmelden' button and successfully logged out → 5) Redirected to login page → 6) Re-logged in with same credentials (email: test-login-4tsivi@kommunalcrm-test.de, password filled) → 7) Verified dashboard appears after login showing user's name. ALL STEPS PASSED ✅. Registration form validation working correctly (name, email, organization, org type selection, password matching). Authentication flow is robust and complete. Screenshots: 01-registration-success-dashboard.png, 02-after-logout-login-page.png, 03-login-form-filled.png, 04-successful-login-dashboard.png. No critical errors found (only 4 minor font loading errors which don't affect functionality)."
+  
+  - task: "Password Reset functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/Login.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22: Password reset feature tested successfully with complete end-to-end flow. Test sequence: 1) Opened app (Login page) ✓ → 2) Registered new user (test-reset-2ztyvo@kommunalcrm-test.de) with initial password 'InitialPass123' ✓ → 3) Logged out successfully ✓ → 4) Clicked 'Passwort vergessen?' link and password reset dialog opened ✓ → 5) Filled reset form with email, new password 'NewSecurePass456', and password confirmation ✓ → 6) Submitted form and received success message 'Passwort aktualisiert. Bitte melden Sie sich jetzt an.' ✓ → 7) Filled login form with email and NEW password ✓ → 8) Successfully logged in with new password and dashboard appeared ✓. Backend endpoint /api/auth/reset-password returned 200 OK. Backend logs confirm: registration (200), password reset (200), login with new password (200), dashboard data loaded (200). All UI elements working correctly: reset dialog (data-testid='reset-dialog'), email input (data-testid='reset-email-input'), password inputs (data-testid='reset-password-input', 'reset-password-confirm-input'), submit button (data-testid='reset-submit-button'). Form validation working (email format, password length >= 6, password matching). Screenshots captured: 01-reset-dialog-opened.png, 02-reset-form-filled.png, 03-login-with-new-password.png, 04-successful-login-dashboard.png showing dashboard with 'Willkommen zurück, Test' greeting. NO CRITICAL ISSUES. Password reset feature is fully functional and working perfectly."
 
 backend:
   - task: "AI text generation endpoint"
