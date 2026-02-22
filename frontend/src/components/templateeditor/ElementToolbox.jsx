@@ -46,6 +46,7 @@ export default function ElementToolbox({ onAdd }) {
             draggable
             onDragStart={(e) => handleDragStart(e, tool.type)}
             className="flex flex-col items-center gap-1 p-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition-colors cursor-grab active:cursor-grabbing"
+            data-testid={`template-tool-${tool.type}`}
           >
             <tool.icon className="w-5 h-5 text-slate-600" />
             <span className="text-xs text-slate-600">{tool.label}</span>
