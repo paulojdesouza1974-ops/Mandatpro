@@ -133,6 +133,20 @@ export default function MotionPrintView({ motion, open, onClose }) {
         width: 100% !important;
         box-sizing: border-box;
       }
+      #motion-print-root table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      #motion-print-root thead {
+        display: table-header-group;
+      }
+      #motion-print-root tfoot {
+        display: table-footer-group;
+      }
+      #motion-print-root .avoid-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
       @media print {
         body * {
           visibility: hidden !important;
