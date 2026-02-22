@@ -253,7 +253,7 @@ def resolve_org_for_email(email: str):
     return org.get("name"), org.get("org_type")
 
 
-def log_system_event(event_type: str, message: str, meta: dict | None = None, user_id: str | None = None):
+def log_system_event(event_type: str, message: str, meta: Optional[dict] = None, user_id: Optional[str] = None):
     db.system_logs.insert_one({
         "event_type": event_type,
         "message": message,
