@@ -232,6 +232,86 @@ def get_current_user(token: Optional[str] = None):
     user = db.users.find_one({"_id": ObjectId(user_id)})
     return serialize_doc(user) if user else None
 
+
+def find_user_by_email(email: str):
+    normalized = email.strip().lower()
+    user = db.users.find_one({"email": normalized})
+    if not user:
+        user = db.users.find_one({"email": {"$regex": f"^\s*{re.escape(normalized)}\s*$", "$options": "i"}})
+    return user, normalized
+
+
+def resolve_org_for_email(email: str):
+    if "@" not in email:
+        return None, None
+    domain = email.split("@")[-1].lower()
+    org = db.organizations.find_one({"email_domain": domain})
+    if not org:
+        org = db.organizations.find_one({"email": {"$regex": f"@{re.escape(domain)}$", "$options": "i"}})
+    if not org:
+        return None, None
+    return org.get("name"), org.get("org_type")
+
+
+def log_system_event(event_type: str, message: str, meta: dict | None = None, user_id: str | None = None):
+    db.system_logs.insert_one({
+        "event_type": event_type,
+        "message": message,
+        "meta": meta or {},
+        "user_id": user_id,
+        "created_date": datetime.now(timezone.utc).isoformat(),
+    })
+
+
+def create_password_reset_token(user_id: str):
+    raw_token = secrets.token_urlsafe(32)
+    token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
+    expires_at = datetime.now(timezone.utc) + timedelta(hours=2)
+
+    db.password_reset_tokens.delete_many({"user_id": user_id})
+    db.password_reset_tokens.insert_one({
+        "user_id": user_id,
+        "token_hash": token_hash,
+        "expires_at": expires_at.isoformat(),
+        "created_date": datetime.now(timezone.utc).isoformat(),
+    })
+    return raw_token
+
+
+def get_frontend_url():
+    frontend_url = os.environ.get("FRONTEND_URL")
+    if not frontend_url:
+        raise HTTPException(status_code=500, detail="FRONTEND_URL ist nicht konfiguriert")
+    return frontend_url.rstrip('/')
+
+
+def ensure_app_owner_user(email: str):
+    app_settings = db.app_settings.find_one() or {}
+    owner_email = (app_settings.get("app_owner_email") or "").strip().lower()
+    if not owner_email or owner_email != email:
+        return None
+
+    existing = db.users.find_one({"email": owner_email})
+    if existing:
+        return existing
+
+    org_name, org_type = resolve_org_for_email(owner_email)
+    user_doc = {
+        "email": owner_email,
+        "password": hash_password(secrets.token_urlsafe(16)),
+        "full_name": app_settings.get("app_owner_name") or "App Owner",
+        "city": None,
+        "organization": org_name,
+        "org_type": org_type or "fraktion",
+        "role": "admin",
+        "created_date": datetime.now(timezone.utc).isoformat(),
+    }
+    result = db.users.insert_one(user_doc)
+    user_doc["_id"] = result.inserted_id
+    return user_doc
+
+
+
 logger = logging.getLogger("kommunalcrm")
 reminder_scheduler_started = False
 
