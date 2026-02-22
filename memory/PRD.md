@@ -294,6 +294,15 @@ User requested to improve an existing German municipal CRM application called "K
   - Alte Klartext-Passwörter werden beim Login automatisch auf Hash migriert
 ## Recent Updates (2026-02-22)
 - **Passwort-Reset (E-Mail-Link)**
+- **Druckvorlagen (neuer Editor aus ZIP)**
+  - Drag&Drop-Elemente (Text, Bild, Linie, Antragsbox, Empfänger)
+  - Speichern in PrintTemplates + Custom CSS
+- **Fraktionssitzungen (ZIP-Übernahme)**
+  - Neue Meeting-Formulare/Detailansicht + Live-Protokoll
+  - Einladungstext per KI (generate-invitation)
+  - Dokumentanalyse im Agenda-Upload ist **MOCKED**
+- **data-testid** für neue Komponenten ergänzt
+
   - Neuer Flow: `/api/auth/request-password-reset` + `/api/auth/confirm-password-reset`
   - Reset-Link führt auf `/ResetPassword` (Frontend)
   - App-Owner wird bei Bedarf automatisch erstellt (falls in AppSettings gesetzt)
@@ -327,4 +336,3 @@ User requested to improve an existing German municipal CRM application called "K
 | Admin-Konsole | ✅ Working | Owner/Support Zugriff + Logs |
 | Passwort-Reset | ✅ Working | E-Mail-Link /ResetPassword |
 | Data Persistence | ✅ Working | Seed-Logik nicht-destruktiv |
-
