@@ -159,6 +159,7 @@ export default function AgendaEditor({ items = [], onChange }) {
                 type="button"
                 onClick={() => removeItem(idx)}
                 className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all shrink-0"
+                data-testid={`agenda-item-remove-${idx}`}
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
