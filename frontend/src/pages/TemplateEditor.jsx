@@ -178,7 +178,7 @@ export default function TemplateEditor() {
         </div>
 
         {selectedTemplateId !== 'new' && currentTemplate && (
-          <Button size="sm" variant="outline" onClick={() => setDefaultMutation.mutate(selectedTemplateId)} disabled={currentTemplate?.is_default}>
+          <Button size="sm" variant="outline" onClick={() => setDefaultMutation.mutate(selectedTemplateId)} disabled={currentTemplate?.is_default} data-testid="template-set-default">
             <Star className={`w-3 h-3 mr-1 ${currentTemplate?.is_default ? 'fill-yellow-400 text-yellow-400' : ''}`} />
             {currentTemplate?.is_default ? 'Standard' : 'Als Standard'}
           </Button>
@@ -187,12 +187,12 @@ export default function TemplateEditor() {
         {selectedTemplateId !== 'new' && (
           <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-700" onClick={() => {
             if (confirm('Vorlage wirklich löschen?')) deleteMutation.mutate(selectedTemplateId);
-          }}>
+          }} data-testid="template-delete-button">
             <Trash2 className="w-4 h-4" />
           </Button>
         )}
 
-        <Button size="sm" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="bg-blue-600 hover:bg-blue-700">
+        <Button size="sm" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="bg-blue-600 hover:bg-blue-700" data-testid="template-save-button">
           <Save className="w-3 h-3 mr-1" />
           {saveMutation.isPending ? 'Speichern...' : 'Speichern'}
         </Button>
