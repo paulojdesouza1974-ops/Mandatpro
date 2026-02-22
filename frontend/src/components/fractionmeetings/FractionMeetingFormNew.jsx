@@ -249,10 +249,10 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t">
-            <Button variant="outline" onClick={onClose} disabled={saving}>
+            <Button variant="outline" onClick={onClose} disabled={saving} data-testid="meeting-form-cancel">
               <X className="w-4 h-4 mr-2" /> Abbrechen
             </Button>
-            <Button onClick={handleSave} disabled={!formData.title || !formData.date || saving}>
+            <Button onClick={handleSave} disabled={!formData.title || !formData.date || saving} data-testid="meeting-form-save">
               <Save className="w-4 h-4 mr-2" />
               {saving ? "Wird gespeichert..." : "Speichern"}
             </Button>
