@@ -136,7 +136,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
           </div>
           <div>
             <Label className="text-xs">oder Bild-URL</Label>
-            <Input value={element.src || ''} onChange={e => update('src', e.target.value)} placeholder="https://..." className="mt-1 text-xs" />
+            <Input value={element.src || ''} onChange={e => update('src', e.target.value)} placeholder="https://..." className="mt-1 text-xs" data-testid="template-element-image-url" />
           </div>
         </>
       )}
