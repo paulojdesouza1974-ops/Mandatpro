@@ -101,7 +101,7 @@ export default function AgendaEditor({ items = [], onChange }) {
             data-testid="agenda-upload-input"
           />
           <Button type="button" size="sm" variant="outline" disabled={uploading} asChild>
-            <span>
+            <span data-testid="agenda-upload-button">
               {uploading
                 ? <><Sparkles className="w-3 h-3 mr-1 animate-spin" /> Analysiere...</>
                 : <><Upload className="w-3 h-3 mr-1" /> PDF/Antrag</>
