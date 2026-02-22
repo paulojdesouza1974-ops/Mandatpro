@@ -139,7 +139,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" data-testid="fraction-meeting-form-dialog">
         <DialogHeader>
           <DialogTitle>{meeting ? "Fraktionssitzung bearbeiten" : "Neue Fraktionssitzung"}</DialogTitle>
         </DialogHeader>
