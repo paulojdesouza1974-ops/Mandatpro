@@ -108,11 +108,11 @@ WICHTIG:
 - Formuliere Abstimmungsergebnisse klar (einstimmig/mehrheitlich)
 - Halte den Ton formal und präzise`;
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt,
-      });
+      const response = await base44.ai.generateText(prompt, "meeting");
 
-      setProtocol(response);
+      if (response?.content) {
+        setProtocol(response.content);
+      }
     } catch (error) {
       console.error('Fehler beim Generieren:', error);
       alert('Fehler beim Generieren des Protokolls');
