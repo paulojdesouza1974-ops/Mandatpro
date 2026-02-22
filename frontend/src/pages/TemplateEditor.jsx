@@ -133,7 +133,7 @@ export default function TemplateEditor() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-slate-100 overflow-hidden" style={{ marginLeft: '-1rem', marginTop: '-1rem', marginRight: '-1rem' }}>
+    <div className="h-screen flex flex-col bg-slate-100 overflow-hidden" style={{ marginLeft: '-1rem', marginTop: '-1rem', marginRight: '-1rem' }} data-testid="template-editor-page">
       {/* Top Bar */}
       <div className="bg-white border-b px-4 py-2 flex items-center gap-3 flex-shrink-0 shadow-sm">
         <FileText className="w-5 h-5 text-slate-600" />
