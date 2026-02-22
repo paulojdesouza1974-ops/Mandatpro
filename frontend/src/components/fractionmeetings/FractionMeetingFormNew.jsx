@@ -232,6 +232,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
                 onChange={(e) => setAttendeeInput(e.target.value)}
                 placeholder="name@example.com"
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addAttendee())}
+                data-testid="meeting-attendee-input"
               />
               <Button type="button" onClick={addAttendee} variant="outline">Hinzufügen</Button>
             </div>
