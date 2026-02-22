@@ -107,6 +107,13 @@ const auth = {
     return result.user;
   },
 
+  async resetPassword(email, newPassword) {
+    return request('/api/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ email, new_password: newPassword }),
+    });
+  },
+
   async logout() {
     await request('/api/auth/logout', { method: 'POST' }).catch(() => {});
     setToken(null);
