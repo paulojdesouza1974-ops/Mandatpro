@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Trash2, GripVertical, Upload, Sparkles, FileText } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 
 // Items are split into: fixed_start | custom/motion | fixed_end
 // The user can only add/remove/reorder items in the middle section.

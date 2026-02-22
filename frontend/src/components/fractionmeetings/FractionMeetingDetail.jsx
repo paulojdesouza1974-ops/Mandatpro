@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import FractionMeetingFormNew from "./FractionMeetingFormNew";
 import LiveProtocol from "./LiveProtocol";
