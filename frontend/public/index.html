@@ -21,9 +21,21 @@
         work correctly both with client-side routing and a non-root public URL.
         Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Emergent | Fullstack App</title>
+        <title>KommunalCRM</title>
+        <script>
+            window.__isEmergentHost =
+                /(^|\.)emergentagent\.com$/.test(window.location.hostname) ||
+                /(^|\.)emergentcf\.cloud$/.test(window.location.hostname) ||
+                /(^|\.)emergent\.sh$/.test(window.location.hostname);
+        </script>
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
-        <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
+        <script>
+            if (window.__isEmergentHost) {
+                var emergentMain = document.createElement('script');
+                emergentMain.src = 'https://assets.emergent.sh/scripts/emergent-main.js';
+                document.head.appendChild(emergentMain);
+            }
+        </script>
         <!--
         These two scripts have been added for the Visual Edits, please do not edit or remove them
         -->
