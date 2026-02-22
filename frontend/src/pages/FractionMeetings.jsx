@@ -128,12 +128,15 @@ export default function FractionMeetings() {
               key={meeting.id}
               onClick={() => setSelectedMeeting(meeting)}
               className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-md hover:border-slate-300 cursor-pointer transition-all group"
+              data-testid={`meeting-card-${meeting.id}`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-slate-900 truncate">{meeting.title}</h3>
-                    <Badge className={statusColors[meeting.status] || "bg-slate-100 text-slate-700"}>
+                    <h3 className="font-semibold text-slate-900 truncate" data-testid={`meeting-title-${meeting.id}`}>
+                      {meeting.title}
+                    </h3>
+                    <Badge className={statusColors[meeting.status] || "bg-slate-100 text-slate-700"} data-testid={`meeting-status-${meeting.id}`}>
                       {statusLabels[meeting.status] || meeting.status}
                     </Badge>
                   </div>
