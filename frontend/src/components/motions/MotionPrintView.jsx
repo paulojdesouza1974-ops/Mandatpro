@@ -34,6 +34,7 @@ const mapMotionTypeToDocType = (type) => {
 const shouldPrependTitle = (body) => !/^\s*(Antrag|Anfrage|Beschluss|Resolution)/i.test(body || "");
 
 export default function MotionPrintView({ motion, open, onClose }) {
+  const { toast } = useToast();
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [exporting, setExporting] = useState(false);
 
