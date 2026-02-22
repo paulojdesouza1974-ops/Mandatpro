@@ -319,7 +319,21 @@ async def login(credentials: UserLogin):
                 {"$set": {"password": expected_hash, "updated_date": datetime.now(timezone.utc).isoformat()}}
             )
         else:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
+            # Legacy fallback: bcrypt hashes
+            if isinstance(stored_password, str) and stored_password.startswith("$2"):
+                try:
+                    import bcrypt
+                    if bcrypt.checkpw(credentials.password.encode("utf-8"), stored_password.encode("utf-8")):
+                        db.users.update_one(
+                            {"_id": user["_id"]},
+                            {"$set": {"password": expected_hash, "updated_date": datetime.now(timezone.utc).isoformat()}}
+                        )
+                    else:
+                        raise HTTPException(status_code=401, detail="Invalid credentials")
+                except ImportError:
+                    raise HTTPException(status_code=500, detail="bcrypt not installed")
+            else:
+                raise HTTPException(status_code=401, detail="Invalid credentials")
 
     if user.get("email") != normalized_email:
         db.users.update_one(
