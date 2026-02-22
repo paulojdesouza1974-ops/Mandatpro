@@ -111,10 +111,13 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
     if (!protocol) return;
     setExtracting(true);
     try {
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `Extrahiere alle Beschlüsse und Entscheidungen aus dem folgenden Protokoll. Format: • [TOP/Thema]: [Beschluss] - [Abstimmungsergebnis]\n\nProtokoll:\n${protocol}`,
-      });
-      setProtocol(protocol + '\n\n---\n\nWICHTIGE BESCHLÜSSE:\n\n' + response);
+      const response = await base44.ai.generateText(
+        `Extrahiere alle Beschlüsse und Entscheidungen aus dem folgenden Protokoll. Format: • [TOP/Thema]: [Beschluss] - [Abstimmungsergebnis]\n\nProtokoll:\n${protocol}`,
+        "meeting"
+      );
+      if (response?.content) {
+        setProtocol(protocol + '\n\n---\n\nWICHTIGE BESCHLÜSSE:\n\n' + response.content);
+      }
     } catch (err) {
       console.error(err);
     } finally {
