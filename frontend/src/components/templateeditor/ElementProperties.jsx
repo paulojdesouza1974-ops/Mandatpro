@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Trash2, Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/apiClient";
 
 export default function ElementProperties({ element, setElements, onDelete }) {
   if (!element) {
