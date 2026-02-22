@@ -30,8 +30,6 @@ export default function LoginPage() {
 
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
-  const [resetPassword, setResetPassword] = useState("");
-  const [resetPasswordConfirm, setResetPasswordConfirm] = useState("");
   const [resetLoading, setResetLoading] = useState(false);
   const [resetError, setResetError] = useState(null);
   const [resetSuccess, setResetSuccess] = useState(null);
