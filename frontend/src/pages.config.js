@@ -68,6 +68,7 @@ import Organizations from './pages/Organizations';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Profile from './pages/Profile';
+import ResetPassword from './pages/ResetPassword';
 import Reporting from './pages/Reporting';
 import Search from './pages/Search';
 import Support from './pages/Support';
@@ -103,6 +104,7 @@ export const PAGES = {
     "Privacy": Privacy,
     "Terms": Terms,
     "Profile": Profile,
+    "ResetPassword": ResetPassword,
     "Reporting": Reporting,
     "Search": Search,
     "Support": Support,
