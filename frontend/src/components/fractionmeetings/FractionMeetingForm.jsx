@@ -159,12 +159,12 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
           <div>
             <Label>Status</Label>
             <Select value={formData.status} onValueChange={(v) => update("status", v)}>
-              <SelectTrigger>
+              <SelectTrigger data-testid="meeting-form-status">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                  <SelectItem key={opt.value} value={opt.value} data-testid={`meeting-status-option-${opt.value}`}>{opt.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -177,6 +177,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
               onChange={(e) => update("agenda", e.target.value)}
               placeholder="1. Begrüßung&#10;2. Protokoll der letzten Sitzung&#10;3. ..."
               rows={5}
+              data-testid="meeting-form-agenda"
             />
           </div>
 
@@ -189,6 +190,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                 variant="outline"
                 onClick={generateInvitation}
                 disabled={!formData.title || !formData.agenda || generatingInvitation}
+                data-testid="meeting-form-generate-invitation"
               >
                 <Sparkles className="w-3 h-3 mr-1" />
                 {generatingInvitation ? "Generiere..." : "Mit KI generieren"}
@@ -199,6 +201,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
               onChange={(e) => update("invitation_text", e.target.value)}
               placeholder="Einladungstext für E-Mail..."
               rows={8}
+              data-testid="meeting-form-invitation-text"
             />
           </div>
 
@@ -210,8 +213,9 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                 onChange={(e) => setAttendeeInput(e.target.value)}
                 placeholder="name@example.com"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAttendee())}
+                data-testid="meeting-form-attendee-input"
               />
-              <Button type="button" onClick={addAttendee}>Hinzufügen</Button>
+              <Button type="button" onClick={addAttendee} data-testid="meeting-form-attendee-add">Hinzufügen</Button>
             </div>
             {formData.attendees && formData.attendees.length > 0 && (
               <div className="flex flex-wrap gap-2">
@@ -221,7 +225,7 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
                     <button
                       type="button"
                       onClick={() => removeAttendee(email)}
-                      className="text-slate-500 hover:text-slate-700"
+                      className="text-slate-500 hover:text-slate-700" data-testid={`meeting-form-attendee-remove-${idx}`}
                     >
                       ×
                     </button>
@@ -232,13 +236,14 @@ Die Einladung soll förmlich und professionell sein, aber auch freundlich. Füge
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t">
-            <Button variant="outline" onClick={onClose} disabled={saving}>
+            <Button variant="outline" onClick={onClose} disabled={saving} data-testid="meeting-form-cancel">
               <X className="w-4 h-4 mr-2" />
               Abbrechen
             </Button>
             <Button
               onClick={() => onSave(formData)}
               disabled={!formData.title || !formData.date || saving}
+              data-testid="meeting-form-save"
             >
               <Save className="w-4 h-4 mr-2" />
               {saving ? "Wird gespeichert..." : "Speichern"}
