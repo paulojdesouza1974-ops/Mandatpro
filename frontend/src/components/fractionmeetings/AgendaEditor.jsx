@@ -9,6 +9,7 @@ import { base44 } from "@/api/apiClient";
 // The user can only add/remove/reorder items in the middle section.
 
 export default function AgendaEditor({ items = [], onChange }) {
+  const { toast } = useToast();
   const [newTitle, setNewTitle] = useState("");
   const [uploading, setUploading] = useState(false);
   const [dragIndex, setDragIndex] = useState(null); // index within middle items
