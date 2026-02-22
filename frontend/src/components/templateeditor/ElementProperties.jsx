@@ -150,7 +150,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
           </div>
           <div>
             <Label className="text-xs">Farbe</Label>
-            <Input type="color" value={element.color || '#000000'} onChange={e => update('color', e.target.value)} className="h-8 mt-1 w-14 p-1" />
+            <Input type="color" value={element.color || '#000000'} onChange={e => update('color', e.target.value)} className="h-8 mt-1 w-14 p-1" data-testid="template-element-line-color" />
           </div>
         </div>
       )}
