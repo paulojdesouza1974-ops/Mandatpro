@@ -292,6 +292,7 @@ User requested to improve an existing German municipal CRM application called "K
 - **Login-Fix (Case-Insensitive + Legacy-Passwörter)**
   - Login akzeptiert E-Mails unabhängig von Groß/Kleinschreibung
   - Alte Klartext-Passwörter werden beim Login automatisch auf Hash migriert
+## Recent Updates (2026-02-22)
 - **Passwort-Reset (E-Mail-Link)**
   - Neuer Flow: `/api/auth/request-password-reset` + `/api/auth/confirm-password-reset`
   - Reset-Link führt auf `/ResetPassword` (Frontend)
