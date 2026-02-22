@@ -175,11 +175,11 @@ Format für jeden Beschluss:
 
 Liste ALLE beschlossenen Anträge, Entscheidungen und Abstimmungen auf.`;
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt,
-      });
+      const response = await base44.ai.generateText(prompt, "meeting");
 
-      setProtocol(protocol + '\n\n---\n\nWICHTIGE BESCHLÜSSE:\n\n' + response);
+      if (response?.content) {
+        setProtocol(protocol + '\n\n---\n\nWICHTIGE BESCHLÜSSE:\n\n' + response.content);
+      }
     } catch (error) {
       console.error('Fehler beim Extrahieren:', error);
       alert('Fehler beim Extrahieren der Beschlüsse');
