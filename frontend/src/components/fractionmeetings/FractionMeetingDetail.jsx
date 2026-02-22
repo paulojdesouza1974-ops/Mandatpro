@@ -93,10 +93,13 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
     if (!protocol) return;
     setSummarizing(true);
     try {
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `Erstelle eine prägnante Zusammenfassung (max. 300 Wörter) des folgenden Protokolls mit: wichtigste Themen, Entscheidungen, nächste Schritte.\n\nProtokoll:\n${protocol}`,
-      });
-      setProtocol(protocol + '\n\n---\n\nZUSAMMENFASSUNG:\n\n' + response);
+      const response = await base44.ai.generateText(
+        `Erstelle eine prägnante Zusammenfassung (max. 300 Wörter) des folgenden Protokolls mit: wichtigste Themen, Entscheidungen, nächste Schritte.\n\nProtokoll:\n${protocol}`,
+        "meeting"
+      );
+      if (response?.content) {
+        setProtocol(protocol + '\n\n---\n\nZUSAMMENFASSUNG:\n\n' + response.content);
+      }
     } catch (err) {
       console.error(err);
     } finally {
