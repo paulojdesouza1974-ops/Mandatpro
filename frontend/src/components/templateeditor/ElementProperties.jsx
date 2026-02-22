@@ -68,6 +68,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
               onChange={e => update('content', e.target.value)}
               rows={4}
               className="mt-1 text-sm"
+              data-testid="template-element-content-textarea"
             />
           </div>
 
