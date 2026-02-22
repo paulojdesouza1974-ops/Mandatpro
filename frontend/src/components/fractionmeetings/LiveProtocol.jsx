@@ -42,6 +42,8 @@ const VOTE_OPTIONS = [
 // TOPs that are not votable (only speaker is recorded)
 const NON_VOTABLE_TYPES = ["fixed_start", "fixed", "fixed_end"];
 
+const toTestId = (value) => (value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
 function TopBlock({ topLabel, item, members, topData, onChange }) {
   const [open, setOpen] = useState(false);
 
@@ -51,6 +53,7 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
   const speaker = topData.speaker || "";
 
   const isVotable = !NON_VOTABLE_TYPES.includes(item.type);
+  const topId = toTestId(topLabel);
   const isDiscussionTopic = !["TOP 1", "TOP 2"].includes(topLabel);
   const isElectionTopic = ["TOP 3", "TOP 4", "TOP 5", "TOP 6", "TOP 7"].includes(topLabel);
   const isNotesOnlyTopic = ["TOP 8", "TOP 9"].includes(topLabel);
@@ -71,12 +74,13 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
   const totalVoted = Object.values(votes).filter(Boolean).length;
 
   return (
-    <div className={`border rounded-xl overflow-hidden transition-all ${done ? "border-green-200 bg-green-50/30" : "border-slate-200 bg-white"}`}>
+    <div className={`border rounded-xl overflow-hidden transition-all ${done ? "border-green-200 bg-green-50/30" : "border-slate-200 bg-white"}`} data-testid={`live-protocol-${topId}`}>
       {/* Header */}
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors"
+        data-testid={`live-protocol-${topId}-toggle`}
       >
         {done
           ? <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
@@ -111,6 +115,7 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
                  placeholder="z.B. der Fraktionsvorsitzer Bodo Gilz begrüßt alle mitglieder..."
                  rows={2}
                  className="text-sm"
+                 data-testid={`live-protocol-${topId}-speaker`}
                />
              </div>
            )}
@@ -125,6 +130,7 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
                 placeholder="Namen der Kandidaten eingeben (eine pro Zeile)"
                 rows={2}
                 className="text-sm"
+                data-testid={`live-protocol-${topId}-candidates`}
               />
             </div>
           )}
@@ -136,7 +142,9 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
                 <UserCheck className="w-3 h-3" /> Abstimmung
               </p>
               <div className="space-y-1.5">
-                {members.map((member) => (
+                {members.map((member) => {
+                  const memberId = toTestId(member);
+                  return (
                   <div key={member} className="flex items-center gap-2">
                     <span className="text-sm text-slate-700 w-40 shrink-0 truncate">{member}</span>
                     <div className="flex gap-1 flex-wrap">
@@ -148,6 +156,7 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
                             key={opt.value}
                             type="button"
                             onClick={() => setVote(member, active ? null : opt.value)}
+                            data-testid={`live-protocol-${topId}-vote-${memberId}-${opt.value}`}
                             className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border transition-all
                               ${active
                                 ? opt.value === "dafür" ? "bg-green-100 border-green-400 text-green-700"
@@ -164,7 +173,8 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
                       })}
                     </div>
                   </div>
-                ))}
+                );
+                })}
               </div>
 
               {/* Summary */}
@@ -189,6 +199,7 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
                 placeholder="Diskussionspunkte, Ergebnisse..."
                 rows={3}
                 className="text-sm"
+                data-testid={`live-protocol-${topId}-notes`}
               />
             </div>
           )}
@@ -201,6 +212,7 @@ function TopBlock({ topLabel, item, members, topData, onChange }) {
               variant={done ? "default" : "outline"}
               className={done ? "bg-green-600 hover:bg-green-700" : ""}
               onClick={toggleDone}
+              data-testid={`live-protocol-${topId}-done`}
             >
               <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
               {done ? "Erledigt" : "Als erledigt markieren"}
@@ -216,7 +228,7 @@ export default function LiveProtocol({ meeting, members = [], topData, onChange 
   const items = meeting.agenda_items || [];
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" data-testid="live-protocol">
       {items.map((item, i) => {
         const label = getTopLabel(items, i);
         const key = `top_${i}`;
