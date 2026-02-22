@@ -132,7 +132,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
             <Label className="text-xs">Bild hochladen</Label>
             <Input type="file" accept="image/*" className="mt-1 text-xs" onChange={e => {
               if (e.target.files[0]) handleImageUpload(e.target.files[0]);
-            }} />
+            }} data-testid="template-element-image-upload" />
           </div>
           <div>
             <Label className="text-xs">oder Bild-URL</Label>
