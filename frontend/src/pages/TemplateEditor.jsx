@@ -161,6 +161,7 @@ export default function TemplateEditor() {
           onChange={e => setTemplateName(e.target.value)}
           className="h-8 w-48 text-sm"
           placeholder="Vorlagenname"
+          data-testid="template-name-input"
         />
 
         <div className="flex-1" />
