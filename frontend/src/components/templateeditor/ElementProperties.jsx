@@ -108,8 +108,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
               </Button>
               <Button size="sm" variant={element.italic ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('italic', !element.italic)} data-testid="template-element-italic">                <Italic className="w-3 h-3" />
               </Button>
-              <Button size="sm" variant={element.underline ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('underline', !element.underline)}>
-                <Underline className="w-3 h-3" />
+              <Button size="sm" variant={element.underline ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('underline', !element.underline)} data-testid="template-element-underline">                <Underline className="w-3 h-3" />
               </Button>
               <div className="w-px bg-slate-200 mx-1" />
               <Button size="sm" variant={element.align === 'left' || !element.align ? 'default' : 'outline'} className="w-8 h-8 p-0" onClick={() => update('align', 'left')}>
