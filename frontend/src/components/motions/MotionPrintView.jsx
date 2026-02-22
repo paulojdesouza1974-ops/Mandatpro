@@ -212,11 +212,14 @@ export default function MotionPrintView({ motion, open, onClose }) {
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
+      const marginX = 25;
+      const marginY = 20;
+      const contentWidth = pageWidth - marginX * 2;
 
-      const headerHeight = headerCanvas ? (headerCanvas.height * pageWidth) / headerCanvas.width : 0;
-      const footerHeight = footerCanvas ? (footerCanvas.height * pageWidth) / footerCanvas.width : 0;
-      const bodyImgHeight = (bodyCanvas.height * pageWidth) / bodyCanvas.width;
-      const availableHeight = Math.max(pageHeight - headerHeight - footerHeight, pageHeight);
+      const headerHeight = headerCanvas ? (headerCanvas.height * contentWidth) / headerCanvas.width : 0;
+      const footerHeight = footerCanvas ? (footerCanvas.height * contentWidth) / footerCanvas.width : 0;
+      const bodyImgHeight = (bodyCanvas.height * contentWidth) / bodyCanvas.width;
+      const availableHeight = Math.max(pageHeight - marginY * 2 - headerHeight - footerHeight, pageHeight - marginY * 2);
 
       const headerImg = headerCanvas ? headerCanvas.toDataURL('image/png') : null;
       const bodyImg = bodyCanvas.toDataURL('image/png');
@@ -229,12 +232,13 @@ export default function MotionPrintView({ motion, open, onClose }) {
           pdf.addPage();
         }
         if (headerImg) {
-          pdf.addImage(headerImg, 'PNG', 0, 0, pageWidth, headerHeight);
+          pdf.addImage(headerImg, 'PNG', marginX, marginY, contentWidth, headerHeight);
         }
         if (footerImg) {
-          pdf.addImage(footerImg, 'PNG', 0, pageHeight - footerHeight, pageWidth, footerHeight);
+          pdf.addImage(footerImg, 'PNG', marginX, pageHeight - marginY - footerHeight, contentWidth, footerHeight);
         }
-        pdf.addImage(bodyImg, 'PNG', 0, headerHeight - position, pageWidth, bodyImgHeight);
+        const bodyY = marginY + headerHeight;
+        pdf.addImage(bodyImg, 'PNG', marginX, bodyY - position, contentWidth, bodyImgHeight);
         position += availableHeight;
         page += 1;
       }
