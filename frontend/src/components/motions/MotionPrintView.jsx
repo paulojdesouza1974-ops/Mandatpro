@@ -409,6 +409,83 @@ export default function MotionPrintView({ motion, open, onClose }) {
             )}
           </table>
         </div>
+
+        <style>{`
+          .motion-print-content {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #222;
+            background: #fff;
+            padding: 40px;
+          }
+          .motion-print-content .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+          }
+          .motion-print-content .header-logo {
+            width: 120px;
+            height: auto;
+          }
+          .motion-print-content .header-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0072c6;
+          }
+          .motion-print-content .header-subtitle {
+            font-size: 1em;
+            color: #333;
+            font-style: italic;
+          }
+          .motion-print-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+          }
+          .motion-print-content .doc-type-table {
+            margin: 0;
+            width: 260px;
+          }
+          .motion-print-content th,
+          .motion-print-content td {
+            border: 1px solid #bbb;
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 1em;
+          }
+          .motion-print-content th {
+            background: #f2f2f2;
+            font-weight: bold;
+          }
+          .motion-print-content .section-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 24px 0 8px 0;
+            color: #0072c6;
+          }
+          .motion-print-content .bold {
+            font-weight: bold;
+          }
+          .motion-print-content .italic {
+            font-style: italic;
+          }
+          .motion-print-content .signature-table {
+            margin-top: 40px;
+            width: 60%;
+          }
+          .motion-print-content .signature-table th {
+            font-size: 1em;
+            font-weight: normal;
+            text-align: left;
+            border: none;
+            background: none;
+          }
+          .motion-print-content .footer {
+            margin-top: 40px;
+            font-size: 0.95em;
+            color: #666;
+          }
+        `}</style>
         
       </DialogContent>
     </Dialog>
