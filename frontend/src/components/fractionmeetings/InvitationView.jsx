@@ -145,11 +145,11 @@ ${protocol}
 
 Halte die Zusammenfassung kurz und auf das Wesentliche fokussiert (max. 300 Wörter).`;
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt,
-      });
+      const response = await base44.ai.generateText(prompt, "meeting");
 
-      setProtocol(protocol + '\n\n---\n\nZUSAMMENFASSUNG:\n\n' + response);
+      if (response?.content) {
+        setProtocol(protocol + '\n\n---\n\nZUSAMMENFASSUNG:\n\n' + response.content);
+      }
     } catch (error) {
       console.error('Fehler beim Zusammenfassen:', error);
       alert('Fehler beim Zusammenfassen des Protokolls');
