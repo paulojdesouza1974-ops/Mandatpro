@@ -70,6 +70,7 @@ export default function TemplateCanvas({ elements, setElements, selectedId, setS
           onClick={handleCanvasClick}
           className="bg-white shadow-2xl relative select-none"
           style={{ width: pageW, height: pageH, position: 'relative', overflow: 'hidden' }}
+          data-testid="template-canvas"
         >
           {/* Page margin guides */}
           <div style={{
