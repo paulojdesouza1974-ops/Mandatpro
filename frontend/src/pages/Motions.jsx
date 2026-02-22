@@ -210,7 +210,25 @@ export default function Motions() {
 
   const updateField = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
+  const validateMotion = () => {
+    const missing = [];
+    if (!formData.title?.trim()) missing.push("Titel");
+    if (!formData.type) missing.push("Art");
+    if (!formData.body?.trim()) missing.push("Antragstext");
+
+    if (missing.length > 0) {
+      toast({
+        title: "Pflichtfelder fehlen",
+        description: `Bitte ergänzen: ${missing.join(", ")}`,
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSave = () => {
+    if (!validateMotion()) return;
     saveMutation.mutate(formData);
   };
 
