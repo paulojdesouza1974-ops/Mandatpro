@@ -22,7 +22,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
   };
 
   const handleImageUpload = async (file) => {
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const { file_url } = await base44.files.upload(file);
     update('src', file_url);
   };
 
