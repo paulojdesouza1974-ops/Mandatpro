@@ -151,6 +151,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
               value={formData.title}
               onChange={(e) => update("title", e.target.value)}
               placeholder="Fraktionssitzung März 2026"
+              data-testid="meeting-form-title"
             />
           </div>
 
