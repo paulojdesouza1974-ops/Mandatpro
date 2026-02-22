@@ -171,6 +171,7 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
                 value={formData.location || ""}
                 onChange={(e) => update("location", e.target.value)}
                 placeholder="Rathaus, Sitzungssaal..."
+                data-testid="meeting-form-location"
               />
             </div>
           </div>
