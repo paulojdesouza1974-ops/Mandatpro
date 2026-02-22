@@ -32,6 +32,7 @@ export default function SupportTicketDialog({
   onDelete,
   isSaving,
 }) {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     organization_name: "",
     contact_email: "",
