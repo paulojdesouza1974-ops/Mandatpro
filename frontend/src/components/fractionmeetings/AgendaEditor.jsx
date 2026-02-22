@@ -175,6 +175,7 @@ export default function AgendaEditor({ items = [], onChange }) {
             onChange={(e) => setNewTitle(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addItem())}
             className="text-sm"
+            data-testid="agenda-new-item-input"
           />
           <Button type="button" size="sm" variant="outline" onClick={addItem} disabled={!newTitle.trim()}>
             <Plus className="w-4 h-4" />
