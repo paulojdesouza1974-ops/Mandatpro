@@ -186,31 +186,31 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
     <div className="space-y-6" data-testid="fraction-meeting-detail">
       {/* Header */}
       <div className="flex items-start gap-4">
-        <Button variant="ghost" size="icon" onClick={onBack} className="shrink-0 mt-1">
+        <Button variant="ghost" size="icon" onClick={onBack} className="shrink-0 mt-1" data-testid="meeting-detail-back">
           <ArrowLeft className="w-4 h-4" />
         </Button>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-2xl font-bold text-slate-900">{meeting.title}</h1>
-            <Badge className={statusColors[meeting.status] || "bg-slate-100 text-slate-700"}>
+            <h1 className="text-2xl font-bold text-slate-900" data-testid="meeting-detail-title">{meeting.title}</h1>
+            <Badge className={statusColors[meeting.status] || "bg-slate-100 text-slate-700"} data-testid="meeting-detail-status">
               {statusLabels[meeting.status] || meeting.status}
             </Badge>
           </div>
           <div className="flex flex-wrap gap-4 mt-2 text-sm text-slate-500">
             {meeting.date && (
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1" data-testid="meeting-detail-date">
                 <CalendarDays className="w-3.5 h-3.5" />
                 {format(new Date(meeting.date), "dd. MMMM yyyy, HH:mm", { locale: de })} Uhr
               </span>
             )}
             {meeting.location && (
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1" data-testid="meeting-detail-location">
                 <MapPin className="w-3.5 h-3.5" />
                 {meeting.location}
               </span>
             )}
             {meeting.attendees?.length > 0 && (
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1" data-testid="meeting-detail-attendees">
                 <Users className="w-3.5 h-3.5" />
                 {meeting.attendees.length} Teilnehmer
               </span>
@@ -218,23 +218,23 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
           </div>
         </div>
         <div className="flex gap-2 shrink-0">
-          <Button variant="outline" size="sm" onClick={() => setShowEdit(true)}>
+          <Button variant="outline" size="sm" onClick={() => setShowEdit(true)} data-testid="meeting-detail-edit">
             <Edit2 className="w-4 h-4 mr-1" /> Bearbeiten
           </Button>
-          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50" onClick={onDelete}>
+          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50" onClick={onDelete} data-testid="meeting-detail-delete">
             <Trash2 className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
       <Tabs defaultValue="agenda" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="agenda">Tagesordnung</TabsTrigger>
-          <TabsTrigger value="invitation">Einladung</TabsTrigger>
-          <TabsTrigger value="live" className="flex items-center gap-1">
+        <TabsList className="grid w-full grid-cols-4" data-testid="meeting-detail-tabs">
+          <TabsTrigger value="agenda" data-testid="meeting-tab-agenda">Tagesordnung</TabsTrigger>
+          <TabsTrigger value="invitation" data-testid="meeting-tab-invitation">Einladung</TabsTrigger>
+          <TabsTrigger value="live" className="flex items-center gap-1" data-testid="meeting-tab-live">
             <Radio className="w-3 h-3 text-red-500" /> Live
           </TabsTrigger>
-          <TabsTrigger value="protocol">Protokoll</TabsTrigger>
+          <TabsTrigger value="protocol" data-testid="meeting-tab-protocol">Protokoll</TabsTrigger>
         </TabsList>
 
         {/* Tagesordnung */}
