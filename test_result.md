@@ -209,6 +209,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "2026-02-22: Print view ('Druckansicht') fully functional. Opened print dialog after saving motion. Header visible showing 'Fraktion' on left. Dokumenttyp-Box clearly displayed on right with date (den: 22.02.2026) and four document type checkboxes (Einzelantrag, Fraktionsantrag [X], Fraktionsanfrage, Beschlusskontrolle). Print body content (1796 characters) displays correctly. Template selector, PDF export, and print buttons all visible. Print view working perfectly."
+        - working: true
+          agent: "testing"
+          comment: "2026-02-22 (UI-Test): PRINT BUTTON FUNCTIONALITY VERIFIED ✅. Complete test flow: 1) Login successful (demo-verband@kommunalcrm.de) → 2) Navigated to /Motions → 3) Created motion 'Ausbau der öffentlichen Ladeinfrastruktur für Elektrofahrzeuge' with full content (1290+ chars) → 4) Opened Druckansicht dialog → 5) Clicked 'Drucken' button → 6) VERIFIED: window.print() successfully called, print root element created with 1290 characters, print styles injected. CRITICAL RESULT: Print dialog would show VISIBLE CONTENT (not blank sheet). All print elements present: Header (Fraktion), Dokumenttyp-Box (with date and checkboxes), body text with Beschlussvorschlag/Begründung/Rechtsgrundlage sections. Screenshots: 01-motions-page.png, 02-motion-with-content.png, 03-print-view-dialog.png, 04-after-drucken-click.png. Druckfunktion funktioniert korrekt!"
   
   - task: "Motions page layout (left list + right editor)"
     implemented: true
