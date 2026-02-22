@@ -110,21 +110,11 @@ export default function LoginPage() {
       setResetLoading(false);
       return;
     }
-    if (resetPassword.length < 6) {
-      setResetError('Das Passwort muss mindestens 6 Zeichen lang sein');
-      setResetLoading(false);
-      return;
-    }
-    if (resetPassword != resetPasswordConfirm) {
-      setResetError('Die Passwörter stimmen nicht überein');
-      setResetLoading(false);
-      return;
-    }
 
     try {
-      await base44.auth.resetPassword(resetEmail, resetPassword);
-      setResetSuccess('Passwort aktualisiert. Bitte melden Sie sich jetzt an.');
-      setSuccess('Passwort aktualisiert. Bitte melden Sie sich jetzt an.');
+      await base44.auth.requestPasswordReset(resetEmail);
+      setResetSuccess('Reset-Link wurde per E-Mail versendet.');
+      setSuccess('Reset-Link wurde per E-Mail versendet.');
       setLoginEmail(resetEmail);
       setShowResetDialog(false);
     } catch (err) {
