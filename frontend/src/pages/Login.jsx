@@ -438,30 +438,6 @@ export default function LoginPage() {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="reset-password">Neues Passwort</Label>
-                    <Input
-                      id="reset-password"
-                      type="password"
-                      value={resetPassword}
-                      onChange={(e) => setResetPassword(e.target.value)}
-                      required
-                      data-testid="reset-password-input"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="reset-password-confirm">Neues Passwort bestätigen</Label>
-                    <Input
-                      id="reset-password-confirm"
-                      type="password"
-                      value={resetPasswordConfirm}
-                      onChange={(e) => setResetPasswordConfirm(e.target.value)}
-                      required
-                      data-testid="reset-password-confirm-input"
-                    />
-                  </div>
-
                   <DialogFooter className="gap-2">
                     <Button
                       type="button"
