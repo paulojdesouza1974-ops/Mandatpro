@@ -71,6 +71,12 @@ export default function MotionPrintView({ motion, open, onClose }) {
     : bodyText || `Antrag: ${motion.title || ""}`;
 
   const paragraphs = displayText.split(/\n\s*\n/).filter(Boolean);
+  const isSectionTitle = (text) => {
+    const trimmed = (text || "").trim();
+    if (!trimmed) return false;
+    if (/^(Antrag|Anfrage|Beschluss|Resolution):/i.test(trimmed)) return true;
+    return /^(Beschlussvorschlag|Fragestellung|Begründung|Rechtsgrundlage)\b/i.test(trimmed);
+  };
 
   const signatureEntries = [
     {
