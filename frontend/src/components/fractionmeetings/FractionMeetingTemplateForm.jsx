@@ -62,7 +62,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
     <Card className="w-full max-w-2xl">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{template ? 'Vorlage bearbeiten' : 'Neue Vorlage'}</CardTitle>
-        <Button variant="ghost" size="icon" onClick={onClose}>
+        <Button variant="ghost" size="icon" onClick={onClose} data-testid="meeting-template-close">
           <X className="w-4 h-4" />
         </Button>
       </CardHeader>
@@ -76,6 +76,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
               onChange={(e) => update('name', e.target.value)}
               placeholder="z.B. Standardvorlage 2024"
               required
+              data-testid="meeting-template-name"
             />
           </div>
 
@@ -87,6 +88,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
               onChange={(e) => update('logo_url', e.target.value)}
               placeholder="https://..."
               type="url"
+              data-testid="meeting-template-logo-url"
             />
             {formData.logo_url && (
               <img src={formData.logo_url} alt="Preview" className="mt-2 h-16 object-contain" />
@@ -103,6 +105,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                   value={formData.fraction_name}
                   onChange={(e) => update('fraction_name', e.target.value)}
                   placeholder="z.B. Grüne Fraktion"
+                  data-testid="meeting-template-fraction-name"
                 />
               </div>
               <div>
@@ -111,6 +114,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                   value={formData.fraction_subtitle}
                   onChange={(e) => update('fraction_subtitle', e.target.value)}
                   placeholder="z.B. im Stadtrat München"
+                  data-testid="meeting-template-fraction-subtitle"
                 />
               </div>
             </div>
@@ -121,6 +125,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                 onChange={(e) => update('fraction_address', e.target.value)}
                 placeholder="Straße, PLZ Ort"
                 rows={3}
+                data-testid="meeting-template-fraction-address"
               />
             </div>
           </div>
@@ -136,6 +141,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                   onChange={(e) => update('header_text', e.target.value)}
                   placeholder="Optionaler Text in der Kopfzeile"
                   rows={2}
+                data-testid="meeting-template-header-text"
                 />
               </div>
               <div>
@@ -145,6 +151,7 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                   onChange={(e) => update('footer_text', e.target.value)}
                   placeholder="z.B. Kontaktinformationen, Website, etc."
                   rows={2}
+                data-testid="meeting-template-footer-text"
                 />
               </div>
             </div>
@@ -161,12 +168,14 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                     type="color"
                     value={formData.primary_color}
                     onChange={(e) => update('primary_color', e.target.value)}
-                    className="w-12 h-9 rounded cursor-pointer"
+                    className="w-12 h-9 rounded cursor-pointer" data-testid="meeting-template-secondary-color" data-testid="meeting-template-primary-color"
                   />
                   <Input
                     value={formData.primary_color}
                     onChange={(e) => update('primary_color', e.target.value)}
                     placeholder="#000000"
+                    data-testid="meeting-template-secondary-color-input"
+                    data-testid="meeting-template-primary-color-input"
                   />
                 </div>
               </div>
@@ -189,14 +198,14 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
               <div>
                 <Label>Schriftart</Label>
                 <Select value={formData.font_family} onValueChange={(value) => update('font_family', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger data-testid="meeting-template-font-family">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Arial">Arial</SelectItem>
-                    <SelectItem value="Times New Roman">Times New Roman</SelectItem>
-                    <SelectItem value="Calibri">Calibri</SelectItem>
-                    <SelectItem value="Georgia">Georgia</SelectItem>
+                    <SelectItem value="Arial" data-testid="meeting-template-font-arial">Arial</SelectItem>
+                    <SelectItem value="Times New Roman" data-testid="meeting-template-font-times">Times New Roman</SelectItem>
+                    <SelectItem value="Calibri" data-testid="meeting-template-font-calibri">Calibri</SelectItem>
+                    <SelectItem value="Georgia" data-testid="meeting-template-font-georgia">Georgia</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -210,20 +219,20 @@ export default function FractionMeetingTemplateForm({ template, onClose, organiz
                 type="checkbox"
                 checked={formData.is_default}
                 onChange={(e) => update('is_default', e.target.checked)}
-                className="w-4 h-4 rounded"
+                className="w-4 h-4 rounded" data-testid="meeting-template-default-toggle"
               />
               <span className="text-sm font-medium">Dies ist die Standard-Vorlage</span>
             </label>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button variant="outline" onClick={onClose} type="button">
+            <Button variant="outline" onClick={onClose} type="button" data-testid="meeting-template-cancel">
               Abbrechen
             </Button>
             <Button
               type="submit"
               disabled={saveMutation.isPending || !formData.name}
-              className="bg-primary hover:bg-primary/90"
+              className="bg-primary hover:bg-primary/90" data-testid="meeting-template-save"
             >
               {saveMutation.isPending ? 'Speichert...' : 'Speichern'}
             </Button>
