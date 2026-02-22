@@ -111,7 +111,11 @@ export default function SupportTicketDialog({
       formData.assigned_to,
     ];
     if (required.some((value) => !value)) {
-      alert("Bitte alle Pflichtfelder ausfüllen.");
+      toast({
+        title: "Pflichtfelder fehlen",
+        description: "Bitte alle Pflichtfelder ausfüllen.",
+        variant: "destructive",
+      });
       return;
     }
     onSave(formData);
