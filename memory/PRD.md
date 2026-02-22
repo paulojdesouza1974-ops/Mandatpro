@@ -302,9 +302,9 @@ User requested to improve an existing German municipal CRM application called "K
   - Tabs: Übersicht, Nutzer, Organisationen, Tickets, E-Mail-Logs, System-Logs
 - **Globale Pflichtfeld-Checks**
   - Validierung in Anträgen, Druckvorlagen und Support-Tickets (Frontend)
-- **Druckansicht Anträge: Seitenumbruch & Wiederholter Kopf**
+- **Druckansicht Anträge: Seitenumbruch [0m[0m& Wiederholter Kopf**
   - Header/Footer als Tabellen-Header/Footer für automatische Seitenumbrüche
-  - PDF-Export jetzt mehrseitig mit wiederholtem Kopf/Fußbereich
+  - PDF-Button nutzt Druckdialog (PDF über Browser speichern)
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
