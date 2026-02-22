@@ -184,7 +184,9 @@ Wichtig: Die Tagesordnung soll DIREKT im Einladungstext integriert sein, nicht s
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                  <SelectItem key={opt.value} value={opt.value} data-testid={`meeting-status-option-${opt.value}`}>
+                      {opt.label}
+                    </SelectItem>
                 ))}
               </SelectContent>
             </Select>
