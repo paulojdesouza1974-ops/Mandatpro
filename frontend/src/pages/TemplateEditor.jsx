@@ -238,6 +238,7 @@ export default function TemplateEditor() {
                 rows={10}
                 className="font-mono text-xs resize-none"
                 placeholder={`.print-header {\n  background: #f0f4ff;\n}\n\n.print-title {\n  font-size: 16pt;\n  font-weight: bold;\n}`}
+                data-testid="template-custom-css-textarea"
               />
               <p className="text-[10px] text-slate-400 mt-1">Wird beim Drucken angewendet</p>
             </div>
