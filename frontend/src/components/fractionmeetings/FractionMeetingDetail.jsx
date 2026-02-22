@@ -67,8 +67,8 @@ export default function FractionMeetingDetail({ meeting, onBack, onUpdate, onDel
     setGenerating(true);
     try {
       const agendaText = agendaItems.map((item, i) => `TOP ${i + 1}: ${item.title}`).join('\n');
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `Erstelle ein professionelles Sitzungsprotokoll für eine Fraktionssitzung:
+      const response = await base44.ai.generateText(
+        `Erstelle ein professionelles Sitzungsprotokoll für eine Fraktionssitzung:
 
 Titel: ${meeting.title}
 Datum: ${meeting.date ? format(new Date(meeting.date), "dd.MM.yyyy", { locale: de }) : ""}
@@ -77,8 +77,11 @@ Tagesordnung:
 ${agendaText}
 
 Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name] für noch ausstehende Details. Jeder TOP hat Überschrift, Diskussion und ggf. Abstimmungsergebnis. Füge am Ende Unterschriftenzeilen für Sitzungsleitung und Protokollführer ein.`,
-      });
-      setProtocol(response);
+        "meeting"
+      );
+      if (response?.content) {
+        setProtocol(response.content);
+      }
     } catch (err) {
       console.error(err);
     } finally {
