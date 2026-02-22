@@ -265,7 +265,7 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
         {/* Einladung */}
         <TabsContent value="invitation" className="mt-4">
           <div className="flex justify-end gap-2 mb-3">
-            <Button variant="outline" size="sm" onClick={exportInvitationPDF} disabled={exporting}>
+            <Button variant="outline" size="sm" onClick={exportInvitationPDF} disabled={exporting} data-testid="meeting-invitation-pdf">
               <Download className="w-4 h-4 mr-1" /> {exporting ? "..." : "PDF"}
             </Button>
             <Button variant="outline" size="sm" onClick={() => window.print()}>
@@ -333,18 +333,18 @@ Erstelle ein strukturiertes Protokoll mit allen TOPs. Verwende Platzhalter [Name
                   <Sparkles className="w-3 h-3 mr-1" />
                   {generating ? "Generiere..." : "KI Protokoll"}
                 </Button>
-                <Button size="sm" variant="outline" onClick={summarizeProtocol} disabled={summarizing || !protocol}>
+                <Button size="sm" variant="outline" onClick={summarizeProtocol} disabled={summarizing || !protocol} data-testid="meeting-protocol-summarize">
                   <FileText className="w-3 h-3 mr-1" />
                   {summarizing ? "..." : "Zusammenfassen"}
                 </Button>
-                <Button size="sm" variant="outline" onClick={extractDecisions} disabled={extracting || !protocol}>
+                <Button size="sm" variant="outline" onClick={extractDecisions} disabled={extracting || !protocol} data-testid="meeting-protocol-extract">
                   <ListChecks className="w-3 h-3 mr-1" />
                   {extracting ? "..." : "Beschlüsse"}
                 </Button>
-                <Button size="sm" variant="outline" onClick={exportProtocolWord} disabled={!protocol}>
+                <Button size="sm" variant="outline" onClick={exportProtocolWord} disabled={!protocol} data-testid="meeting-protocol-export">
                   <Download className="w-3 h-3 mr-1" /> Word
                 </Button>
-                <Button size="sm" onClick={handleSaveProtocol} disabled={!protocol}>
+                <Button size="sm" onClick={handleSaveProtocol} disabled={!protocol} data-testid="meeting-protocol-save">
                   <Save className="w-3 h-3 mr-1" /> Speichern
                 </Button>
               </div>
