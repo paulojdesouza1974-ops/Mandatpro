@@ -107,10 +107,17 @@ const auth = {
     return result.user;
   },
 
-  async resetPassword(email, newPassword) {
-    return request('/api/auth/reset-password', {
+  async requestPasswordReset(email) {
+    return request('/api/auth/request-password-reset', {
       method: 'POST',
-      body: JSON.stringify({ email, new_password: newPassword }),
+      body: JSON.stringify({ email }),
+    });
+  },
+
+  async confirmPasswordReset(token, newPassword) {
+    return request('/api/auth/confirm-password-reset', {
+      method: 'POST',
+      body: JSON.stringify({ token, new_password: newPassword }),
     });
   },
 
