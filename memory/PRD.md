@@ -285,6 +285,10 @@ User requested to improve an existing German municipal CRM application called "K
   - Prompt und System-Message für Anträge neutralisiert (kein Fremdthema, keine Wertung)
   - Struktur: Titel → Beschlussvorschlag/Fragestellung → Begründung → Rechtsgrundlage
   - Bundesland wird (falls vorhanden) in den Rechtsbezug eingebunden
+- **Anträge-Bereich neu aufgebaut**
+  - Neues Layout wie Druckvorlagen: Liste links, Editor rechts mit Tabs
+  - Qualitäts-Check integriert (Themenbezug/Neutralität/Rechtliche Vorsicht)
+  - Druckansicht nutzt neue Template-Felder (Logo/Box/Empfänger/Fußzeile)
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
