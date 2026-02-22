@@ -105,6 +105,7 @@ export default function FractionMeetings() {
           placeholder="Sitzungen durchsuchen..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          data-testid="meeting-search-input"
         />
       </div>
 
