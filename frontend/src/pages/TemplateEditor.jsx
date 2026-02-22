@@ -142,7 +142,7 @@ export default function TemplateEditor() {
 
         {/* Template selector */}
         <Select value={selectedTemplateId} onValueChange={loadTemplate}>
-          <SelectTrigger className="w-52 h-8 text-sm">
+          <SelectTrigger className="w-52 h-8 text-sm" data-testid="template-selector-trigger">
             <SelectValue placeholder="Vorlage wählen" />
           </SelectTrigger>
           <SelectContent>
