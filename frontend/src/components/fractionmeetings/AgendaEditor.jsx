@@ -81,7 +81,7 @@ export default function AgendaEditor({ items = [], onChange }) {
   const nextTop = () => { topCounter++; return topCounter; };
 
   const renderFixed = (item, label) => (
-    <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
+    <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2" data-testid={`agenda-fixed-${label}`}>
       <GripVertical className="w-4 h-4 text-slate-200 shrink-0" />
       <span className="text-xs font-bold text-slate-400 w-12 shrink-0">TOP {label}</span>
       <span className="text-sm text-slate-400 italic flex-1">{item.title}</span>
