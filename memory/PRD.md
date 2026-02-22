@@ -300,8 +300,9 @@ User requested to improve an existing German municipal CRM application called "K
 - **Admin/Support-Konsole**
   - Neue Seiten: `/Admin` (Owner) und `/Support` (Support-Team)
   - Tabs: Übersicht, Nutzer, Organisationen, Tickets, E-Mail-Logs, System-Logs
-- **Globale Pflichtfeld-Checks**
-  - Validierung in Anträgen, Druckvorlagen und Support-Tickets (Frontend)
+- **Druckansicht Anträge: Seitenumbruch & Wiederholter Kopf**
+  - Header/Footer als Tabellen-Header/Footer für automatische Seitenumbrüche
+  - PDF-Export jetzt mehrseitig mit wiederholtem Kopf/Fußbereich
 
 ## Organisationen
 - **Fraktion:** AfD Fraktion im Rat der Stadt Dormagen
