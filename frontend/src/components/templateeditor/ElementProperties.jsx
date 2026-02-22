@@ -91,7 +91,7 @@ export default function ElementProperties({ element, setElements, onDelete }) {
           <div className="flex gap-2 items-end">
             <div className="flex-1">
               <Label className="text-xs">Größe (pt)</Label>
-              <Input type="number" value={element.fontSize || 12} onChange={e => update('fontSize', +e.target.value)} className="h-8 mt-1 text-xs" />
+              <Input type="number" value={element.fontSize || 12} onChange={e => update('fontSize', +e.target.value)} className="h-8 mt-1 text-xs" data-testid="template-element-font-size" />
             </div>
             <div>
               <Label className="text-xs">Farbe</Label>
